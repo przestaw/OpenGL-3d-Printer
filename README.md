@@ -18,6 +18,6 @@ Projekt drukarki 3d
 7. Dodanie źródeł światła
 8. Dodanie sterowania dyszą
 
-# Obraz poglądowy
+# Obrazek poglądowy
 
 ![](prusi3.jpg)

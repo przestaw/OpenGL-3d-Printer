@@ -80,39 +80,22 @@ int main() {
 		ShaderProgram theProgram("shaders/core.vert", "shaders/core.frag");
 
 		// Set up vertex data [8 vertices 3 coord and 3 color coord per vert]
-		//GLfloat vertices[ 8 * 6 ] = { 0 };
-		/*int iter = 0;
-		for (GLfloat z = .5f; z >= -1.; z = z - 1.f) {
-			for (GLfloat y = .5f; y >= -1.; y = y - 1.f) {
-				for (GLfloat x = .5f; x >= -1.; x = x - 1.f) {
-					vertices[iter++] = x; vertices[iter++] = y; vertices[iter++] = z;
-					vertices[iter++] = 0.2;
-					vertices[iter++] = 0.7;
-					vertices[iter++] = 0.9;
-
-				}
+		GLfloat vertices[ 8 * 6 ] = { 0 };
+		int iter = 0;
+		for (GLfloat z = .5f; z > -1.; z = z - 1.f) {
+			//front or back
+			for (GLfloat y = -.5f; y < 1.f; y = y + 1.f) {
+				vertices[iter++] = y; vertices[iter++] = y; vertices[iter++] = z;
+				vertices[iter++] = (y > 0) ? 1 : 0; vertices[iter++] = (y > 0) ? 1 : 0; vertices[iter++] = (z > 0) ? 1 : 0;
+				vertices[iter++] = -y; vertices[iter++] = y; vertices[iter++] = z;
+				vertices[iter++] = (-y > 0) ? 1 : 0; vertices[iter++] = (y > 0) ? 1 : 0; vertices[iter++] = (z > 0) ? 1 : 0;
 			}
-		}*/ 
-			
-		GLfloat vertices[] = {
-			// front
-			-0.5, -0.5,  0.5,   1.0, 0.0, 0.0,
-			 0.5, -0.5,  0.5,   0.0, 1.0, 0.0,
-			 0.5,  0.5,  0.5,   0.0, 0.0, 1.0,
-			-0.5,  0.5,  0.5,   1.0, 1.0, 1.0,
-			// back
-			-0.5, -0.5, -0.5,   1.0, 0.0, 0.0,
-			 0.5, -0.5, -0.5,   0.0, 1.0, 0.0,
-			 0.5,  0.5, -0.5,   0.0, 0.0, 1.0,
-			-0.5,  0.5, -0.5,   1.0, 1.0, 1.0
-		};
-		
-
+		}
 		// Set up triangles [6 walls 2 triangles each]
 		unsigned int indices[] = { // front
 		// front
 		0, 1, 2,
-		2, 3, 0,
+		0, 2, 3,
 		// right
 		1, 5, 6,
 		6, 2, 1,
@@ -129,7 +112,6 @@ int main() {
 		3, 2, 6,
 		6, 7, 3
 		};
-		
 
 		GLuint VBO, EBO, VAO;
 		glGenVertexArrays(1, &VAO);
@@ -174,7 +156,7 @@ int main() {
 			glm::mat4 trans;
 			static GLfloat rot_angle = 0.0f;
 			trans = glm::rotate(trans, -glm::radians(rot_angle), glm::vec3(0.2, 0.5, 0.8));
-			rot_angle += 0.05f;
+			rot_angle += 0.03f;
 			if (rot_angle >= 360.0f)
 				rot_angle -= 360.0f;
 			GLuint transformLoc = glGetUniformLocation(theProgram.get_programID(), "transform");
@@ -184,7 +166,6 @@ int main() {
 			theProgram.Use();
 
 			glBindVertexArray(VAO);
-			// TODO : repair cube
 			glDrawElements(GL_TRIANGLES, _countof(indices), GL_UNSIGNED_INT, 0);
 			glBindVertexArray(0);
 
