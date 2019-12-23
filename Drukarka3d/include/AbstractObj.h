@@ -8,13 +8,12 @@
 // GLEW
 #define GLEW_STATIC
 #include <glew.h>
-
 #include "shprogram.h"
 
 class AbstractObj {
 protected:
+	//Matrix of transformation for the object
 	glm::mat4 model;
-
 public:
 	AbstractObj() {}
 	virtual ~AbstractObj() {}
@@ -33,10 +32,8 @@ public:
 		model = glm::scale(model, scale);
 	}
 
-	void transform(const glm::mat4& transformation)
-	{
+	void transform(const glm::mat4& transformation) {
 		model = transformation * model;
 	}
-	
 };
 

@@ -3,24 +3,24 @@
 #include "GraphicsObj.h"
 #include <cmath>
 #define M_PI 3.14159265358979323846
-
+#define _2pi  (M_PI*2.0f);
 
 class BasicCone : public GraphicsObj {
 public:
-	BasicCone(glm::vec3 baseColor, GLfloat height, GLfloat bottomRadius, GLfloat topRadius = 0, int nbSides = 32) {
-		this->height = height;
-		this->bottomRadius = bottomRadius;
-		this->topRadius = topRadius;
-		this->nbSides = nbSides;
+	BasicCone(glm::vec3 baseColor, GLfloat height, GLfloat bottomRadius, GLfloat topRadius = 0, int nbSides = 32)
+		: height(height), bottomRadius(bottomRadius), topRadius(topRadius), nbSides(nbSides) {
 
+		// Calculate Vertices and Triangles
 		std::vector<glm::vec3> v = vertices();
 		std::vector<GLuint>  t = triangles();
 		std::vector<Vertex> vertices;
 
+		// Assign base color to items 
 		for (int i = 0; i < v.size(); i++) {
 			vertices.push_back(Vertex(v[i], baseColor, glm::vec2(0.0f), glm::vec3(0.0f)));
 		}
 
+		// Set Vertices and Calc Normales
 		setVertices(vertices);
 		setIndices(t);
 		recalculateNormales();
@@ -28,6 +28,7 @@ public:
 	~BasicCone() {}
 
 private:
+	// Dimensions
 	int nbSides;
 	GLfloat height;
 	GLfloat bottomRadius;
@@ -37,8 +38,6 @@ private:
 		std::vector<glm::vec3> vertices;
 		int vert = 0;
 
-		GLfloat _2pi = M_PI * 2.0f;
-
 		// Bottom cap
 		vertices.push_back(glm::vec3(0.0, -height / 2.0f, 0.0));
 		if (bottomRadius > 0) {
@@ -47,7 +46,6 @@ private:
 				vertices.push_back(glm::vec3(cos(rad) * bottomRadius, -height / 2.0f, sin(rad) * bottomRadius));
 			}
 		}
-
 
 		// Top cap
 		vertices.push_back(glm::vec3(0.0, height / 2.0f, 0.0));
@@ -115,6 +113,7 @@ private:
 		return triangles;
 	}
 
+	// Helper function to make 2 triangles from square
 	std::vector<GLuint> quadToTri(GLuint a, GLuint b, GLuint c, GLuint d) {
 		return { a, b, c, c, d, a };
 	}

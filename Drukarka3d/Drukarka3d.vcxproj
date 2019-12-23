@@ -133,11 +133,18 @@
     <ClCompile Include="src\shprogram.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AbstractObj.h" />
+    <ClInclude Include="include\BasicCone.h" />
+    <ClInclude Include="include\BasicCylinder.h" />
+    <ClInclude Include="include\GraphicsObj.h" />
     <ClInclude Include="include\shprogram.h" />
+    <ClInclude Include="include\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\core.frag" />
     <None Include="shaders\core.vert" />
+    <None Include="shaders\fragshader.frag" />
+    <None Include="shaders\vertshader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
