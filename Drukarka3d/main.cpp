@@ -23,6 +23,8 @@
 // Project includes
 #include "include/shprogram.h"
 
+#include "include/BasicCylinder.h"
+
 // Window dimensions
 const GLuint WIDTH = 800, HEIGHT = 600;
 
@@ -78,6 +80,7 @@ int main() {
 
 		// Build, compile and link shader program
 		ShaderProgram theProgram("shaders/core.vert", "shaders/core.frag");
+		ShaderProgram shaderBasic("shaders/vertshader.vert", "shaders/fragshader.frag");
 
 		// Set up vertex data [8 vertices 3 coord and 3 color coord per vert]
 		GLfloat vertices[ 8 * 6 ] = { 0 };
@@ -145,29 +148,46 @@ int main() {
 		// Accept fragment if it closer to the camera than the former one
 		glDepthFunc(GL_LESS);
 
+		//make demo cylinders
+		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(0.0f, 0.7f, 0.1f), 1, 0.1);
+		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(0.7f, 0.1f, 0.5f), 1, 0.3);
+		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(0.1f, 0.5f, 0.7f), 0.3, 0.1);
+		//move cylinders apart
+		cylinder2.translate(glm::vec3(-0.5, -0.5, -0.5));
+		cylinder3.translate(glm::vec3(0.5, 0.5, 0.5));
+		//scale cylinders
+		cylinder1.scale(glm::vec3(2.0f, 0.5f, 0.5f));
+		cylinder3.scale(glm::vec3(0.4f, 2.5f, 0.7f));
+
+
+		double currentFrame = glfwGetTime();
+		double deltaTime = 0;
+		double lastFrame = currentFrame;
+
 		while (!glfwWindowShouldClose(window)) {
+			currentFrame = glfwGetTime();
+			deltaTime = currentFrame - lastFrame;
+			lastFrame = currentFrame;
+
 			// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 			glfwPollEvents();
 
-			// Clear the colorbuffer
-			glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
+			glClearColor(0.35f, 0.20f, 0.0f, 1.0f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
+			//set angle [keeping velocity in time]
+			static GLfloat rot_angle = deltaTime * 300;
 
-			glm::mat4 trans;
-			static GLfloat rot_angle = 0.0f;
-			trans = glm::rotate(trans, -glm::radians(rot_angle), glm::vec3(0.2, 0.5, 0.8));
-			rot_angle += 0.03f;
-			if (rot_angle >= 360.0f)
-				rot_angle -= 360.0f;
-			GLuint transformLoc = glGetUniformLocation(theProgram.get_programID(), "transform");
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
-			// Draw our first triangle
-			theProgram.Use();
-
-			glBindVertexArray(VAO);
-			glDrawElements(GL_TRIANGLES, _countof(indices), GL_UNSIGNED_INT, 0);
-			glBindVertexArray(0);
+			//rotate cylinders
+			cylinder1.rotate(glm::vec3(0.2, 0.5, 0.8), rot_angle);
+			cylinder2.rotate(glm::vec3(0.2, 0.0, 0.8), -rot_angle);
+			cylinder3.rotate(glm::vec3(0.9, 0.5, 0.8), rot_angle);
+			
+			//draw our cylinders
+			shaderBasic.Use();
+			cylinder1.Draw(shaderBasic);
+			cylinder2.Draw(shaderBasic);
+			cylinder3.Draw(shaderBasic);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
