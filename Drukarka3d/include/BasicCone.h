@@ -7,7 +7,7 @@
 
 class BasicCone : public GraphicsObj {
 public:
-	BasicCone(GLfloat height, GLfloat bottomRadius, GLfloat topRadius = 0, int nbSides = 32) {
+	BasicCone(glm::vec3 baseColor, GLfloat height, GLfloat bottomRadius, GLfloat topRadius = 0, int nbSides = 32) {
 		this->height = height;
 		this->bottomRadius = bottomRadius;
 		this->topRadius = topRadius;
@@ -18,7 +18,7 @@ public:
 		std::vector<Vertex> vertices;
 
 		for (int i = 0; i < v.size(); i++) {
-			vertices.push_back(Vertex(v[i], glm::vec3(0.52f, 0.37f, 0.26f), glm::vec2(0.0f), glm::vec3(0.0f)));
+			vertices.push_back(Vertex(v[i], baseColor, glm::vec2(0.0f), glm::vec3(0.0f)));
 		}
 
 		setVertices(vertices);
