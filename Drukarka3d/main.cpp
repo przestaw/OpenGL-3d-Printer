@@ -92,17 +92,17 @@ int main() {
 		glDepthFunc(GL_LESS);
 
 		// Make demo cylinders
-		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(0.0f, 0.7f, 0.1f), 1, 0.1);
-		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(0.7f, 0.1f, 0.5f), 1, 0.3);
-		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(0.1f, 0.5f, 0.7f), 0.3, 0.05);
+		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
+		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
+		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
 		
 		// Scale cylinders
-		cylinder1.scale(glm::vec3(0.5f, 1.5f, 0.5f));
+		cylinder1.scale(glm::vec3(.5f, 1.5f, .5f));
 		cylinder3.scale(glm::vec3(2.4f, 1.f, 1.f));
 
 		// Move cylinders apart
-		cylinder2.translate(glm::vec3(-0.5, -0.5, -0.5));
-		cylinder3.translate(glm::vec3(0.2, 0.2, 0.2));
+		cylinder2.translate(glm::vec3(-.5f, -.5f, -.5f));
+		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -117,16 +117,16 @@ int main() {
 			// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 			glfwPollEvents();
 
-			glClearColor(0.35f, 0.20f, 0.0f, 1.0f);
+			glClearColor(.35f, .2f, 0.0f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
 			// Set angle [keeping velocity in time]
-			static GLfloat rot_angle = deltaTime * 300;
+			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 300.f;
 
 			// Rotate cylinders
-			cylinder1.rotate(glm::vec3(0.3, 0.6, 0.8), 3*rot_angle);
-			cylinder2.rotate(glm::vec3(0.3, 0.1, 0.8), -rot_angle);
-			cylinder3.rotate(glm::vec3(0.9, 0.1, 0.1), rot_angle);
+			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
+			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);
+			cylinder3.rotate(glm::vec3(.9f, .1f, .1f), rot_angle);
 			
 			// Draw our cylinders
 			shaderBasic.Use();

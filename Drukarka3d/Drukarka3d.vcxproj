@@ -130,6 +130,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\BasicCone.cpp" />
+    <ClCompile Include="src\GraphicsObj.cpp" />
     <ClCompile Include="src\shprogram.cpp" />
   </ItemGroup>
   <ItemGroup>
