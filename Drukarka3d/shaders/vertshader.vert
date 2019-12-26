@@ -10,13 +10,13 @@ out vec2 TexCoord;
 out vec3 Position_Worldspace;
 
 uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 
 void main()
 {
-	Position_Worldspace = vec3(model * vec4(position, 1.0));
-
     VecColor = color;
     TexCoord = texCoord;
 
-    gl_Position = vec4(Position_Worldspace, 1.0);
-} 
+    gl_Position = projection * view * model * vec4(position, 1.0);
+}

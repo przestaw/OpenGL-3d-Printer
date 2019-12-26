@@ -109,6 +109,13 @@ int main() {
 		double deltaTime = 0;
 		double lastFrame = currentFrame;
 
+		//// Set projection matrix to achieve perspective projection for our scene 
+		glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<GLfloat>(screenWidth / screenHeight),
+												0.1f, 100.0f);
+
+		glm::mat4 view = glm::mat4(1.0f);
+		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+
 		while (!glfwWindowShouldClose(window)) {
 			currentFrame = glfwGetTime();
 			deltaTime = currentFrame - lastFrame;
@@ -122,6 +129,10 @@ int main() {
 			
 			// Set angle [keeping velocity in time]
 			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 300.f;
+
+			// Set camera view
+			shaderBasic.setMat4Uniform("view", view);
+			shaderBasic.setMat4Uniform("projection", projection);
 
 			// Rotate cylinders
 			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
