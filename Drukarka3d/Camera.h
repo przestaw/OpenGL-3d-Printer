@@ -23,6 +23,9 @@ const GLfloat ZOOM = 45.0f;
 
 class Camera
 {
+
+public:
+
 	Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
 		   GLfloat yaw = YAW, GLfloat pitch = PITCH);
 
@@ -47,5 +50,18 @@ class Camera
 
 	GLfloat getZoom();
 
+private:
+	void updateVectors();
+
+	glm::vec3 position;
+	glm::vec3 front;
+	glm::vec3 up;
+	glm::vec3 right;
+	glm::vec3 worldUp;
+	GLfloat yaw{ 0 };
+	GLfloat pitch{ 0 };
+	GLfloat movementSpeed{ 0 };
+	GLfloat mouseSensitivity{ 0 };
+	GLfloat zoom{ 0 };
 };
 

@@ -129,12 +129,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\BasicCone.cpp" />
     <ClCompile Include="src\GraphicsObj.cpp" />
     <ClCompile Include="src\shprogram.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="include\AbstractObj.h" />
     <ClInclude Include="include\BasicCone.h" />
     <ClInclude Include="include\BasicCylinder.h" />

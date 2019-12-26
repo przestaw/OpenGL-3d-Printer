@@ -24,9 +24,18 @@
 #include "include/shprogram.h"
 
 #include "include/BasicCylinder.h"
+#include "Camera.h"
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
+
+// TODO Is there better solution than global object?
+Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
+
+// Frame calculation for smooth animation
+double currentFrame = glfwGetTime();
+double deltaTime = 0;
+double lastFrame = currentFrame;
 
 //using directives
 using std::cout;
@@ -104,17 +113,10 @@ int main() {
 		cylinder2.translate(glm::vec3(-.5f, -.5f, -.5f));
 		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
 
-		// Frame calculation for smooth animation
-		double currentFrame = glfwGetTime();
-		double deltaTime = 0;
-		double lastFrame = currentFrame;
+		// Calculate aspect ration for projection later to be used
+		GLfloat aspectRatio = static_cast<GLfloat>(screenWidth / screenHeight);
 
-		//// Set projection matrix to achieve perspective projection for our scene 
-		glm::mat4 projection = glm::perspective(glm::radians(45.0f), static_cast<GLfloat>(screenWidth / screenHeight),
-												0.1f, 100.0f);
-
-		glm::mat4 view = glm::mat4(1.0f);
-		view = glm::translate(view, glm::vec3(0.0f, 0.0f, -5.0f));
+		glm::mat4 projection = glm::mat4(1.0f);
 
 		while (!glfwWindowShouldClose(window)) {
 			currentFrame = glfwGetTime();
@@ -128,10 +130,13 @@ int main() {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
 			// Set angle [keeping velocity in time]
-			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 300.f;
+			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 0.001f;
 
-			// Set camera view
-			shaderBasic.setMat4Uniform("view", view);
+			// Set camera view matrix
+			shaderBasic.setMat4Uniform("view", camera.getView());
+
+			// Set projection matrix
+			projection = glm::perspective(glm::radians(camera.getZoom()), aspectRatio, 0.1f, 100.0f);
 			shaderBasic.setMat4Uniform("projection", projection);
 
 			// Rotate cylinders
