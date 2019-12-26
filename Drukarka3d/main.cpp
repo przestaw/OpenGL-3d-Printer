@@ -32,19 +32,23 @@ GLuint WIDTH = 800, HEIGHT = 600;
 // TODO Is there better solution than global object?
 Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
 
-// Frame calculation for smooth animation
-double currentFrame = glfwGetTime();
-double deltaTime = 0;
-double lastFrame = currentFrame;
+// Information of key being held
+bool keyWHold = false;
+bool keyAHold = false;
+bool keySHold = false;
+bool keyDHold = false;
 
-//using directives
+// Using directives
 using std::cout;
 using std::cerr;
 using std::endl;
 using std::exception;
 
-//callback for key interpretation 
+// Callback for key interpretation 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+
+// Handling movement in four directions based on delta time and key callbacks
+void handleMovement(GLfloat deltaTime);
 
 int main() {
 
@@ -65,7 +69,7 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+	//glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
 
 	try
 	{
@@ -118,6 +122,11 @@ int main() {
 
 		glm::mat4 projection = glm::mat4(1.0f);
 
+		// Frame calculation for smooth animation
+		double currentFrame = glfwGetTime();
+		double deltaTime = 0;
+		double lastFrame = currentFrame;
+
 		while (!glfwWindowShouldClose(window)) {
 			currentFrame = glfwGetTime();
 			deltaTime = currentFrame - lastFrame;
@@ -126,11 +135,16 @@ int main() {
 			// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 			glfwPollEvents();
 
+			// Handle potential movement based on delta time and key callbacks 
+			if (keyAHold || keyWHold || keySHold || keyDHold) {
+				handleMovement(static_cast<GLfloat>(deltaTime));
+			}
+
 			glClearColor(.35f, .2f, 0.0f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
 			// Set angle [keeping velocity in time]
-			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 0.001f;
+			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 300.0f;
 
 			// Set camera view matrix
 			shaderBasic.setMat4Uniform("view", camera.getView());
@@ -166,6 +180,52 @@ int main() {
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode){
 	cerr << key << endl;
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
+	if (action == GLFW_PRESS) {
+		if (key == GLFW_KEY_ESCAPE) {
+			glfwSetWindowShouldClose(window, GL_TRUE);
+		}
+		if (key == GLFW_KEY_W) {
+			keyWHold = true;
+		}
+		if (key == GLFW_KEY_A) {
+			keyAHold = true;
+		}
+		if (key == GLFW_KEY_S) {
+			keySHold = true;
+		}
+		if (key == GLFW_KEY_D) {
+			keyDHold = true;
+		}
+	}
+
+	if (action == GLFW_RELEASE) {
+		if (key == GLFW_KEY_W) {
+			keyWHold = false;
+		}
+		if (key == GLFW_KEY_A) {
+			keyAHold = false;
+		}
+		if (key == GLFW_KEY_S) {
+			keySHold = false;
+		}
+		if (key == GLFW_KEY_D) {
+			keyDHold = false;
+		}
+	}
+
+}
+
+void handleMovement(GLfloat deltaTime) {
+	if (keyWHold) {
+		camera.handleKeyboard(Direction::FORWARD, deltaTime);
+	}
+	if (keyAHold) {
+		camera.handleKeyboard(Direction::LEFT, deltaTime);
+	}
+	if (keySHold) {
+		camera.handleKeyboard(Direction::BACKWARD, deltaTime);
+	}
+	if (keyDHold) {
+		camera.handleKeyboard(Direction::RIGHT, deltaTime);
+	}
 }

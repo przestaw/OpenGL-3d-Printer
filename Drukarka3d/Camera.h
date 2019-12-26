@@ -16,7 +16,7 @@ enum Direction {
 // Default camera values
 const GLfloat YAW = -90.0f;
 const GLfloat PITCH = 0.0f;
-const GLfloat SPEED = 2.5f;
+const GLfloat SPEED = 5.0f;
 const GLfloat SENSITIVITY = 0.1f;
 const GLfloat ZOOM = 45.0f;
 
