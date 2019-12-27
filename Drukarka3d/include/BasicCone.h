@@ -2,8 +2,7 @@
 
 #include "GraphicsObj.h"
 #include <cmath>
-#define M_PI 3.14159265358979323846
-#define _2pi  (M_PI*2.0f);
+
 
 class BasicCone : public GraphicsObj {
 public:
@@ -27,4 +26,7 @@ private:
 	inline std::vector<GLuint> quadToTri(GLuint a, GLuint b, GLuint c, GLuint d) {
 		return { a, b, c, c, d, a };
 	}
+
+	static const double M_PI;
+	static const double _2pi;
 };

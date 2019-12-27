@@ -27,9 +27,9 @@ void GraphicsObj::Draw(ShaderProgram shader) {
 	glBindVertexArray(0);
 }
 
-void GraphicsObj::setVertices(std::vector<Vertex> v) {
+void GraphicsObj::setVertices(std::vector<Vertex> vertices_a) {
 	// Assign Vertices
-	vertices = v;
+	vertices = vertices_a; //copy to object field
 	vertices.shrink_to_fit();
 
 	// Bind the Vertex Array Object first
@@ -58,9 +58,9 @@ void GraphicsObj::setVertices(std::vector<Vertex> v) {
 	glBindVertexArray(0);
 }
 
-void GraphicsObj::setIndices(std::vector<unsigned int> i) {
+void GraphicsObj::setIndices(std::vector<unsigned int> indices_a) {
 	// Assign indices
-	indices = i;
+	indices = indices_a; //copy to object field
 	indices.shrink_to_fit();
 
 	// Bind the Vertex Array Object 

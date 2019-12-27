@@ -7,16 +7,20 @@ layout (location = 3) in vec3 normal;
 
 out vec3 VecColor;
 out vec2 TexCoord;
-out vec3 Position_Worldspace;
+out vec4 PositionWorldspace;
+//light direction and camera direction -> for light calculations
 
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
+uniform mat4 parentModel;
 
 void main()
 {
+    PositionWorldspace = (model * vec4(position, 1.0));
+
     VecColor = color;
     TexCoord = texCoord;
 
-    gl_Position = projection * view * model * vec4(position, 1.0);
+    gl_Position = projection * view * PositionWorldspace;
 }
