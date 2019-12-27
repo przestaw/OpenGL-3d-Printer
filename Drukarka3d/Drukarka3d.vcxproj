@@ -76,7 +76,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)ExternalLib/GLEW-2.1.0/include;$(SolutionDir)/ExternalLib/GLFW-3.3/include;$(SolutionDir)/ExternalLib/GLM/include;$(SolutionDir)/ExternalLib/SOIL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Drukarka3d/include;$(SolutionDir)/ExternalLib/GLEW-2.1.0/include;$(SolutionDir)/ExternalLib/GLFW-3.3/include;$(SolutionDir)/ExternalLib/GLM/include;$(SolutionDir)/ExternalLib/SOIL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -103,7 +103,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)ExternalLib/GLEW-2.1.0/include;$(SolutionDir)/ExternalLib/GLFW-3.3/include;$(SolutionDir)/ExternalLib/GLM/include;$(SolutionDir)/ExternalLib/SOIL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/Drukarka3d/include;$(SolutionDir)/ExternalLib/GLEW-2.1.0/include;$(SolutionDir)/ExternalLib/GLFW-3.3/include;$(SolutionDir)/ExternalLib/GLM/include;$(SolutionDir)/ExternalLib/SOIL/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,14 +130,24 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\AbstractObj.cpp" />
+    <ClCompile Include="src\BasicCone.cpp" />
+    <ClCompile Include="src\GraphicsObj.cpp" />
     <ClCompile Include="src\shprogram.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\AbstractObj.h" />
+    <ClInclude Include="include\BasicCone.h" />
+    <ClInclude Include="include\BasicCylinder.h" />
+    <ClInclude Include="include\GraphicsObj.h" />
     <ClInclude Include="include\shprogram.h" />
+    <ClInclude Include="include\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\core.frag" />
     <None Include="shaders\core.vert" />
+    <None Include="shaders\fragshader.frag" />
+    <None Include="shaders\vertshader.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

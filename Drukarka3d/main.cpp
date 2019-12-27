@@ -23,8 +23,10 @@
 // Project includes
 #include "include/shprogram.h"
 
+#include "include/BasicCylinder.h"
+
 // Window dimensions
-const GLuint WIDTH = 800, HEIGHT = 600;
+GLuint WIDTH = 800, HEIGHT = 600;
 
 //using directives
 using std::cout;
@@ -44,6 +46,10 @@ int main() {
 		return -1;
 	}
 
+	// Probe Dimensions
+	WIDTH = glfwGetVideoMode(glfwGetPrimaryMonitor())->width;
+	HEIGHT = glfwGetVideoMode(glfwGetPrimaryMonitor())->height;
+
 	// Set all the required options for GLFW
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -55,7 +61,7 @@ int main() {
 	try
 	{
 		// Create a GLFWwindow object that we can use for GLFW's functions
-		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Przepotenzna drukarka trujwymiaru !", nullptr, nullptr);
+		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", glfwGetPrimaryMonitor(), nullptr);
 		
 		// Check if window is created
 		if (window == nullptr)
@@ -78,105 +84,59 @@ int main() {
 
 		// Build, compile and link shader program
 		ShaderProgram theProgram("shaders/core.vert", "shaders/core.frag");
-
-		// Set up vertex data [8 vertices 3 coord and 3 color coord per vert]
-		GLfloat vertices[ 8 * 6 ] = { 0 };
-		int iter = 0;
-		for (GLfloat z = .5f; z > -1.; z = z - 1.f) {
-			//front or back
-			for (GLfloat y = -.5f; y < 1.f; y = y + 1.f) {
-				vertices[iter++] = y; vertices[iter++] = y; vertices[iter++] = z;
-				vertices[iter++] = (y > 0) ? 1 : 0; vertices[iter++] = (y > 0) ? 1 : 0; vertices[iter++] = (z > 0) ? 1 : 0;
-				vertices[iter++] = -y; vertices[iter++] = y; vertices[iter++] = z;
-				vertices[iter++] = (-y > 0) ? 1 : 0; vertices[iter++] = (y > 0) ? 1 : 0; vertices[iter++] = (z > 0) ? 1 : 0;
-			}
-		}
-		// Set up triangles [6 walls 2 triangles each]
-		unsigned int indices[] = { // front
-		// front
-		0, 1, 2,
-		0, 2, 3,
-		// right
-		1, 5, 6,
-		6, 2, 1,
-		// back
-		7, 6, 5,
-		5, 4, 7,
-		// left
-		4, 0, 3,
-		3, 7, 4,
-		// bottom
-		4, 5, 1,
-		1, 0, 4,
-		// top
-		3, 2, 6,
-		6, 7, 3
-		};
-
-		GLuint VBO, EBO, VAO;
-		glGenVertexArrays(1, &VAO);
-		glGenBuffers(1, &VBO);
-		glGenBuffers(1, &EBO);
-
-		// Bind the Vertex Array Object first, then bind and set vertex buffer(s) and attribute pointer(s).
-		glBindVertexArray(VAO);
-
-		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-		// Position attribute
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)0);
-		glEnableVertexAttribArray(0);
-		// Color attribute
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(GLfloat), (GLvoid*)(3 * sizeof(GLfloat)));
-		glEnableVertexAttribArray(1);
-
-		// Note that this is allowed, the call to glVertexAttribPointer registered VBO as the currently bound vertex buffer object so afterwards we can safely unbind
-		glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-		// Unbind VAO (it's always a good thing to unbind any buffer/array to prevent strange bugs)
-		glBindVertexArray(0); 
+		ShaderProgram shaderBasic("shaders/vertshader.vert", "shaders/fragshader.frag");
 
 		// Enable depth test
 		glEnable(GL_DEPTH_TEST);
 		// Accept fragment if it closer to the camera than the former one
 		glDepthFunc(GL_LESS);
 
+		// Make demo cylinders
+		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
+		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
+		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
+		
+		// Scale cylinders
+		cylinder1.scale(glm::vec3(.5f, 1.5f, .5f));
+		cylinder3.scale(glm::vec3(2.4f, 1.f, 1.f));
+
+		// Move cylinders apart
+		cylinder2.translate(glm::vec3(-.5f, -.5f, -.5f));
+		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
+
+		// Frame calculation for smooth animation
+		double currentFrame = glfwGetTime();
+		double deltaTime = 0;
+		double lastFrame = currentFrame;
+
 		while (!glfwWindowShouldClose(window)) {
+			currentFrame = glfwGetTime();
+			deltaTime = currentFrame - lastFrame;
+			lastFrame = currentFrame;
+
 			// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 			glfwPollEvents();
 
-			// Clear the colorbuffer
-			glClearColor(0.1f, 0.2f, 0.3f, 1.0f);
+			glClearColor(.35f, .2f, 0.0f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			
+			// Set angle [keeping velocity in time]
+			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 300.f;
 
-			glm::mat4 trans;
-			static GLfloat rot_angle = 0.0f;
-			trans = glm::rotate(trans, -glm::radians(rot_angle), glm::vec3(0.2, 0.5, 0.8));
-			rot_angle += 0.03f;
-			if (rot_angle >= 360.0f)
-				rot_angle -= 360.0f;
-			GLuint transformLoc = glGetUniformLocation(theProgram.get_programID(), "transform");
-			glUniformMatrix4fv(transformLoc, 1, GL_FALSE, glm::value_ptr(trans));
-
-			// Draw our first triangle
-			theProgram.Use();
-
-			glBindVertexArray(VAO);
-			glDrawElements(GL_TRIANGLES, _countof(indices), GL_UNSIGNED_INT, 0);
-			glBindVertexArray(0);
+			// Rotate cylinders
+			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
+			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);
+			cylinder3.rotate(glm::vec3(.9f, .1f, .1f), rot_angle);
+			
+			// Draw our cylinders
+			shaderBasic.Use();
+			cylinder1.Draw(shaderBasic);
+			cylinder2.Draw(shaderBasic);
+			cylinder3.Draw(shaderBasic);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
 		}
-	
-		// Properly de-allocate all resources once they've outlived their purpose
-		glDeleteVertexArrays(1, &VAO);
-		glDeleteBuffers(1, &VBO);
-		glDeleteBuffers(1, &EBO);
 
 	} catch (exception ex) {
 		// Information about the failure
