@@ -31,4 +31,6 @@ protected:
 	void setIndices(std::vector<unsigned int> indices);
 
 	void recalculateNormales();
+
+	friend class CompositeGroup;
 };

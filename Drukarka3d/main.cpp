@@ -24,6 +24,7 @@
 #include "include/shprogram.h"
 
 #include "include/BasicCylinder.h"
+#include <CompositeGroup.h>
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -104,6 +105,14 @@ int main() {
 		cylinder2.translate(glm::vec3(-.5f, -.5f, -.5f));
 		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
 
+		//make group demo
+		CompositeGroup group;
+		group.addObject(cylinder1);
+		group.addObject(cylinder2);
+		group.addObject(cylinder3);
+
+		group.translate(glm::vec3(1.0f, -1.0f, 1.0f));
+
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
 		double deltaTime = 0;
@@ -127,12 +136,16 @@ int main() {
 			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
 			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);
 			cylinder3.rotate(glm::vec3(.9f, .1f, .1f), rot_angle);
-			
+
+			group.rotate(glm::vec3(.5f, .5f, .5f), rot_angle);
+
 			// Draw our cylinders
 			shaderBasic.Use();
 			cylinder1.Draw(shaderBasic);
 			cylinder2.Draw(shaderBasic);
 			cylinder3.Draw(shaderBasic);
+
+			group.Draw(shaderBasic);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
