@@ -134,6 +134,7 @@
     <ClCompile Include="src\BasicCone.cpp" />
     <ClCompile Include="src\CompositeGroup.cpp" />
     <ClCompile Include="src\GraphicsObj.cpp" />
+    <ClCompile Include="src\ObjectGroup.cpp" />
     <ClCompile Include="src\shprogram.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,6 +143,7 @@
     <ClInclude Include="include\BasicCylinder.h" />
     <ClInclude Include="include\CompositeGroup.h" />
     <ClInclude Include="include\GraphicsObj.h" />
+    <ClInclude Include="include\ObjectGroup.h" />
     <ClInclude Include="include\shprogram.h" />
     <ClInclude Include="include\Vertex.h" />
   </ItemGroup>

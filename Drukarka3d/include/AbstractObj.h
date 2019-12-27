@@ -18,14 +18,14 @@ public:
 	AbstractObj() {}
 	virtual ~AbstractObj() {}
 
-	virtual void Draw(ShaderProgram shader) = 0;
+	virtual void Draw(ShaderProgram shader, const glm::mat4& parentMat = glm::mat4(1.0f)) = 0;
 
-	void translate(const glm::vec3& v); 
+	virtual void translate(const glm::vec3& v);
 
-	void rotate(const glm::vec3& axis, float angle);
+	virtual void rotate(const glm::vec3& axis, float angle);
 
-	void scale(const glm::vec3& scale);
+	virtual void scale(const glm::vec3& scale);
 
-	void transform(const glm::mat4& transformation);
+	virtual void transform(const glm::mat4& transformation);
 };
 

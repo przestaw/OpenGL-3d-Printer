@@ -14,8 +14,9 @@ GraphicsObj::~GraphicsObj() {
 	glDeleteBuffers(1, &EBO);
 }
 
-void GraphicsObj::Draw(ShaderProgram shader) {
+void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 	// Move object to desired place using AbstractObj model
+	shader.setMat4Uniform("parentModel", parentMat);
 	shader.setMat4Uniform("model", model);
 	//TEXTURE ??
 

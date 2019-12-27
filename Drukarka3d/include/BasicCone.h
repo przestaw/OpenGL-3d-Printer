@@ -9,7 +9,7 @@ public:
 
 	BasicCone(glm::vec3 baseColor, GLfloat height, 
 		GLfloat bottomRadius, GLfloat topRadius = 0, unsigned nbSides = 32);
-	~BasicCone() {}
+	virtual ~BasicCone() {}
 
 private:
 	// Dimensions

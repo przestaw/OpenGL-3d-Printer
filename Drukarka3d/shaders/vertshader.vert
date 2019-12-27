@@ -15,7 +15,7 @@ uniform mat4 parentModel;
 
 void main()
 {
-	PositionWorldspace = (model * vec4(position, 1.0));
+	PositionWorldspace = (parentModel * model * vec4(position, 1.0));
 
     VecColor = color;
     TexCoord = texCoord;

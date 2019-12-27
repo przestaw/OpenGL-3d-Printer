@@ -25,6 +25,7 @@
 
 #include "include/BasicCylinder.h"
 #include <CompositeGroup.h>
+#include <ObjectGroup.h>
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -97,6 +98,22 @@ int main() {
 		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
 		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
 		
+		//make composite group demo
+		CompositeGroup compGroup;
+		{
+			cylinder2.translate(glm::vec3(0.f, -.5f, 0.f));
+			cylinder3.translate(glm::vec3(0.f, 2.2f, 0.f));
+
+			compGroup.addObject(cylinder1);
+			compGroup.addObject(cylinder2);
+			compGroup.addObject(cylinder3);
+
+			compGroup.translate(glm::vec3(1.0f, -1.0f, 1.0f));
+
+			cylinder2.translate(glm::vec3(0.f, .5f, 0.f));
+			cylinder3.translate(glm::vec3(0.f, -2.2f, 0.f));
+		}
+
 		// Scale cylinders
 		cylinder1.scale(glm::vec3(.5f, 1.5f, .5f));
 		cylinder3.scale(glm::vec3(2.4f, 1.f, 1.f));
@@ -105,13 +122,22 @@ int main() {
 		cylinder2.translate(glm::vec3(-.5f, -.5f, -.5f));
 		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
 
-		//make group demo
-		CompositeGroup group;
-		group.addObject(cylinder1);
-		group.addObject(cylinder2);
-		group.addObject(cylinder3);
+		//make object group demo
+		ObjectGroup objGroup;
+		{
+			// NOTE : that will link the objects to their origin ! 
+			// there is no copying with below use !!!
 
-		group.translate(glm::vec3(1.0f, -1.0f, 1.0f));
+			// To make a unique object best practise would be to incherit from Group Object and make Objects in constructor
+			// this also allows to make logic for moving some of the objects by keeping Objects as fields to acess them
+			objGroup.addObject(std::move(std::make_unique<BasicCylinder>(cylinder1)));
+			objGroup.addObject(std::move(std::make_unique<BasicCylinder>(cylinder2)));
+			objGroup.addObject(std::move(std::make_unique<BasicCylinder>(cylinder3)));
+
+			//objects are pointed but ParentModel will move them apart
+			objGroup.translate(glm::vec3(-1.0f, 1.0f, -1.0f));
+		}
+		
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -137,7 +163,9 @@ int main() {
 			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);
 			cylinder3.rotate(glm::vec3(.9f, .1f, .1f), rot_angle);
 
-			group.rotate(glm::vec3(.5f, .5f, .5f), rot_angle);
+			// Rotate groups
+			compGroup.rotate(glm::vec3(.5f, .5f, .5f), rot_angle);
+			objGroup.rotate(glm::vec3(.5f, -.5f, -.5f), -2*rot_angle);
 
 			// Draw our cylinders
 			shaderBasic.Use();
@@ -145,7 +173,9 @@ int main() {
 			cylinder2.Draw(shaderBasic);
 			cylinder3.Draw(shaderBasic);
 
-			group.Draw(shaderBasic);
+			// Draw Groups
+			compGroup.Draw(shaderBasic);
+			objGroup.Draw(shaderBasic);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
