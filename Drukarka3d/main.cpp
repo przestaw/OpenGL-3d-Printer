@@ -24,7 +24,7 @@
 #include "include/shprogram.h"
 
 #include "include/BasicCylinder.h"
-#include "Camera.h"
+#include "include\Camera.h"
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -249,7 +249,6 @@ void handleMovement(GLfloat deltaTime) {
 
 void mouseCallback(GLFWwindow* window, double xPos, double yPos)
 {
-	cout << "Moved!" << endl;
 	if (!mouseVariablesInitialized) {
 		lastMouseX = xPos;
 		lastMouseY = yPos;

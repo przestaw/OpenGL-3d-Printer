@@ -5,7 +5,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <vector>
-#include <iostream>
 
 enum Direction {
 	FORWARD,
