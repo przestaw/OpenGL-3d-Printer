@@ -11,25 +11,24 @@ public:
 	~GraphicsObj();
 
 	void Draw(ShaderProgram shader);
-
 protected:
 	// Vertex Array Object
 	GLuint VAO;
+	// Vertex Buffer Object 
+	GLuint VBO;
+	// Element Buffer Object
+	GLuint EBO;
+	// Texture ??
+
 	// Triangles and Indices, vector allows for easy modification
 	std::vector<Vertex> vertices;
 	std::vector<GLuint> indices;
-	// Texture ??
-
+	
 	GraphicsObj();
 
-	void setVertices(std::vector<Vertex> v);
+	void setVertices(std::vector<Vertex> vertices);
 
-	void setIndices(std::vector<unsigned int> i);
+	void setIndices(std::vector<unsigned int> indices);
 
 	void recalculateNormales();
-private:
-	// Vertex Buffer Object 
-	GLuint VBO, 
-	//and Element Buffer Object
-			   EBO;
 };

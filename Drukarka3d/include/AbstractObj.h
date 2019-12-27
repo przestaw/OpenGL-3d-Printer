@@ -20,20 +20,12 @@ public:
 
 	virtual void Draw(ShaderProgram shader) = 0;
 
-	void translate(const glm::vec3& v) {
-		model = glm::translate(model, v);
-	}
+	void translate(const glm::vec3& v); 
 
-	void rotate(const glm::vec3& axis, float angle) {
-		model = glm::rotate(model, angle, axis);
-	}
+	void rotate(const glm::vec3& axis, float angle);
 
-	void scale(const glm::vec3& scale) {
-		model = glm::scale(model, scale);
-	}
+	void scale(const glm::vec3& scale);
 
-	void transform(const glm::mat4& transformation) {
-		model = transformation * model;
-	}
+	void transform(const glm::mat4& transformation);
 };
 

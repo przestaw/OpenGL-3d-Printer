@@ -1,5 +1,8 @@
 #include "../include/BasicCone.h"
 
+const double BasicCone::M_PI = 3.14159265358979323846;
+const double BasicCone::_2pi = (M_PI * 2.);
+
 BasicCone::BasicCone(glm::vec3 baseColor, GLfloat height, GLfloat bottomRadius, GLfloat topRadius, unsigned nbSides)
 	: height(height), bottomRadius(bottomRadius), topRadius(topRadius), nbSides(nbSides) {
 
