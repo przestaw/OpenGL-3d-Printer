@@ -63,5 +63,9 @@ private:
 	GLfloat movementSpeed{ 0 };
 	GLfloat mouseSensitivity{ 0 };
 	GLfloat zoom{ 0 };
+	GLfloat minPitch;
+	GLfloat maxPitch;
+	bool pitchConstrainsSet{ false };
+
 };
 

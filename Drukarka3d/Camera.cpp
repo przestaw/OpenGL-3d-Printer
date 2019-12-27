@@ -36,6 +36,43 @@ void Camera::handleKeyboard(Direction direction, GLfloat deltaTime)
 	}
 }
 
+void Camera::handleMouseMovement(GLfloat xOffset, GLfloat yOffset)
+{
+	xOffset = xOffset * mouseSensitivity;
+	yOffset = yOffset * mouseSensitivity;
+
+	yaw += xOffset;
+	pitch += yOffset;
+
+	if (pitchConstrainsSet) {
+		if (pitch > maxPitch) {
+			pitch = maxPitch;
+		}
+		if (pitch < minPitch) {
+			pitch = minPitch;
+		}
+	}
+
+	updateVectors();
+}
+
+void Camera::setPitchConstrains(GLfloat minPitch, GLfloat maxPitch)
+{
+	if (minPitch > maxPitch) {
+		pitchConstrainsSet = false;
+		return;
+	}
+
+	this->minPitch = minPitch;
+	this->maxPitch = maxPitch;
+	pitchConstrainsSet = true;
+}
+
+void Camera::unsetPitchConstraint()
+{
+	pitchConstrainsSet = false;
+}
+
 GLfloat Camera::getZoom()
 {
 	return zoom;

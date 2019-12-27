@@ -50,6 +50,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 // Handling movement in four directions based on delta time and key callbacks
 void handleMovement(GLfloat deltaTime);
 
+void mouseCallback(GLFWwindow* window, double xPos, double yPos);
+double lastMouseX{ 0 };
+double lastMouseY{ 0 };
+bool mouseVariablesInitialized{ false };
+
 int main() {
 
 	//Init GLFW and make sure it suceed
@@ -86,6 +91,10 @@ int main() {
 
 		glfwMakeContextCurrent(window);
 		glfwSetKeyCallback(window, key_callback);
+		glfwSetCursorPosCallback(window, mouseCallback);
+
+		// Capture mouse
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 		// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
 		glewExperimental = GL_TRUE;
@@ -228,4 +237,23 @@ void handleMovement(GLfloat deltaTime) {
 	if (keyDHold) {
 		camera.handleKeyboard(Direction::RIGHT, deltaTime);
 	}
+}
+
+void mouseCallback(GLFWwindow* window, double xPos, double yPos)
+{
+	cout << "Moved!" << endl;
+	if (!mouseVariablesInitialized) {
+		lastMouseX = xPos;
+		lastMouseY = yPos;
+		mouseVariablesInitialized = true;
+	}
+
+	auto xOffset = static_cast<GLfloat>(xPos - lastMouseX);
+	// Calculation is reversed in yOffset to achieve looking up while moving mouse forward
+	// TODO Option for choosing between reversed and normal movement?
+	auto yOffset = static_cast<GLfloat>(lastMouseY - yPos);
+	lastMouseX = xPos;
+	lastMouseY = yPos;
+
+	camera.handleMouseMovement(xOffset, yOffset);
 }
