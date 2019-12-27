@@ -5,6 +5,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 #include <vector>
+#include <iostream>
 
 enum Direction {
 	FORWARD,
@@ -50,6 +51,8 @@ public:
 	// Sets camera position in an instant
 	void moveCamera(glm::vec3 position);
 
+	void checkBoundaries();
+
 	GLfloat getZoom();
 
 private:
@@ -60,6 +63,9 @@ private:
 	glm::vec3 up;
 	glm::vec3 right;
 	glm::vec3 worldUp;
+	glm::vec3 leftFrontBottomBoundary;
+	glm::vec3 rightBackTopBoundary;
+	bool boundariesSet{ false };
 	GLfloat yaw{ 0 };
 	GLfloat pitch{ 0 };
 	GLfloat movementSpeed{ 0 };

@@ -34,6 +34,9 @@ void Camera::handleKeyboard(Direction direction, GLfloat deltaTime)
 	if (direction == Direction::LEFT) {
 		position -= right * velocity;
 	}
+	if (boundariesSet) {
+		checkBoundaries();
+	}
 }
 
 void Camera::handleMouseMovement(GLfloat xOffset, GLfloat yOffset)
@@ -66,6 +69,50 @@ void Camera::handleMouseScroll(GLfloat yOffset)
 	if (zoom < MIN_ZOOM) {
 		zoom = MIN_ZOOM;
 	}
+}
+
+void Camera::setBoundries(glm::vec3 leftFrontBottom, glm::vec3 rightBackTop)
+{
+	if (leftFrontBottom.x > rightBackTop.x) {
+		return;
+	}
+	if (leftFrontBottom.y > rightBackTop.y) {
+		return;
+	}
+	if (leftFrontBottom.z > rightBackTop.z) {
+		return;
+	}
+
+	this->leftFrontBottomBoundary = leftFrontBottom;
+	this->rightBackTopBoundary = rightBackTop;
+	boundariesSet = true;
+}
+
+void Camera::checkBoundaries()
+{
+	if (position.x > rightBackTopBoundary.x) {
+		position.x = rightBackTopBoundary.x;
+	}
+	if (position.x < leftFrontBottomBoundary.x) {
+		position.x = leftFrontBottomBoundary.x;
+	}
+	if (position.y > rightBackTopBoundary.y) {
+		position.y = rightBackTopBoundary.y;
+	}
+	if (position.y < leftFrontBottomBoundary.y) {
+		position.y = leftFrontBottomBoundary.y;
+	}
+	if (position.z > rightBackTopBoundary.z) {
+		position.z = rightBackTopBoundary.z;
+	}
+	if (position.z < leftFrontBottomBoundary.z) {
+		position.z = leftFrontBottomBoundary.z;
+	}
+}
+
+void Camera::unsetBoundries()
+{
+	boundariesSet = false;
 }
 
 void Camera::setPitchConstrains(GLfloat minPitch, GLfloat maxPitch)

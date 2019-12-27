@@ -119,6 +119,7 @@ int main() {
 
 		// Set camera options
 		camera.setPitchConstrains(1.0f, 89.0f);
+		camera.setBoundries(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec3(10.0f, 10.0f, 10.0f));
 
 		// Make demo cylinders
 		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
