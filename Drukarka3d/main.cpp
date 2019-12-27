@@ -51,6 +51,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 void handleMovement(GLfloat deltaTime);
 
 void mouseCallback(GLFWwindow* window, double xPos, double yPos);
+
+void scrollCallback(GLFWwindow* window, double xOffset, double yOffset);
+
 double lastMouseX{ 0 };
 double lastMouseY{ 0 };
 bool mouseVariablesInitialized{ false };
@@ -92,6 +95,7 @@ int main() {
 		glfwMakeContextCurrent(window);
 		glfwSetKeyCallback(window, key_callback);
 		glfwSetCursorPosCallback(window, mouseCallback);
+		glfwSetScrollCallback(window, scrollCallback);
 
 		// Capture mouse
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -112,6 +116,9 @@ int main() {
 		glEnable(GL_DEPTH_TEST);
 		// Accept fragment if it closer to the camera than the former one
 		glDepthFunc(GL_LESS);
+
+		// Set camera options
+		camera.setPitchConstrains(1.0f, 89.0f);
 
 		// Make demo cylinders
 		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
@@ -256,4 +263,9 @@ void mouseCallback(GLFWwindow* window, double xPos, double yPos)
 	lastMouseY = yPos;
 
 	camera.handleMouseMovement(xOffset, yOffset);
+}
+
+void scrollCallback(GLFWwindow* window, double xOffset, double yOffset)
+{
+	camera.handleMouseScroll(static_cast<GLfloat>(yOffset));
 }

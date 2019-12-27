@@ -56,6 +56,18 @@ void Camera::handleMouseMovement(GLfloat xOffset, GLfloat yOffset)
 	updateVectors();
 }
 
+void Camera::handleMouseScroll(GLfloat yOffset)
+{
+	zoom -= yOffset;
+
+	if (zoom > MAX_ZOOM) {
+		zoom = MAX_ZOOM;
+	}
+	if (zoom < MIN_ZOOM) {
+		zoom = MIN_ZOOM;
+	}
+}
+
 void Camera::setPitchConstrains(GLfloat minPitch, GLfloat maxPitch)
 {
 	if (minPitch > maxPitch) {
