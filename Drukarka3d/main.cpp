@@ -25,6 +25,9 @@
 
 #include "include/BasicCylinder.h"
 
+#include "BasicSphere.h"
+#include "BasicCuboid.h"
+
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
 
@@ -46,6 +49,7 @@ int main() {
 		return -1;
 	}
 
+	
 	// Probe Dimensions
 	WIDTH = glfwGetVideoMode(glfwGetPrimaryMonitor())->width;
 	HEIGHT = glfwGetVideoMode(glfwGetPrimaryMonitor())->height;
@@ -96,6 +100,9 @@ int main() {
 		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
 		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
 		
+		// Make demo sphere
+		BasicSphere sphere1 = BasicSphere(glm::vec3(0.5f, 0.5f, 0.6f), 0.5f, 64, 64);
+
 		// Scale cylinders
 		cylinder1.scale(glm::vec3(.5f, 1.5f, .5f));
 		cylinder3.scale(glm::vec3(2.4f, 1.f, 1.f));
@@ -128,11 +135,17 @@ int main() {
 			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);
 			cylinder3.rotate(glm::vec3(.9f, .1f, .1f), rot_angle);
 			
+			// Rotate sphere 
+			sphere1.rotate(glm::vec3(0.0f, 1.0f, 0.0f), glm::radians(1.0f));
+
 			// Draw our cylinders
 			shaderBasic.Use();
 			cylinder1.Draw(shaderBasic);
 			cylinder2.Draw(shaderBasic);
 			cylinder3.Draw(shaderBasic);
+
+			// Draw sphere
+			sphere1.Draw(shaderBasic);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
