@@ -24,18 +24,39 @@
 #include "include/shprogram.h"
 
 #include "include/BasicCylinder.h"
+#include "include\Camera.h"
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
 
-//using directives
+// TODO Is there better solution than global object?
+Camera camera(glm::vec3(0.0f, 0.0f, 5.0f));
+
+// Information of key being held
+bool keyWHold = false;
+bool keyAHold = false;
+bool keySHold = false;
+bool keyDHold = false;
+
+// Using directives
 using std::cout;
 using std::cerr;
 using std::endl;
 using std::exception;
 
-//callback for key interpretation 
+// Callback for key interpretation 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode);
+
+// Handling movement in four directions based on delta time and key callbacks
+void handleMovement(GLfloat deltaTime);
+
+void mouseCallback(GLFWwindow* window, double xPos, double yPos);
+
+void scrollCallback(GLFWwindow* window, double xOffset, double yOffset);
+
+double lastMouseX{ 0 };
+double lastMouseY{ 0 };
+bool mouseVariablesInitialized{ false };
 
 int main() {
 
@@ -73,6 +94,11 @@ int main() {
 
 		glfwMakeContextCurrent(window);
 		glfwSetKeyCallback(window, key_callback);
+		glfwSetCursorPosCallback(window, mouseCallback);
+		glfwSetScrollCallback(window, scrollCallback);
+
+		// Capture mouse
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 		// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
 		glewExperimental = GL_TRUE;
@@ -91,6 +117,10 @@ int main() {
 		// Accept fragment if it closer to the camera than the former one
 		glDepthFunc(GL_LESS);
 
+		// Set camera options
+		camera.setPitchConstrains(-89.0f, 89.0f);
+		camera.setBoundries(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec3(10.0f, 10.0f, 10.0f));
+
 		// Make demo cylinders
 		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
 		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
@@ -103,6 +133,11 @@ int main() {
 		// Move cylinders apart
 		cylinder2.translate(glm::vec3(-.5f, -.5f, -.5f));
 		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
+
+		// Calculate aspect ration for projection later to be used
+		GLfloat aspectRatio = static_cast<GLfloat>(screenWidth / screenHeight);
+
+		glm::mat4 projection = glm::mat4(1.0f);
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -117,11 +152,23 @@ int main() {
 			// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 			glfwPollEvents();
 
+			// Handle potential movement based on delta time and key callbacks 
+			if (keyAHold || keyWHold || keySHold || keyDHold) {
+				handleMovement(static_cast<GLfloat>(deltaTime));
+			}
+
 			glClearColor(.35f, .2f, 0.0f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
 			// Set angle [keeping velocity in time]
-			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 300.f;
+			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 300.0f;
+
+			// Set camera view matrix
+			shaderBasic.setMat4Uniform("view", camera.getView());
+
+			// Set projection matrix
+			projection = glm::perspective(glm::radians(camera.getZoom()), aspectRatio, 0.1f, 100.0f);
+			shaderBasic.setMat4Uniform("projection", projection);
 
 			// Rotate cylinders
 			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
@@ -150,6 +197,75 @@ int main() {
 
 void key_callback(GLFWwindow* window, int key, int scancode, int action, int mode){
 	cerr << key << endl;
-	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
-		glfwSetWindowShouldClose(window, GL_TRUE);
+	if (action == GLFW_PRESS) {
+		if (key == GLFW_KEY_ESCAPE) {
+			glfwSetWindowShouldClose(window, GL_TRUE);
+		}
+		if (key == GLFW_KEY_W) {
+			keyWHold = true;
+		}
+		if (key == GLFW_KEY_A) {
+			keyAHold = true;
+		}
+		if (key == GLFW_KEY_S) {
+			keySHold = true;
+		}
+		if (key == GLFW_KEY_D) {
+			keyDHold = true;
+		}
+	}
+
+	if (action == GLFW_RELEASE) {
+		if (key == GLFW_KEY_W) {
+			keyWHold = false;
+		}
+		if (key == GLFW_KEY_A) {
+			keyAHold = false;
+		}
+		if (key == GLFW_KEY_S) {
+			keySHold = false;
+		}
+		if (key == GLFW_KEY_D) {
+			keyDHold = false;
+		}
+	}
+
+}
+
+void handleMovement(GLfloat deltaTime) {
+	if (keyWHold) {
+		camera.handleKeyboard(Camera::FORWARD, deltaTime);
+	}
+	if (keyAHold) {
+		camera.handleKeyboard(Camera::LEFT, deltaTime);
+	}
+	if (keySHold) {
+		camera.handleKeyboard(Camera::BACKWARD, deltaTime);
+	}
+	if (keyDHold) {
+		camera.handleKeyboard(Camera::RIGHT, deltaTime);
+	}
+}
+
+void mouseCallback(GLFWwindow* window, double xPos, double yPos)
+{
+	if (!mouseVariablesInitialized) {
+		lastMouseX = xPos;
+		lastMouseY = yPos;
+		mouseVariablesInitialized = true;
+	}
+
+	auto xOffset = static_cast<GLfloat>(xPos - lastMouseX);
+	// Calculation is reversed in yOffset to achieve looking up while moving mouse forward
+	// TODO Option for choosing between reversed and normal movement?
+	auto yOffset = static_cast<GLfloat>(lastMouseY - yPos);
+	lastMouseX = xPos;
+	lastMouseY = yPos;
+
+	camera.handleMouseMovement(xOffset, yOffset);
+}
+
+void scrollCallback(GLFWwindow* window, double xOffset, double yOffset)
+{
+	camera.handleMouseScroll(static_cast<GLfloat>(yOffset));
 }
