@@ -4,7 +4,6 @@ BasicSphere::BasicSphere(glm::vec3 baseColor, GLfloat radius, GLuint nLatitudes,
 	: baseColor(baseColor), radius(radius), nLatitudes(nLatitudes), nLongitudes(nLongitudes)
 {
 	std::vector<glm::vec3> verticesCoordinates;
-	std::vector<glm::vec3> normals;
 
 	/* Space between latitudes lines */
 	GLfloat latitudeSpace = PI_F / nLatitudes;
@@ -17,7 +16,6 @@ BasicSphere::BasicSphere(glm::vec3 baseColor, GLfloat radius, GLuint nLatitudes,
 
 	// North pole
 	verticesCoordinates.push_back(glm::vec3(0.0f, radius, 0.0f));
-	normals.push_back(glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// Body of the sphere
 	for (unsigned int longitude = 0; longitude <= nLongitudes; ++longitude)
@@ -31,25 +29,17 @@ BasicSphere::BasicSphere(glm::vec3 baseColor, GLfloat radius, GLuint nLatitudes,
 					radius * sin(longitude * longitudeSpace) * sin(latitude * latitudeSpace)
 				)
 			);
-			normals.push_back(
-				glm::vec3(
-					sin(latitudeSpace * latitude) * cos(longitudeSpace * longitude),
-					cos(latitudeSpace * latitude),
-					sin(latitudeSpace * latitude) * sin(longitudeSpace * longitude)
-				)
-			);
 		}
 	}
 
 	// South pole
 	verticesCoordinates.push_back(glm::vec3(0.0f, -radius, 0.0f));
-	normals.push_back(glm::vec3(0.0f, -1.0f, 0.0f));
 
 	// Create vertices
 	std::vector<Vertex> _vertices;
 	for (unsigned int i = 0; i < nVertices; ++i)
 	{
-		_vertices.push_back(Vertex(verticesCoordinates[i], baseColor, glm::vec2(0.0f), normals[i]));
+		_vertices.push_back(Vertex(verticesCoordinates[i], baseColor, glm::vec2(0.0f), glm::vec3(0.0f)));
 	}
 	
 	/**** Store indices ****/
