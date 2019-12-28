@@ -11,14 +11,16 @@ out vec4 PositionWorldspace;
 //light direction and camera direction -> for light calculations
 
 uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
 uniform mat4 parentModel;
 
 void main()
 {
-	PositionWorldspace = (model * vec4(position, 1.0));
+    PositionWorldspace = (model * vec4(position, 1.0));
 
     VecColor = color;
     TexCoord = texCoord;
 
-    gl_Position = PositionWorldspace; //view, projection etc
-} 
+    gl_Position = projection * view * PositionWorldspace;
+}

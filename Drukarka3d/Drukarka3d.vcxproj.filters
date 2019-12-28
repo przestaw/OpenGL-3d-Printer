@@ -27,6 +27,9 @@
     <ClCompile Include="src\GraphicsObj.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
     <ClCompile Include="src\AbstractObj.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
@@ -56,10 +59,13 @@
     <ClInclude Include="include\BasicCylinder.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="include\BasicCuboid.h">
+    <ClInclude Include="include\Camera.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="include\BasicCube.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BasicCuboid.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
     <ClInclude Include="include\BasicSphere.h">
