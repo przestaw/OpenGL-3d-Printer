@@ -6,27 +6,25 @@
 
 #include <vector>
 
-enum Direction {
-	FORWARD,
-	BACKWARD,
-	LEFT,
-	RIGHT
-};
-
-// Default camera values
-const GLfloat YAW = -90.0f;
-const GLfloat PITCH = 0.0f;
-const GLfloat SPEED = 5.0f;
-const GLfloat SENSITIVITY = 0.1f;
-const GLfloat ZOOM = 45.0f;
-const GLfloat MIN_ZOOM = 1.0f;
-const GLfloat MAX_ZOOM = 45.0f;
-
-
 class Camera
 {
 
 public:
+	// Default camera values
+	static const GLfloat YAW;
+	static const GLfloat PITCH;
+	static const GLfloat SPEED;
+	static const GLfloat SENSITIVITY;
+	static const GLfloat ZOOM;
+	static const GLfloat MIN_ZOOM;
+	static const GLfloat MAX_ZOOM;
+
+	enum Direction {
+		FORWARD,
+		BACKWARD,
+		LEFT,
+		RIGHT
+	};
 
 	Camera(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
 		   GLfloat yaw = YAW, GLfloat pitch = PITCH);

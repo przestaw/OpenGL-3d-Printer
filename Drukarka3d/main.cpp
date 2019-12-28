@@ -118,7 +118,7 @@ int main() {
 		glDepthFunc(GL_LESS);
 
 		// Set camera options
-		camera.setPitchConstrains(1.0f, 89.0f);
+		camera.setPitchConstrains(-89.0f, 89.0f);
 		camera.setBoundries(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec3(10.0f, 10.0f, 10.0f));
 
 		// Make demo cylinders
@@ -234,16 +234,16 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 void handleMovement(GLfloat deltaTime) {
 	if (keyWHold) {
-		camera.handleKeyboard(Direction::FORWARD, deltaTime);
+		camera.handleKeyboard(Camera::FORWARD, deltaTime);
 	}
 	if (keyAHold) {
-		camera.handleKeyboard(Direction::LEFT, deltaTime);
+		camera.handleKeyboard(Camera::LEFT, deltaTime);
 	}
 	if (keySHold) {
-		camera.handleKeyboard(Direction::BACKWARD, deltaTime);
+		camera.handleKeyboard(Camera::BACKWARD, deltaTime);
 	}
 	if (keyDHold) {
-		camera.handleKeyboard(Direction::RIGHT, deltaTime);
+		camera.handleKeyboard(Camera::RIGHT, deltaTime);
 	}
 }
 

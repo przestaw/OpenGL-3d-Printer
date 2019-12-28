@@ -1,5 +1,14 @@
 #include "..\include\Camera.h"
 
+// Definitions of constant values
+const GLfloat Camera::YAW = -90.0f;
+const GLfloat Camera::PITCH = 0.0f;
+const GLfloat Camera::SPEED = 5.0f;
+const GLfloat Camera::SENSITIVITY = 0.1f;
+const GLfloat Camera::ZOOM = 45.0f;
+const GLfloat Camera::MIN_ZOOM = 1.0f;
+const GLfloat Camera::MAX_ZOOM = 45.0f;
+
 Camera::Camera(glm::vec3 position, glm::vec3 up, GLfloat yaw, GLfloat pitch) 
 	:	front(glm::vec3(0.0f, 0.0f, -1.0f)),
 		movementSpeed(SPEED),
