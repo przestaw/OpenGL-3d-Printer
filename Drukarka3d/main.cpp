@@ -181,11 +181,16 @@ int main() {
 			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);
 			cylinder3.rotate(glm::vec3(.9f, .1f, .1f), rot_angle);
 			
+			
 			// Draw our cylinders
 			shaderBasic.Use();
 			cylinder1.Draw(shaderBasic);
 			cylinder2.Draw(shaderBasic);
 			cylinder3.Draw(shaderBasic);
+
+			// Set camera matrices for lamp shaders
+			shaderLamp.setMat4Uniform("projection", projection);
+			shaderLamp.setMat4Uniform("view", camera.getView());
 
 			// Draw lamp
 			shaderLamp.Use();
