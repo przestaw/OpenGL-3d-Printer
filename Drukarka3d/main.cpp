@@ -169,6 +169,9 @@ int main() {
 			// Set angle [keeping velocity in time]
 			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 300.0f;
 
+			// Start working with basic shader
+			shaderBasic.Use();
+
 			// Set camera view matrix
 			shaderBasic.setMat4Uniform("view", camera.getView());
 
@@ -190,10 +193,12 @@ int main() {
 			
 			
 			// Draw our cylinders
-			shaderBasic.Use();
 			cylinder1.Draw(shaderBasic);
 			cylinder2.Draw(shaderBasic);
 			cylinder3.Draw(shaderBasic);
+
+			// Start working with lamp's shader
+			shaderLamp.Use();
 
 			// Set camera matrices for lamp shaders
 			shaderLamp.setMat4Uniform("projection", projection);
@@ -201,7 +206,6 @@ int main() {
 			shaderLamp.setVec3Uniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
 			// Draw lamp
-			shaderLamp.Use();
 			lampCylinder.Draw(shaderLamp);
 
 			// Swap the screen buffers
