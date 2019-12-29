@@ -22,9 +22,11 @@
 
 // Project includes
 #include "include/shprogram.h"
-
 #include "include/BasicCylinder.h"
-#include "include\Camera.h"
+#include "include/Camera.h"
+#include <CompositeGroup.h>
+#include <ObjectGroup.h>
+
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -126,6 +128,22 @@ int main() {
 		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
 		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
 		
+		//make composite group demo
+		CompositeGroup compGroup;
+		{
+			cylinder2.translate(glm::vec3(0.f, -.5f, 0.f));
+			cylinder3.translate(glm::vec3(0.f, 2.2f, 0.f));
+
+			compGroup.addObject(cylinder1);
+			compGroup.addObject(cylinder2);
+			compGroup.addObject(cylinder3);
+
+			compGroup.translate(glm::vec3(1.0f, -1.0f, 1.0f));
+
+			cylinder2.translate(glm::vec3(0.f, .5f, 0.f));
+			cylinder3.translate(glm::vec3(0.f, -2.2f, 0.f));
+		}
+
 		// Scale cylinders
 		cylinder1.scale(glm::vec3(.5f, 1.5f, .5f));
 		cylinder3.scale(glm::vec3(2.4f, 1.f, 1.f));
@@ -134,6 +152,28 @@ int main() {
 		cylinder2.translate(glm::vec3(-.5f, -.5f, -.5f));
 		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
 
+		//make object group demo
+		auto objGroup = std::make_shared<ObjectGroup>();
+		{
+			// NOTE : that will link the objects to their origin ! 
+			// there is no copying with below use !!!
+
+			// To make a shared object best practise would be to incherit from Group Object and make Objects in constructor
+			// this also allows to make logic for moving some of the objects by keeping order of the objects in vector
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder1)));
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder2)));
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder3)));
+
+			//objects are pointed but ParentModel will move them apart
+			objGroup.get()->translate(glm::vec3(-1.0f, 1.0f, -1.0f));
+		}
+		ObjectGroup objGroup2;
+		objGroup2.addObject(objGroup);
+
+		//objects are pointed but ParentModel will move them apart
+		objGroup2.translate(glm::vec3(1.0f, 0.0f, 1.0f));
+		objGroup2.scale(glm::vec3(0.3f, 0.3f, 0.3f));
+		
 		// Calculate aspect ration for projection later to be used
 		GLfloat aspectRatio = static_cast<GLfloat>(screenWidth / screenHeight);
 
@@ -174,13 +214,21 @@ int main() {
 			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
 			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);
 			cylinder3.rotate(glm::vec3(.9f, .1f, .1f), rot_angle);
-			
+
+			// Rotate groups
+			compGroup.rotate(glm::vec3(.5f, .5f, .5f), rot_angle);
+			objGroup.get()->rotate(glm::vec3(.5f, -.5f, -.5f), -2*rot_angle);
+
 			// Draw our cylinders
 			shaderBasic.Use();
 			cylinder1.Draw(shaderBasic);
 			cylinder2.Draw(shaderBasic);
 			cylinder3.Draw(shaderBasic);
 
+			// Draw Groups
+			compGroup.Draw(shaderBasic);
+			objGroup.get()->Draw(shaderBasic);
+			objGroup2.Draw(shaderBasic);
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
 		}
