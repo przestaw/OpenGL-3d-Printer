@@ -62,5 +62,7 @@
     <None Include="shaders\core.vert" />
     <None Include="shaders\fragshader.frag" />
     <None Include="shaders\vertshader.vert" />
+    <None Include="shaders\lampshader.vert" />
+    <None Include="shaders\lampshader.frag" />
   </ItemGroup>
 </Project>

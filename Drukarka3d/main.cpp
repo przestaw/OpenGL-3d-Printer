@@ -111,6 +111,7 @@ int main() {
 		// Build, compile and link shader program
 		ShaderProgram theProgram("shaders/core.vert", "shaders/core.frag");
 		ShaderProgram shaderBasic("shaders/vertshader.vert", "shaders/fragshader.frag");
+		ShaderProgram shaderLamp("shaders/lampshader.vert", "shaders/lampshader.frag");
 
 		// Enable depth test
 		glEnable(GL_DEPTH_TEST);
@@ -121,10 +122,14 @@ int main() {
 		camera.setPitchConstrains(-89.0f, 89.0f);
 		camera.setBoundries(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec3(10.0f, 10.0f, 10.0f));
 
+		// Set up a light position
+		glm::vec3 lightPos(0.0f, 3.0f, 3.0f);
+
 		// Make demo cylinders
 		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
 		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
 		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
+		BasicCylinder lampCylinder = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
 		
 		// Scale cylinders
 		cylinder1.scale(glm::vec3(.5f, 1.5f, .5f));
@@ -133,6 +138,7 @@ int main() {
 		// Move cylinders apart
 		cylinder2.translate(glm::vec3(-.5f, -.5f, -.5f));
 		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
+		lampCylinder.translate(lightPos);
 
 		// Calculate aspect ration for projection later to be used
 		GLfloat aspectRatio = static_cast<GLfloat>(screenWidth / screenHeight);
@@ -180,6 +186,10 @@ int main() {
 			cylinder1.Draw(shaderBasic);
 			cylinder2.Draw(shaderBasic);
 			cylinder3.Draw(shaderBasic);
+
+			// Draw lamp
+			shaderLamp.Use();
+			lampCylinder.Draw(shaderLamp);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
