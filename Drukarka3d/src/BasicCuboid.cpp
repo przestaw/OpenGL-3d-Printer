@@ -23,22 +23,22 @@ BasicCuboid::BasicCuboid(glm::vec3 baseColor, GLfloat width, GLfloat height, GLf
 	std::vector<GLuint> _indices = {
 		// back
 		0, 1, 2,
-		3, 1, 2,
+		3, 2, 1,
 		// front
 		4, 5, 6,
-		7, 5, 6,
+		7, 6, 5,
 		// left
 		0, 4, 2,
-		6, 4, 2,
+		6, 2, 4,
 		// right
 		1, 5, 3,
-		7, 5, 3,
+		7, 3, 5,
 		// bottom
-		0, 1, 4,
-		5, 1, 4,
+		4, 5, 0,
+		1, 0, 5,
 		// top
-		2, 3, 6,
-		7, 3, 6
+		6, 7, 2,
+		3, 7, 6
 	};
 
 	/* Save calculated vertices and indices in the GraphicsObj fields, calculate normales */
