@@ -11,11 +11,10 @@ out vec4 PositionWorldspace;
 //light direction and camera direction -> for light calculations
 
 uniform mat4 model;
-uniform mat4 parentModel;
 
 void main()
 {
-	PositionWorldspace = (parentModel * model * vec4(position, 1.0));
+	PositionWorldspace = (model * vec4(position, 1.0));
 
     VecColor = color;
     TexCoord = texCoord;

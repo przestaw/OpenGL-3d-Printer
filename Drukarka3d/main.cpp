@@ -123,21 +123,26 @@ int main() {
 		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
 
 		//make object group demo
-		ObjectGroup objGroup;
+		auto objGroup = std::make_shared<ObjectGroup>();
 		{
 			// NOTE : that will link the objects to their origin ! 
 			// there is no copying with below use !!!
 
-			// To make a unique object best practise would be to incherit from Group Object and make Objects in constructor
-			// this also allows to make logic for moving some of the objects by keeping Objects as fields to acess them
-			objGroup.addObject(std::move(std::make_unique<BasicCylinder>(cylinder1)));
-			objGroup.addObject(std::move(std::make_unique<BasicCylinder>(cylinder2)));
-			objGroup.addObject(std::move(std::make_unique<BasicCylinder>(cylinder3)));
+			// To make a shared object best practise would be to incherit from Group Object and make Objects in constructor
+			// this also allows to make logic for moving some of the objects by keeping order of the objects in vector
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder1)));
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder2)));
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder3)));
 
 			//objects are pointed but ParentModel will move them apart
-			objGroup.translate(glm::vec3(-1.0f, 1.0f, -1.0f));
+			objGroup.get()->translate(glm::vec3(-1.0f, 1.0f, -1.0f));
 		}
-		
+		ObjectGroup objGroup2;
+		objGroup2.addObject(objGroup);
+
+		//objects are pointed but ParentModel will move them apart
+		objGroup2.translate(glm::vec3(1.0f, 0.0f, 1.0f));
+		objGroup2.scale(glm::vec3(0.3f, 0.3f, 0.3f));
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -165,7 +170,7 @@ int main() {
 
 			// Rotate groups
 			compGroup.rotate(glm::vec3(.5f, .5f, .5f), rot_angle);
-			objGroup.rotate(glm::vec3(.5f, -.5f, -.5f), -2*rot_angle);
+			objGroup.get()->rotate(glm::vec3(.5f, -.5f, -.5f), -2*rot_angle);
 
 			// Draw our cylinders
 			shaderBasic.Use();
@@ -175,8 +180,8 @@ int main() {
 
 			// Draw Groups
 			compGroup.Draw(shaderBasic);
-			objGroup.Draw(shaderBasic);
-
+			objGroup.get()->Draw(shaderBasic);
+			objGroup2.Draw(shaderBasic);
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
 		}

@@ -16,8 +16,9 @@ GraphicsObj::~GraphicsObj() {
 
 void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 	// Move object to desired place using AbstractObj model
-	shader.setMat4Uniform("parentModel", parentMat);
-	shader.setMat4Uniform("model", model);
+	glm::mat4 finalModel = parentMat * model;
+	shader.setMat4Uniform("model", finalModel);
+	shader.setMat4Uniform("normalTrans", glm::transpose(glm::inverse(finalModel)));
 	//TEXTURE ??
 
 	// Bind the Vertex Array Object
