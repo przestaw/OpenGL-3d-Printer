@@ -8,6 +8,7 @@ layout (location = 3) in vec3 normal;
 out vec3 VecColor;
 out vec2 TexCoord;
 out vec4 PositionWorldspace;
+out vec4 Normal;
 //light direction and camera direction -> for light calculations
 
 uniform mat4 model;
@@ -23,4 +24,7 @@ void main()
     TexCoord = texCoord;
 
     gl_Position = projection * view * PositionWorldspace;
+    // TODO This is expensive so it should be moved outside of shader
+    // However I'll keep this for now
+    Normal = transpose(inverse(model)) * vec4(normal, 1.0f);  
 }

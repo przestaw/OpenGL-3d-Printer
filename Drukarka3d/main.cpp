@@ -82,7 +82,7 @@ int main() {
 	try
 	{
 		// Create a GLFWwindow object that we can use for GLFW's functions
-		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", glfwGetPrimaryMonitor(), nullptr);
+		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", nullptr, nullptr);
 		
 		// Check if window is created
 		if (window == nullptr)
@@ -163,7 +163,7 @@ int main() {
 				handleMovement(static_cast<GLfloat>(deltaTime));
 			}
 
-			glClearColor(.35f, .2f, 0.0f, 1.f);
+			glClearColor(.08f, .08f, 0.08f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
 			// Set angle [keeping velocity in time]
@@ -175,6 +175,13 @@ int main() {
 			// Set projection matrix
 			projection = glm::perspective(glm::radians(camera.getZoom()), aspectRatio, 0.1f, 100.0f);
 			shaderBasic.setMat4Uniform("projection", projection);
+
+			// Set ambient light
+			// TODO Move this outside of loop???
+			shaderBasic.setVec3Uniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+
+			// Set light position
+			shaderBasic.setVec3Uniform("lightPos", lightPos);
 
 			// Rotate cylinders
 			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
@@ -191,6 +198,7 @@ int main() {
 			// Set camera matrices for lamp shaders
 			shaderLamp.setMat4Uniform("projection", projection);
 			shaderLamp.setMat4Uniform("view", camera.getView());
+			shaderLamp.setVec3Uniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
 			// Draw lamp
 			shaderLamp.Use();

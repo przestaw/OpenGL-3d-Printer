@@ -5,8 +5,9 @@ in vec4 PositionWorldspace;
 
 out vec3 color;
 
+uniform vec3 lightColor;
+
 void main()
 {   
-
-    color = vec3(1.0);
+    color = lightColor;
 }
