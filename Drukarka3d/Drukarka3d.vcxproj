@@ -132,8 +132,6 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\AbstractObj.cpp" />
     <ClCompile Include="src\BasicCone.cpp" />
-    <ClCompile Include="src\BasicCuboid.cpp" />
-    <ClCompile Include="src\BasicSphere.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\GraphicsObj.cpp" />
     <ClCompile Include="src\shprogram.cpp" />
@@ -141,10 +139,7 @@
   <ItemGroup>
     <ClInclude Include="include\AbstractObj.h" />
     <ClInclude Include="include\BasicCone.h" />
-    <ClInclude Include="include\BasicCube.h" />
-    <ClInclude Include="include\BasicCuboid.h" />
     <ClInclude Include="include\BasicCylinder.h" />
-    <ClInclude Include="include\BasicSphere.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\GraphicsObj.h" />
     <ClInclude Include="include\shprogram.h" />
