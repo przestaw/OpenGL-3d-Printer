@@ -113,7 +113,6 @@ int main() {
 		glViewport(0, 0, screenWidth, screenHeight);
 
 		// Build, compile and link shader program
-		ShaderProgram theProgram("shaders/core.vert", "shaders/core.frag");
 		ShaderProgram shaderBasic("shaders/vertshader.vert", "shaders/fragshader.frag");
 
 		// Enable depth test
