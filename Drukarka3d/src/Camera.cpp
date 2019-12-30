@@ -146,6 +146,11 @@ GLfloat Camera::getZoom()
 	return zoom;
 }
 
+glm::vec3 Camera::getPosition()
+{
+	return position;
+}
+
 void Camera::updateVectors()
 {
 	front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));

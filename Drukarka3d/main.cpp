@@ -186,6 +186,9 @@ int main() {
 			// Set light position
 			shaderBasic.setVec3Uniform("lightPos", lightPos);
 
+			// Set view position
+			shaderBasic.setVec3Uniform("viewPos", camera.getPosition());
+
 			// Rotate cylinders
 			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
 			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);

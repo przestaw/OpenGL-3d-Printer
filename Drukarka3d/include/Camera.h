@@ -51,6 +51,7 @@ public:
 	void checkBoundaries();
 
 	GLfloat getZoom();
+	glm::vec3 getPosition();
 
 private:
 	void updateVectors();
