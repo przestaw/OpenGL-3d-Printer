@@ -9,14 +9,6 @@
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="Debug|x64">
-      <Configuration>Debug</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="Release|x64">
-      <Configuration>Release</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -47,12 +39,6 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-  </ImportGroup>
-  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -119,6 +105,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\AbstractObj.cpp" />
     <ClCompile Include="src\BasicCone.cpp" />
+    <ClCompile Include="src\BasicCuboid.cpp" />
+    <ClCompile Include="src\BasicSphere.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\CompositeGroup.cpp" />
     <ClCompile Include="src\GraphicsObj.cpp" />
@@ -128,7 +116,10 @@
   <ItemGroup>
     <ClInclude Include="include\AbstractObj.h" />
     <ClInclude Include="include\BasicCone.h" />
+    <ClInclude Include="include\BasicCube.h" />
+    <ClInclude Include="include\BasicCuboid.h" />
     <ClInclude Include="include\BasicCylinder.h" />
+    <ClInclude Include="include\BasicSphere.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\CompositeGroup.h" />
     <ClInclude Include="include\GraphicsObj.h" />

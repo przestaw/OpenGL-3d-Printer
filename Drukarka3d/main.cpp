@@ -232,9 +232,9 @@ int main() {
 			sphere1.rotate(glm::vec3(0.0f, 1.0f, 1.0f), rot_angle);
 
 			if (counter > 0) {
-				sphere1.scale(glm::vec3(1/(1.f - 0.1*deltaTime), 1/(1.f - 0.1 * deltaTime), 1/(1.f - 0.1 * deltaTime)));
+				sphere1.scale(glm::vec3(1/(1.f - 0.3*deltaTime), 1/(1.f - 0.1 * deltaTime), 1/(1.f - 0.2 * deltaTime)));
 			} else {
-				sphere1.scale(glm::vec3((1.f - 0.1*deltaTime), (1.f - 0.1 * deltaTime), (1.f - 0.1 * deltaTime)));
+				sphere1.scale(glm::vec3((1.f - 0.3*deltaTime), (1.f - 0.1 * deltaTime), (1.f - 0.2 * deltaTime)));
 			}
 			counter += deltaTime;
 			if (counter > 2) counter = -2;

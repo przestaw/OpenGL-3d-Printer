@@ -1,14 +1,17 @@
 #include "../include/BasicSphere.h"
 
+const double BasicSphere::M_PI = 3.14159265358979323846;
+const double BasicSphere::_2pi = (M_PI * 2.);
+
 BasicSphere::BasicSphere(glm::vec3 baseColor, GLfloat radius, GLuint nLatitudes, GLuint nLongitudes)
 	: baseColor(baseColor), radius(radius), nLatitudes(nLatitudes), nLongitudes(nLongitudes)
 {
 	std::vector<glm::vec3> verticesCoordinates;
 
 	/* Space between latitudes lines */
-	GLfloat latitudeSpace = PI_F / nLatitudes;
+	GLfloat latitudeSpace = M_PI / nLatitudes;
 	/* Space between longitude lines */
-	GLfloat longitudeSpace = 2 * PI_F / nLongitudes;
+	GLfloat longitudeSpace = _2pi / nLongitudes;
 	/* Number of vertices*/
 	GLuint nVertices = (nLongitudes + 1) * (nLatitudes - 1) + 2;
 
