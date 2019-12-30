@@ -5,11 +5,14 @@ in vec4 PositionWorldspace;
 
 out vec3 color;
 
+uniform sampler2D ShTexture;
+uniform float textureImpact;
+
 void main()
 {   
-    vec3 result = VecColor;
+    vec4 result = mix(vec4(VecColor, 1.0), texture(ShTexture,TexCoord), textureImpact);
 
 	//TODO : colors & textures
 
-    color = result;
+    color = vec3(result);
 }

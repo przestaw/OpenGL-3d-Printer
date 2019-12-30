@@ -1,6 +1,6 @@
 #include "../include/GraphicsObj.h"
 
-GraphicsObj::GraphicsObj() {
+GraphicsObj::GraphicsObj() : texImpact(0.0) {
 	// Generate buffers
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -19,7 +19,10 @@ void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 	glm::mat4 finalModel = parentMat * model;
 	shader.setMat4Uniform("model", finalModel);
 	shader.setMat4Uniform("normalTrans", glm::transpose(glm::inverse(finalModel)));
-	//TEXTURE ??
+	shader.setFloat("textureImpact", texImpact);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, tex.getId()); //choose texture
 
 	// Bind the Vertex Array Object
 	glBindVertexArray(VAO);
@@ -29,8 +32,10 @@ void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 	glBindVertexArray(0);
 }
 
-void GraphicsObj::setTexture(const Texture& texture) {
+void GraphicsObj::setTexture(const Texture& texture, GLfloat texIm) {
 	tex = texture;
+	
+	texImpact = ((texIm > 0.0) ? ((texIm <= 1.0) ? texIm : 1.0) : 0.0);
 }
 
 void GraphicsObj::setVertices(std::vector<Vertex> vertices_a) {

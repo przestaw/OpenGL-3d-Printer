@@ -11,7 +11,7 @@ public:
 
 	void Draw(ShaderProgram shader, const glm::mat4& parentMat = glm::mat4(1.0f));
 
-	void setTexture(const Texture &texture);
+	void setTexture(const Texture &texture, GLfloat texImpact);
 
 protected:
 	// Vertex Array Object
@@ -22,6 +22,9 @@ protected:
 	GLuint EBO;
 	// Texture 
 	Texture tex;
+	// Tex impact
+	GLfloat texImpact;
+
 
 	// Triangles and Indices, vector allows for easy modification
 	std::vector<Vertex> vertices;

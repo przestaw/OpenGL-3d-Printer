@@ -8,7 +8,7 @@ Texture::Texture(std::string path) : path(path) {
 
 Texture::Texture(const Texture& other) : id(other.id), path(other.path) {}
 
-GLuint Texture::getId() const {
+GLuint Texture::getId() {
 	return id;
 }
 

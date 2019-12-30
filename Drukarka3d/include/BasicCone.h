@@ -18,7 +18,7 @@ private:
 	GLfloat topRadius;
 	unsigned nbSides;
 
-	std::vector<glm::vec3> vertices();
+	std::vector<std::pair<glm::vec3, glm::vec2>> vertices();
 
 	std::vector<GLuint> triangles();
 

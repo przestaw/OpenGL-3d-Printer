@@ -11,7 +11,7 @@ public:
 	Texture(std::string path);
 	Texture(const Texture& other);
 
-	inline GLuint getId() const;
+	GLuint getId();
 private:
 	GLuint id;
 	std::string path;
