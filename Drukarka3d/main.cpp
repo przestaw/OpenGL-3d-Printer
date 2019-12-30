@@ -133,8 +133,8 @@ int main() {
 		//make composite group demo
 		CompositeGroup compGroup;
 		{
-			cylinder2.translate(glm::vec3(0.f, -.5f, 0.f));
-			cylinder3.translate(glm::vec3(0.f, 2.2f, 0.f));
+			cylinder2.translate(glm::vec3(0.f, 0.5f, 0.f));
+			cylinder3.translate(glm::vec3(0.f, 1.2f, 0.f));
 
 			compGroup.addObject(cylinder1);
 			compGroup.addObject(cylinder2);

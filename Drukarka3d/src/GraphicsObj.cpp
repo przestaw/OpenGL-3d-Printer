@@ -29,6 +29,10 @@ void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 	glBindVertexArray(0);
 }
 
+void GraphicsObj::setTexture(const Texture& texture) {
+	tex = texture;
+}
+
 void GraphicsObj::setVertices(std::vector<Vertex> vertices_a) {
 	// Assign Vertices
 	vertices = vertices_a; //copy to object field

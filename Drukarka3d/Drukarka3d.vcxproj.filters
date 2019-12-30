@@ -13,6 +13,24 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\BasicPrimitives">
+      <UniqueIdentifier>{44475d7b-7f6d-472b-82e7-9d7953eeafa6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\BaseObj">
+      <UniqueIdentifier>{9031f3ed-ae3a-4383-9ddd-ed3a1fd0e255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\LightAndCamera">
+      <UniqueIdentifier>{8153e71b-8647-40d8-bea6-27fbb61fe910}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\BasicPrimitives">
+      <UniqueIdentifier>{6d891f91-f3da-4862-94fe-7de197189eac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\BaseObj">
+      <UniqueIdentifier>{cbcbbefb-45be-4c83-a7b1-b14a80f0953d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\LightAndCamera">
+      <UniqueIdentifier>{cfb14eec-2504-4b6b-be95-36de2a623cc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -22,66 +40,72 @@
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
     <ClCompile Include="src\BasicCone.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GraphicsObj.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Camera.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\AbstractObj.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\CompositeGroup.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ObjectGroup.cpp">
-      <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BasicCuboid.cpp">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki źródłowe\BasicPrimitives</Filter>
     </ClCompile>
     <ClCompile Include="src\BasicSphere.cpp">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki źródłowe\BasicPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BasicCuboid.cpp">
+      <Filter>Pliki źródłowe\BasicPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GraphicsObj.cpp">
+      <Filter>Pliki źródłowe\BaseObj</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AbstractObj.cpp">
+      <Filter>Pliki źródłowe\BaseObj</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CompositeGroup.cpp">
+      <Filter>Pliki źródłowe\BaseObj</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ObjectGroup.cpp">
+      <Filter>Pliki źródłowe\BaseObj</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Camera.cpp">
+      <Filter>Pliki źródłowe\LightAndCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Pliki źródłowe\BaseObj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\shprogram.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
-    <ClInclude Include="include\AbstractObj.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="include\GraphicsObj.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Vertex.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
     <ClInclude Include="include\BasicCone.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="include\BasicCylinder.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="include\Camera.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="include\CompositeGroup.h">
-      <Filter>Pliki nagłówkowe</Filter>
-    </ClInclude>
-    <ClInclude Include="include\ObjectGroup.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\BasicPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="include\BasicCube.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\BasicPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="include\BasicCuboid.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\BasicPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BasicCylinder.h">
+      <Filter>Pliki nagłówkowe\BasicPrimitives</Filter>
     </ClInclude>
     <ClInclude Include="include\BasicSphere.h">
-      <Filter>Pliki nagłówkowe</Filter>
+      <Filter>Pliki nagłówkowe\BasicPrimitives</Filter>
+    </ClInclude>
+    <ClInclude Include="include\AbstractObj.h">
+      <Filter>Pliki nagłówkowe\BaseObj</Filter>
+    </ClInclude>
+    <ClInclude Include="include\CompositeGroup.h">
+      <Filter>Pliki nagłówkowe\BaseObj</Filter>
+    </ClInclude>
+    <ClInclude Include="include\GraphicsObj.h">
+      <Filter>Pliki nagłówkowe\BaseObj</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ObjectGroup.h">
+      <Filter>Pliki nagłówkowe\BaseObj</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Texture.h">
+      <Filter>Pliki nagłówkowe\BaseObj</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Vertex.h">
+      <Filter>Pliki nagłówkowe\BaseObj</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Camera.h">
+      <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
