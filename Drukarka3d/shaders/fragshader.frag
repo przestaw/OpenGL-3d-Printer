@@ -41,7 +41,11 @@ void main()
     
     vec3 specularLight = specularStrength * spec * lightColor;
 
-    vec3 result = (ambientLight + diffuseLight + specularLight) * VecColor;
+    // Calculate attenuation and add it to the final result
+    float distance = length(lightPos - vec3(PositionWorldspace));
+    float attenuation = 1.0 / (1 + 0.14 * distance + 0.07 * distance * distance);
+
+    vec3 result = ( (ambientLight + diffuseLight + specularLight) * attenuation ) * VecColor;
 
 	//TODO : colors & textures
 

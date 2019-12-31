@@ -136,7 +136,7 @@ int main() {
 		cylinder3.scale(glm::vec3(2.4f, 1.f, 1.f));
 
 		// Move cylinders apart
-		cylinder2.translate(glm::vec3(-.5f, -.5f, -.5f));
+		cylinder2.translate(glm::vec3(-.5f, -.5f, -5.5f));
 		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
 		lampCylinder.translate(lightPos);
 
