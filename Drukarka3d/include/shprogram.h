@@ -37,4 +37,9 @@ public:
 	inline void setVec2Uniform(const std::string& name, const glm::vec2& vec) const {
 		glUniform2fv(glGetUniformLocation(get_programID(), name.c_str()), 1, &vec[0]);
 	}
+
+	// used to set any float parameter for shader
+	inline void setFloatUniform(const std::string& name, const GLfloat value) const {
+		glUniform1f(glGetUniformLocation(get_programID(), name.c_str()), value);
+	}
 };

@@ -129,11 +129,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\DirectionalLight.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\PointLight.cpp" />
+    <ClCompile Include="src\SpotLight.cpp" />
     <ClCompile Include="src\AbstractObj.cpp" />
     <ClCompile Include="src\BasicCone.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\GraphicsObj.cpp" />
+    <ClCompile Include="src\LightObject.cpp" />
     <ClCompile Include="src\shprogram.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -142,8 +146,12 @@
     <ClInclude Include="include\BasicCylinder.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\GraphicsObj.h" />
+    <ClInclude Include="include\LightObject.h" />
     <ClInclude Include="include\shprogram.h" />
     <ClInclude Include="include\Vertex.h" />
+    <ClInclude Include="include\PointLight.h" />
+    <ClInclude Include="include\SpotLight.h" />
+    <ClInclude Include="include\DirectionalLight.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\core.frag" />
