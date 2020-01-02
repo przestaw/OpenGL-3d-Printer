@@ -13,7 +13,6 @@ out vec4 PositionWorldspace;
 uniform mat4 model;
 uniform mat4 view;
 uniform mat4 projection;
-uniform mat4 parentModel;
 
 void main()
 {

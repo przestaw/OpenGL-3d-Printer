@@ -9,7 +9,8 @@ public:
 	BasicSphere(glm::vec3 baseColor, GLfloat radius, GLuint nLongitudes, GLuint nLatitudes);
 
 private:
-	const GLfloat PI_F = 3.14159265358979f;
+	static const double M_PI;
+	static const double _2pi;
 
 	glm::vec3 baseColor;
 	GLfloat radius;
