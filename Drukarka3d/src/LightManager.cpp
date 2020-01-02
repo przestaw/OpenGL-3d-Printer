@@ -17,8 +17,8 @@ void LightManager::setUpLight(const ShaderProgram& shaderProgram)
 	setUpSpotLights(shaderProgram);
 
 	// Tell shader how many elemnts from array it should access
-	shaderProgram.setUnsignedIntUniform("amountOfPointLights", pointLightsVector.size());
-	shaderProgram.setUnsignedIntUniform("amountOfSpotLights", spotLightsVector.size());
+	shaderProgram.setIntUniform("amountOfPointLights", pointLightsVector.size());
+	shaderProgram.setIntUniform("amountOfSpotLights", spotLightsVector.size());
 }
 
 std::shared_ptr<DirectionalLight> LightManager::getDirectionalLight()
@@ -171,6 +171,6 @@ void LightManager::setUpSpotLights(const ShaderProgram& shaderProgram)
 		shaderProgram.setFloatUniform(light->getUniformName() + ".linearParameter", light->getLinearParameter());
 		shaderProgram.setFloatUniform(light->getUniformName() + ".quadraticParameter", light->getQuadraticParameter());
 		shaderProgram.setFloatUniform(light->getUniformName() + ".cutOff", light->getCutOff());
-		shaderProgram.setFloatUniform(light->getUniformName() + ".outerCutOff", light->getCutOff());
+		shaderProgram.setFloatUniform(light->getUniformName() + ".outerCutOff", light->getOuterCutOff());
 	}
 }

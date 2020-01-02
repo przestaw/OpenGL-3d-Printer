@@ -52,6 +52,7 @@ public:
 
 	GLfloat getZoom();
 	glm::vec3 getPosition();
+	glm::vec3 getFrontVector();
 
 private:
 	void updateVectors();

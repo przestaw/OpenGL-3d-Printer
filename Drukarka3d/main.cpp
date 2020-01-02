@@ -39,6 +39,8 @@ bool keyAHold = false;
 bool keySHold = false;
 bool keyDHold = false;
 
+bool flashlightOn = true;
+
 // Using directives
 using std::cout;
 using std::cerr;
@@ -89,12 +91,37 @@ int main() {
 	directionalLight->setDiffuseStrength(glm::vec3(0.5f));
 	directionalLight->setSpecularStrength(glm::vec3(1.0f));
 	directionalLight->setDirection(glm::vec3(0.0f, -1.0f, 0.0f));
-	
+
+	// Create flashlight
+	auto flashlight = lightManager.addSpotLight();
+	flashlight->setAmbientStrength(glm::vec3(0.0f));
+	flashlight->setDiffuseStrength(glm::vec3(1.0f));
+	flashlight->setSpecularStrength(glm::vec3(1.0f));
+	flashlight->setLightRange(PointLight::LightRange::RANGE_50);
+	// Worth noting is that setCutOff and setOuterCutOff are already doing glm::cos(glm::radians())
+	// therefore we don't need to
+	flashlight->setCutOff(12.5f);
+	flashlight->setOuterCutOff(15.0f);
+
+	// Create two example lamps
+	auto lamp1 = lightManager.addPointLight();
+	lamp1->setAmbientStrength(glm::vec3(0.2f));
+	lamp1->setDiffuseStrength(glm::vec3(0.8f));
+	lamp1->setSpecularStrength(glm::vec3(1.0f));
+	lamp1->setLightRange(PointLight::LightRange::RANGE_100);
+	lamp1->setPosition(glm::vec3(3.0f, 3.0f, 5.0f));
+
+	auto lamp2 = lightManager.addPointLight();
+	lamp2->setAmbientStrength(glm::vec3(0.2f));
+	lamp2->setDiffuseStrength(glm::vec3(0.8f));
+	lamp2->setSpecularStrength(glm::vec3(1.0f));
+	lamp2->setLightRange(PointLight::LightRange::RANGE_32);
+	lamp2->setPosition(glm::vec3(-5.0f, 0.0f, -2.0f));
 
 	try
 	{
 		// Create a GLFWwindow object that we can use for GLFW's functions
-		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", nullptr, nullptr);
+		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", glfwGetPrimaryMonitor(), nullptr);
 		
 		// Check if window is created
 		if (window == nullptr)
@@ -134,15 +161,13 @@ int main() {
 		camera.setPitchConstrains(-89.0f, 89.0f);
 		camera.setBoundries(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec3(10.0f, 10.0f, 10.0f));
 
-		// Set up a light position
-		glm::vec3 lightPos(0.0f, 3.0f, 3.0f);
-
 		// Make demo cylinders
 		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
 		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
 		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
-		BasicCylinder lampCylinder = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
-		
+		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
+		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
+
 		// Scale cylinders
 		cylinder1.scale(glm::vec3(.5f, 1.5f, .5f));
 		cylinder3.scale(glm::vec3(2.4f, 1.f, 1.f));
@@ -150,7 +175,8 @@ int main() {
 		// Move cylinders apart
 		cylinder2.translate(glm::vec3(-.5f, -.5f, -5.5f));
 		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
-		lampCylinder.translate(lightPos);
+		lampCylinder1.translate(lamp1->getPosition());
+		lampCylinder2.translate(lamp2->getPosition());
 
 		// Calculate aspect ration for projection later to be used
 		GLfloat aspectRatio = static_cast<GLfloat>(screenWidth / screenHeight);
@@ -162,13 +188,29 @@ int main() {
 		double deltaTime = 0;
 		double lastFrame = currentFrame;
 
+		bool flashlightLastFrame = true;
+
 		while (!glfwWindowShouldClose(window)) {
 			currentFrame = glfwGetTime();
 			deltaTime = currentFrame - lastFrame;
 			lastFrame = currentFrame;
 
+			flashlightLastFrame = flashlightOn;
+
 			// Check if any events have been activiated (key pressed, mouse moved etc.) and call corresponding response functions
 			glfwPollEvents();
+
+			// Turn flashlight on/off when F is clicked
+			if (flashlightLastFrame != flashlightOn) {
+				if (flashlightOn) {
+					flashlight->setDiffuseStrength(glm::vec3(1.0f));
+					flashlight->setSpecularStrength(glm::vec3(1.0f));
+				}
+				else {
+					flashlight->setDiffuseStrength(glm::vec3(0.0f));
+					flashlight->setSpecularStrength(glm::vec3(0.0f));
+				}
+			}
 
 			// Handle potential movement based on delta time and key callbacks 
 			if (keyAHold || keyWHold || keySHold || keyDHold) {
@@ -183,6 +225,10 @@ int main() {
 
 			// Start working with basic shader
 			shaderBasic.Use();
+
+			// Set flashlight parameters
+			flashlight->setPosition(camera.getPosition());
+			flashlight->setDirection(camera.getFrontVector());
 
 			// Set up light on scene
 			lightManager.setUpLight(shaderBasic);
@@ -208,16 +254,17 @@ int main() {
 			cylinder2.Draw(shaderBasic);
 			cylinder3.Draw(shaderBasic);
 
-			//// Start working with lamp's shader
-			//shaderLamp.Use();
+			// Start working with lamp's shader
+			shaderLamp.Use();
 
-			//// Set camera matrices for lamp shaders
-			//shaderLamp.setMat4Uniform("projection", projection);
-			//shaderLamp.setMat4Uniform("view", camera.getView());
-			//shaderLamp.setVec3Uniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+			// Set camera matrices for lamp shaders
+			shaderLamp.setMat4Uniform("projection", projection);
+			shaderLamp.setMat4Uniform("view", camera.getView());
+			shaderLamp.setVec3Uniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
-			//// Draw lamp
-			//lampCylinder.Draw(shaderLamp);
+			// Draw lamp
+			lampCylinder1.Draw(shaderLamp);
+			lampCylinder2.Draw(shaderLamp);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
@@ -250,6 +297,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		}
 		if (key == GLFW_KEY_D) {
 			keyDHold = true;
+		}
+		if (key == GLFW_KEY_F) {
+			flashlightOn = !flashlightOn;
 		}
 	}
 

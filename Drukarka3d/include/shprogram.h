@@ -48,4 +48,9 @@ public:
 	inline void setUnsignedIntUniform(const std::string& name, const GLuint value) const {
 		glUniform1ui(glGetUniformLocation(get_programID(), name.c_str()), value);
 	}
+
+	// used to set any unsigned int parameter for shader
+	inline void setIntUniform(const std::string& name, const GLint value) const {
+		glUniform1i(glGetUniformLocation(get_programID(), name.c_str()), value);
+	}
 };
