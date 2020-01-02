@@ -1,4 +1,4 @@
-#pragma 
+#pragma once
 #include "DirectionalLight.h"
 #include "SpotLight.h"
 

@@ -6,48 +6,83 @@ in vec4 Normal;
 
 out vec3 color;
 
-// For now it is only one light source
-// TODO implement option for having multiple lights
-uniform vec3 lightColor;
-uniform vec3 lightPos;
+struct DirectionalLight {
+    vec3 direction;
+	
+    vec3 ambientStrength;
+    vec3 diffuseStrength;
+    vec3 specularStrength;
+};
+
+struct PointLight {
+    vec3 position;
+
+    vec3 ambientStrength;
+    vec3 diffuseStrength;
+    vec3 specularStrength;
+
+    float constantParameter;
+    float linearParameter;
+    float quadraticParameter;
+};
+
+struct SpotLight {
+    vec3 position;
+    vec3 direction;
+
+    float cutOff;
+    float outerCutOff;
+
+    vec3 ambientStrength;
+    vec3 diffuseStrength;
+    vec3 specularStrength;
+
+    float constantParameter;
+    float linearParameter;
+    float quadraticParameter;
+};
+
+#define AMOUNT_OF_POINT_LIGHTS 20
+#define AMOUNT_OF_SPOT_LIGHTS 5
+
 uniform vec3 viewPos;
+uniform DirectionalLight directionalLight;
+uniform PointLight pointLights[20];
+uniform SpotLight spotLights[5];
+
+vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDirection);
+vec3 calculatePointLight(PointLight light, vec3 normal, vec3 position, vec3 viewDirection);
+vec3 calculateSpotLight(SpotLight light, vec3 normal, vec3 position, vec3 viewDirection);
 
 void main()
 {   
-    // Set ambient light
-    float ambientStrength = 0.1;
-    vec3 ambientLight = ambientStrength * lightColor;
-
-    // Normalize normal vector and light directon's vector
+    // Normalize normal vector and view direction vector
     // It is done because we are interested in directions and angles and not in length
     vec3 normal = normalize(vec3(Normal));
-    vec3 lightDirection = normalize(lightPos - vec3(PositionWorldspace));
-
-    // Calculate diffuse impact
-    // We are use max(x, 0) because result of dot may be negative (and then diffuse strength is just 0)
-    float diffuseStrength = max(dot(normal, lightDirection), 0.0);
-    vec3 diffuseLight = diffuseStrength * lightColor;
-
-    // Calculate specular light
-    float specularStrength = 0.5;
-
     vec3 viewDirection = normalize(viewPos - vec3(PositionWorldspace));
-    vec3 reflectDirection = reflect(-lightDirection, normal);
-    
-    // We calculate power of specular effect based on direction of reflection and view direction
-    // Shininess should be preferably a power of 2 and the greater the number the more reflects light
-    int shininess = 32;
-    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), shininess);
-    
-    vec3 specularLight = specularStrength * spec * lightColor;
 
-    // Calculate attenuation and add it to the final result
-    float distance = length(lightPos - vec3(PositionWorldspace));
-    float attenuation = 1.0 / (1 + 0.14 * distance + 0.07 * distance * distance);
+    vec3 result = calculateDirectionalLight(directionalLight, normal, viewDirection);
 
-    vec3 result = ( (ambientLight + diffuseLight + specularLight) * attenuation ) * VecColor;
+    //vec3 result = ( (ambientLight + diffuseLight + specularLight) * attenuation ) * VecColor;
 
 	//TODO : colors & textures
 
     color = result;
+}
+
+vec3 calculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDirection) {
+    vec3 lightDirection = normalize(-light.direction);
+
+    // Diffuse light
+    float diff = max(dot(normal, lightDirection), 0.0);
+    
+    // Specular light
+    vec3 reflectDirection = reflect(-lightDirection, normal);
+    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), 32);
+
+    vec3 ambientLight = light.ambientStrength * VecColor;
+    vec3 diffuseLight = light.diffuseStrength * diff * VecColor;
+    vec3 specularLight = light.specularStrength * spec * VecColor;
+
+    return (ambientLight + diffuseLight + specularLight);
 }

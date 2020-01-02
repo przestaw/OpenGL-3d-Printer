@@ -6,6 +6,7 @@ LightManager::LightManager(int maxPointLightAmount, int maxSpotLightAmount)
 		maxSpotLightAmount(maxSpotLightAmount)
 {
 	directionalLight = std::make_shared<DirectionalLight>();
+	directionalLight->setUniformName("directionalLight");
 }
 
 void LightManager::setUpLight(const ShaderProgram& shaderProgram)
@@ -39,7 +40,7 @@ std::shared_ptr<PointLight> LightManager::addPointLight()
 {
 	if (pointLightsVector.size() >= maxPointLightAmount) {
 		std::cout << "Light was not added as there is no more room";
-		return;
+		return std::shared_ptr<PointLight>();
 	}
 
 	std::shared_ptr<PointLight> newPointLight = std::make_shared<PointLight>();
@@ -79,7 +80,7 @@ std::shared_ptr<SpotLight> LightManager::addSpotLight()
 {
 	if (spotLightsVector.size() >= maxSpotLightAmount) {
 		std::cout << "Light was not added as there is no more room";
-		return;
+		return std::shared_ptr<SpotLight>();
 	}
 
 	std::shared_ptr<SpotLight> newSpotLight = std::make_shared<SpotLight>();
@@ -110,13 +111,13 @@ void LightManager::fixNames(LightType lightType)
 	if (lightType == LightType::POINT) {
 		for (unsigned int i = 0; i < pointLightsVector.size(); ++i) {
 			auto light = pointLightsVector[i];
-			light->setUniformName(std::string("pointLight[" + std::to_string(i) + "]"));
+			light->setUniformName(std::string("pointLights[" + std::to_string(i) + "]"));
 		}
 	}
 	else if (lightType == LightType::SPOT) {
 		for (unsigned int i = 0; i < spotLightsVector.size(); ++i) {
 			auto light = spotLightsVector[i];
-			light->setUniformName(std::string("spotLight[" + std::to_string(i) + "]"));
+			light->setUniformName(std::string("spotLights[" + std::to_string(i) + "]"));
 		}
 	}
 }

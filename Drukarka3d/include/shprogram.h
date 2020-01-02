@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <glm/glm.hpp>
+#include <glew.h>
 
 class ShaderProgram {
 	GLuint program_id; 	// The program ID

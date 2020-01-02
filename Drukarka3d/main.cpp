@@ -25,6 +25,7 @@
 
 #include "include/BasicCylinder.h"
 #include "include\Camera.h"
+#include "LightManager.h"
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -78,6 +79,17 @@ int main() {
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+
+	// Set up lights
+	LightManager lightManager(20, 5);
+
+	// Set sun-like directional light
+	auto directionalLight = lightManager.getDirectionalLight();
+	directionalLight->setAmbientStrength(glm::vec3(0.1f));
+	directionalLight->setDiffuseStrength(glm::vec3(0.5f));
+	directionalLight->setSpecularStrength(glm::vec3(1.0f));
+	directionalLight->setDirection(glm::vec3(0.0f, -1.0f, 0.0f));
+	
 
 	try
 	{
@@ -172,19 +184,15 @@ int main() {
 			// Start working with basic shader
 			shaderBasic.Use();
 
+			// Set up light on scene
+			lightManager.setUpLight(shaderBasic);
+
 			// Set camera view matrix
 			shaderBasic.setMat4Uniform("view", camera.getView());
 
 			// Set projection matrix
 			projection = glm::perspective(glm::radians(camera.getZoom()), aspectRatio, 0.1f, 100.0f);
 			shaderBasic.setMat4Uniform("projection", projection);
-
-			// Set ambient light
-			// TODO Move this outside of loop???
-			shaderBasic.setVec3Uniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
-
-			// Set light position
-			shaderBasic.setVec3Uniform("lightPos", lightPos);
 
 			// Set view position
 			shaderBasic.setVec3Uniform("viewPos", camera.getPosition());
@@ -200,16 +208,16 @@ int main() {
 			cylinder2.Draw(shaderBasic);
 			cylinder3.Draw(shaderBasic);
 
-			// Start working with lamp's shader
-			shaderLamp.Use();
+			//// Start working with lamp's shader
+			//shaderLamp.Use();
 
-			// Set camera matrices for lamp shaders
-			shaderLamp.setMat4Uniform("projection", projection);
-			shaderLamp.setMat4Uniform("view", camera.getView());
-			shaderLamp.setVec3Uniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+			//// Set camera matrices for lamp shaders
+			//shaderLamp.setMat4Uniform("projection", projection);
+			//shaderLamp.setMat4Uniform("view", camera.getView());
+			//shaderLamp.setVec3Uniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
-			// Draw lamp
-			lampCylinder.Draw(shaderLamp);
+			//// Draw lamp
+			//lampCylinder.Draw(shaderLamp);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
