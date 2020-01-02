@@ -9,6 +9,8 @@ class DirectionalLight :
 	public LightObject
 {
 public:
+	DirectionalLight();
+
 	// Sets up itself on scene
 	virtual void setUp(const ShaderProgram& shaderProgram);
 

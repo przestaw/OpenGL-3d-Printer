@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="src\DirectionalLight.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\LightManager.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
     <ClCompile Include="src\SpotLight.cpp" />
     <ClCompile Include="src\AbstractObj.cpp" />
@@ -146,6 +147,7 @@
     <ClInclude Include="include\BasicCylinder.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\GraphicsObj.h" />
+    <ClInclude Include="include\LightManager.h" />
     <ClInclude Include="include\LightObject.h" />
     <ClInclude Include="include\shprogram.h" />
     <ClInclude Include="include\Vertex.h" />

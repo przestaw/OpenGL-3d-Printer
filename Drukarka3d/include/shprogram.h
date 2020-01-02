@@ -42,4 +42,9 @@ public:
 	inline void setFloatUniform(const std::string& name, const GLfloat value) const {
 		glUniform1f(glGetUniformLocation(get_programID(), name.c_str()), value);
 	}
+
+	// used to set any unsigned int parameter for shader
+	inline void setUnsignedIntUniform(const std::string& name, const GLuint value) const {
+		glUniform1ui(glGetUniformLocation(get_programID(), name.c_str()), value);
+	}
 };

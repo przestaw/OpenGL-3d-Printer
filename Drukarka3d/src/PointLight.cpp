@@ -2,6 +2,14 @@
 
 #include <map>
 
+PointLight::PointLight()
+{
+	// By default lights are turned off
+	setAmbientStrength(glm::vec3(0.0f));
+	setDiffuseStrength(glm::vec3(0.0f));
+	setSpecularStrength(glm::vec3(0.0f));
+}
+
 void PointLight::setUp(const ShaderProgram& shaderProgram)
 {
 	shaderProgram.setVec3Uniform(std::string(getUniformName() + ".position"), getPosition());

@@ -5,6 +5,8 @@ class SpotLight :
 	public PointLight
 {
 public:
+	SpotLight();
+
 	// Sets up itself on scene
 	virtual void setUp(const ShaderProgram& shaderProgram);
 

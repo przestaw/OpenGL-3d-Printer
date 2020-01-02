@@ -14,6 +14,8 @@ public:
 		RANGE_325,	RANGE_600,	RANGE_3250
 	};
 
+	PointLight();
+
 	// Sets up itself on scene
 	virtual void setUp(const ShaderProgram& shaderProgram);
 

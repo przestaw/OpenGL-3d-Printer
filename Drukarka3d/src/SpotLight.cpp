@@ -1,5 +1,10 @@
 #include "SpotLight.h"
 
+SpotLight::SpotLight()
+	: PointLight()
+{
+}
+
 void SpotLight::setUp(const ShaderProgram& shaderProgram)
 {
 	PointLight::setUp(shaderProgram);
