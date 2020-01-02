@@ -223,7 +223,13 @@ int main() {
 		objGroup2.scale(glm::vec3(0.3f, 0.3f, 0.3f));
 		
 		// Calculate aspect ration for projection later to be used
-		GLfloat aspectRatio = static_cast<GLfloat>(screenWidth / screenHeight);
+		// NOTE I do not know but sometimes line below cause program to crash. I cannot find proper solution nor
+		// reason for this to cause any damage. If white screen appears in front of you I'd suggest setting
+		// aspect ratio hard coded as I have no clue what is going on.
+		GLfloat aspectRatio = static_cast<GLfloat>(screenWidth) / static_cast<GLfloat>(screenHeight);
+		std::cout << "width: " << screenWidth << std::endl;
+		std::cout << "height: " << screenHeight << std::endl;
+		std::cout << "aspect ratio: " << aspectRatio << std::endl;
 
 		glm::mat4 projection = glm::mat4(1.0f);
 
@@ -276,22 +282,21 @@ int main() {
 			// Start working with basic shader
 			shaderBasic.Use();
 
+			// Set projection matrix
+			projection = glm::perspective(glm::radians(camera.getZoom()), aspectRatio, 0.1f, 100.0f);
+			shaderBasic.setMat4Uniform("projection", projection);
+			// Set camera view matrix
+			shaderBasic.setMat4Uniform("view", camera.getView());
+
+			// Set view position
+			shaderBasic.setVec3Uniform("viewPos", camera.getPosition());
+
 			// Set flashlight parameters
 			flashlight->setPosition(camera.getPosition());
 			flashlight->setDirection(camera.getFrontVector());
 
 			// Set up light on scene
 			lightManager.setUpLight(shaderBasic);
-
-			// Set camera view matrix
-			shaderBasic.setMat4Uniform("view", camera.getView());
-
-			// Set projection matrix
-			projection = glm::perspective(glm::radians(camera.getZoom()), aspectRatio, 0.1f, 100.0f);
-			shaderBasic.setMat4Uniform("projection", projection);
-
-			// Set view position
-			shaderBasic.setVec3Uniform("viewPos", camera.getPosition());
 
 			// Rotate cylinders
 			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
@@ -320,6 +325,13 @@ int main() {
 			cylinder2.Draw(shaderBasic);
 			cylinder3.Draw(shaderBasic);
 
+			// Draw Groups
+			compGroup.Draw(shaderBasic);
+			objGroup2.Draw(shaderBasic);
+
+			// Draw sphere
+			sphere1.Draw(shaderBasic);
+
 			// Start working with lamp's shader
 			shaderLamp.Use();
 
@@ -331,12 +343,7 @@ int main() {
 			// Draw lamp
 			lampCylinder1.Draw(shaderLamp);
 			lampCylinder2.Draw(shaderLamp);
-			// Draw Groups
-			compGroup.Draw(shaderBasic);
-			objGroup2.Draw(shaderBasic);
 
-			// Draw sphere
-			sphere1.Draw(shaderBasic);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
