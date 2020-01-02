@@ -8,9 +8,10 @@
 class GraphicsObj : public AbstractObj {
 public:
 
-	~GraphicsObj();
+	virtual ~GraphicsObj();
 
-	void Draw(ShaderProgram shader);
+	void Draw(ShaderProgram shader, const glm::mat4& parentMat = glm::mat4(1.0f));
+
 protected:
 	// Vertex Array Object
 	GLuint VAO;
@@ -31,4 +32,6 @@ protected:
 	void setIndices(std::vector<unsigned int> indices);
 
 	void recalculateNormales();
+
+	friend class CompositeGroup;
 };

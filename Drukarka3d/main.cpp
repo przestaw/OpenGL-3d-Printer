@@ -21,7 +21,13 @@
 #include <glm/gtc/type_ptr.hpp>
 
 // Project includes
-#include "include/shprogram.h"
+#include <shprogram.h>
+#include <BasicCylinder.h>
+#include <Camera.h>
+#include <CompositeGroup.h>
+#include <ObjectGroup.h>
+
+#include "include/BasicSphere.h"
 
 #include "include/BasicCylinder.h"
 #include "include\Camera.h"
@@ -167,6 +173,22 @@ int main() {
 		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
 		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
 		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
+		
+		//make composite group demo
+		CompositeGroup compGroup;
+		{
+			cylinder2.translate(glm::vec3(0.f, -.5f, 0.f));
+			cylinder3.translate(glm::vec3(0.f, 2.2f, 0.f));
+
+			compGroup.addObject(cylinder1);
+			compGroup.addObject(cylinder2);
+			compGroup.addObject(cylinder3);
+
+			compGroup.translate(glm::vec3(1.0f, -1.0f, 1.0f));
+
+			cylinder2.translate(glm::vec3(0.f, .5f, 0.f));
+			cylinder3.translate(glm::vec3(0.f, -2.2f, 0.f));
+		}
 
 		// Scale cylinders
 		cylinder1.scale(glm::vec3(.5f, 1.5f, .5f));
@@ -178,10 +200,37 @@ int main() {
 		lampCylinder1.translate(lamp1->getPosition());
 		lampCylinder2.translate(lamp2->getPosition());
 
+		//make object group demo
+		auto objGroup = std::make_shared<ObjectGroup>();
+		{
+			// NOTE : that will link the objects to their origin ! 
+			// there is no copying with below use !!!
+
+			// To make a shared object best practise would be to incherit from Group Object and make Objects in constructor
+			// this also allows to make logic for moving some of the objects by keeping order of the objects in vector
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder1)));
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder2)));
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder3)));
+
+			//objects are pointed but ParentModel will move them apart
+			objGroup.get()->translate(glm::vec3(-1.0f, 1.0f, -1.0f));
+		}
+		ObjectGroup objGroup2;
+		objGroup2.addObject(objGroup);
+
+		//objects are pointed but ParentModel will move them apart
+		objGroup2.translate(glm::vec3(1.0f, 0.0f, 1.0f));
+		objGroup2.scale(glm::vec3(0.3f, 0.3f, 0.3f));
+		
 		// Calculate aspect ration for projection later to be used
 		GLfloat aspectRatio = static_cast<GLfloat>(screenWidth / screenHeight);
 
 		glm::mat4 projection = glm::mat4(1.0f);
+
+		// Make demo sphere
+		BasicSphere sphere1 = BasicSphere(glm::vec3(0.4f, 0.7f, 1.0f), 0.5f, 64, 64);
+
+		sphere1.translate(glm::vec3(-2.0f, 1.0f, -2.0f));
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -189,6 +238,7 @@ int main() {
 		double lastFrame = currentFrame;
 
 		bool flashlightLastFrame = true;
+		double counter = 0;
 
 		while (!glfwWindowShouldClose(window)) {
 			currentFrame = glfwGetTime();
@@ -249,6 +299,22 @@ int main() {
 			cylinder3.rotate(glm::vec3(.9f, .1f, .1f), rot_angle);
 			
 			
+
+			// Rotate groups
+			compGroup.rotate(glm::vec3(.5f, .5f, .5f), rot_angle);
+			objGroup.get()->rotate(glm::vec3(.5f, -.5f, -.5f), -2*rot_angle);
+
+			// Rotate sphere
+			sphere1.rotate(glm::vec3(0.0f, 1.0f, 1.0f), rot_angle);
+
+			if (counter > 0) {
+				sphere1.scale(glm::vec3(1/(1.f - 0.3*deltaTime), 1/(1.f - 0.1 * deltaTime), 1/(1.f - 0.2 * deltaTime)));
+			} else {
+				sphere1.scale(glm::vec3((1.f - 0.3*deltaTime), (1.f - 0.1 * deltaTime), (1.f - 0.2 * deltaTime)));
+			}
+			counter += deltaTime;
+			if (counter > 2) counter = -2;
+
 			// Draw our cylinders
 			cylinder1.Draw(shaderBasic);
 			cylinder2.Draw(shaderBasic);
@@ -265,6 +331,12 @@ int main() {
 			// Draw lamp
 			lampCylinder1.Draw(shaderLamp);
 			lampCylinder2.Draw(shaderLamp);
+			// Draw Groups
+			compGroup.Draw(shaderBasic);
+			objGroup2.Draw(shaderBasic);
+
+			// Draw sphere
+			sphere1.Draw(shaderBasic);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
