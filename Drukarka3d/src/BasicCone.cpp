@@ -1,7 +1,7 @@
 #include "../include/BasicCone.h"
 
 const double BasicCone::M_PI = 3.14159265358979323846;
-const double BasicCone::_2pi = (M_PI * 2.);
+const double BasicCone::M_2PI = (M_PI * 2.);
 
 BasicCone::BasicCone(glm::vec3 baseColor, GLfloat height, GLfloat bottomRadius, GLfloat topRadius, unsigned nbSides)
 	: height(height), bottomRadius(bottomRadius), topRadius(topRadius), nbSides(nbSides) {
@@ -29,12 +29,12 @@ std::vector<std::pair<glm::vec3, glm::vec2>> BasicCone::vertices() {
 	// Bottom cap
 	vertices.emplace_back(
 		glm::vec3(0.0, -height / 2.0f, 0.0),
-		glm::vec2(0., 0.));
+		glm::vec2(0.5, 0.5));
 
 	if (bottomRadius > 0) {
 		for (vert = 0; vert < nbSides; vert++) {
 			GLfloat part = (vert / (GLfloat)nbSides);
-			GLfloat rad = part * _2pi;
+			GLfloat rad = part * M_2PI;
 
 			part = (part > 0.5) ? 2 * (1.f - part) : 2 * part;
 
@@ -47,11 +47,11 @@ std::vector<std::pair<glm::vec3, glm::vec2>> BasicCone::vertices() {
 	// Top cap
 	vertices.emplace_back(
 		glm::vec3(0.0, height / 2.0f, 0.0),
-		glm::vec2(0., 0.));
+		glm::vec2(0.5, 0.5));
 	if (topRadius > 0) {
 		for (vert = 0; vert < nbSides; vert++) {
 			GLfloat part = (vert / (GLfloat)nbSides);
-			GLfloat rad = part * _2pi;
+			GLfloat rad = part * M_2PI;
 
 			part = (part > 0.5) ? 2 * (1.f - part) : 2 * part;
 

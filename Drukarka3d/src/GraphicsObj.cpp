@@ -19,7 +19,7 @@ void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 	glm::mat4 finalModel = parentMat * model;
 	shader.setMat4Uniform("model", finalModel);
 	shader.setMat4Uniform("normalTrans", glm::transpose(glm::inverse(finalModel)));
-	shader.setFloat("textureImpact", texImpact);
+	shader.setFloatUniform("textureImpact", texImpact);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, tex.getId()); //choose texture
@@ -35,7 +35,7 @@ void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 void GraphicsObj::setTexture(const Texture& texture, GLfloat texIm) {
 	tex = texture;
 	
-	texImpact = ((texIm > 0.0) ? ((texIm <= 1.0) ? texIm : 1.0) : 0.0);
+	texImpact = ((texIm > 0.0f) ? ((texIm <= 1.0) ? texIm : 1.0) : 0.0);
 }
 
 void GraphicsObj::setVertices(std::vector<Vertex> vertices_a) {

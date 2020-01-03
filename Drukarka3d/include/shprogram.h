@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include <glm/glm.hpp>
+#include <glew.h>
 
 class ShaderProgram {
 	GLuint program_id; 	// The program ID
@@ -37,12 +38,19 @@ public:
 	inline void setVec2Uniform(const std::string& name, const glm::vec2& vec) const {
 		glUniform2fv(glGetUniformLocation(get_programID(), name.c_str()), 1, &vec[0]);
 	}
-	// used to set any GLuint value
-	inline void setInt(const std::string& name, GLuint value) const{
-		glUniform1i(glGetUniformLocation(get_programID(), name.c_str()), value);
-	}
-	// used to set any GLfloat value
-	inline void setFloat(const std::string& name, GLfloat value) const{
+
+	// used to set any float parameter for shader
+	inline void setFloatUniform(const std::string& name, const GLfloat value) const {
 		glUniform1f(glGetUniformLocation(get_programID(), name.c_str()), value);
+	}
+
+	// used to set any unsigned int parameter for shader
+	inline void setUnsignedIntUniform(const std::string& name, const GLuint value) const {
+		glUniform1ui(glGetUniformLocation(get_programID(), name.c_str()), value);
+	}
+
+	// used to set any unsigned int parameter for shader
+	inline void setIntUniform(const std::string& name, const GLint value) const {
+		glUniform1i(glGetUniformLocation(get_programID(), name.c_str()), value);
 	}
 };
