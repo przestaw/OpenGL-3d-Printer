@@ -39,9 +39,6 @@
     <ClCompile Include="src\shprogram.cpp">
       <Filter>Pliki źródłowe</Filter>
     </ClCompile>
-    <ClCompile Include="src\BasicCone.cpp">
-      <Filter>Pliki źródłowe\BasicPrimitives</Filter>
-    </ClCompile>
     <ClCompile Include="src\BasicSphere.cpp">
       <Filter>Pliki źródłowe\BasicPrimitives</Filter>
     </ClCompile>
@@ -65,6 +62,24 @@
     </ClCompile>
     <ClCompile Include="src\Texture.cpp">
       <Filter>Pliki źródłowe\BaseObj</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BasicCone.cpp">
+      <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DirectionalLight.cpp">
+      <Filter>Pliki źródłowe\LightAndCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LightManager.cpp">
+      <Filter>Pliki źródłowe\LightAndCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\LightObject.cpp">
+      <Filter>Pliki źródłowe\LightAndCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PointLight.cpp">
+      <Filter>Pliki źródłowe\LightAndCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SpotLight.cpp">
+      <Filter>Pliki źródłowe\LightAndCamera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -107,11 +122,26 @@
     <ClInclude Include="include\Camera.h">
       <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
     </ClInclude>
+    <ClInclude Include="include\DirectionalLight.h">
+      <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LightManager.h">
+      <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\LightObject.h">
+      <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\PointLight.h">
+      <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
+    </ClInclude>
+    <ClInclude Include="include\SpotLight.h">
+      <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\core.frag" />
-    <None Include="shaders\core.vert" />
     <None Include="shaders\fragshader.frag" />
     <None Include="shaders\vertshader.vert" />
+    <None Include="shaders\lampshader.vert" />
+    <None Include="shaders\lampshader.frag" />
   </ItemGroup>
 </Project>

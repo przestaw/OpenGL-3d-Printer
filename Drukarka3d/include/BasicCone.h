@@ -28,5 +28,5 @@ private:
 	}
 
 	static const double M_PI;
-	static const double _2pi;
+	static const double M_2PI;
 };
