@@ -211,6 +211,7 @@ int main() {
 
 		// move sphere
 		sphere1.translate(glm::vec3(1.0f, 1.4f, 1.0f));
+
 		// Calculate aspect ration for projection later to be used
 		// NOTE I do not know but sometimes line below cause program to crash. I cannot find proper solution nor
 		// reason for this to cause any damage. If white screen appears in front of you I'd suggest setting
@@ -221,6 +222,11 @@ int main() {
 		std::cout << "aspect ratio: " << aspectRatio << std::endl;
 
 		glm::mat4 projection = glm::mat4(1.0f);
+
+		// Make demo sphere
+		BasicSphere sphere1 = BasicSphere(glm::vec3(0.4f, 0.7f, 1.0f), 0.5f, 64, 64);
+
+		sphere1.translate(glm::vec3(-2.0f, 1.0f, -2.0f));
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -308,6 +314,10 @@ int main() {
 			// Draw Groups
 			compGroup.Draw(shaderBasic);
 			objGroup.Draw(shaderBasic);
+
+			// Draw Groups
+			compGroup.Draw(shaderBasic);
+			objGroup2.Draw(shaderBasic);
 
 			// Draw sphere
 			sphere1.Draw(shaderBasic);
