@@ -32,6 +32,7 @@
 #include "include/BasicCylinder.h"
 #include "include\Camera.h"
 #include "LightManager.h"
+#include "Skybox.h"
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -156,6 +157,7 @@ int main() {
 		// Build, compile and link shader program
 		ShaderProgram shaderBasic("shaders/vertshader.vert", "shaders/fragshader.frag");
 		ShaderProgram shaderLamp("shaders/lampshader.vert", "shaders/lampshader.frag");
+		ShaderProgram shaderSkybox("shaders/skyboxshader.vert", "shaders/skyboxshader.frag");
 
 		// Enable depth test
 		glEnable(GL_DEPTH_TEST);
@@ -165,6 +167,23 @@ int main() {
 		// Set camera options
 		camera.setPitchConstrains(-89.0f, 89.0f);
 		camera.setBoundries(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec3(10.0f, 10.0f, 10.0f));
+
+		/* Initialize skybox */
+		Skybox skybox;
+		
+		std::vector<std::string> skyboxFaces =
+		{
+			"res/skybox/ely_lakes/lakes_ft.jpg",
+			"res/skybox/ely_lakes/lakes_bk.jpg",
+			"res/skybox/ely_lakes/lakes_up.jpg",
+			"res/skybox/ely_lakes/lakes_dn.jpg",
+			"res/skybox/ely_lakes/lakes_rt.jpg",
+			"res/skybox/ely_lakes/lakes_lf.jpg",
+		};
+		skybox.setCubemapFaces(skyboxFaces);
+		// Set uniform in skybox shader
+		shaderSkybox.Use();
+		shaderSkybox.setIntUniform("skybox", 0);
 
 		// Make demo cylinders
 		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
@@ -329,6 +348,17 @@ int main() {
 			// Draw lamp
 			lampCylinder1.Draw(shaderLamp);
 			lampCylinder2.Draw(shaderLamp);
+
+			// Start working with skybox shader (skybox should be drawn as the last object!)
+			shaderSkybox.Use();
+
+			// We want to remove translation from the view matrix so that camera movement
+			// doesn't affect the skybox's position vectors.
+			shaderSkybox.setMat4Uniform("view", glm::mat4(glm::mat3(camera.getView())));
+			shaderSkybox.setMat4Uniform("projection", projection);
+
+			// Draw skybox
+			skybox.Draw();
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
