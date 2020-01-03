@@ -112,6 +112,7 @@
     <ClCompile Include="src\GraphicsObj.cpp" />
     <ClCompile Include="src\ObjectGroup.cpp" />
     <ClCompile Include="src\shprogram.cpp" />
+    <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AbstractObj.h" />
@@ -125,6 +126,7 @@
     <ClInclude Include="include\GraphicsObj.h" />
     <ClInclude Include="include\ObjectGroup.h" />
     <ClInclude Include="include\shprogram.h" />
+    <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\Vertex.h" />
   </ItemGroup>
   <ItemGroup>
