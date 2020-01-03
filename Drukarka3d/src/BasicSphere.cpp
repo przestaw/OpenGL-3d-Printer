@@ -6,7 +6,7 @@ const double BasicSphere::_2pi = (M_PI * 2.);
 BasicSphere::BasicSphere(glm::vec3 baseColor, GLfloat radius, GLuint nLatitudes, GLuint nLongitudes)
 	: baseColor(baseColor), radius(radius), nLatitudes(nLatitudes), nLongitudes(nLongitudes)
 {
-	std::vector<glm::vec3> verticesCoordinates;
+	std::vector<Vertex> _vertices;
 
 	/* Space between latitudes lines */
 	GLfloat latitudeSpace = M_PI / nLatitudes;
@@ -18,32 +18,34 @@ BasicSphere::BasicSphere(glm::vec3 baseColor, GLfloat radius, GLuint nLatitudes,
 	/*** Calculate vertices ***/
 
 	// North pole
-	verticesCoordinates.push_back(glm::vec3(0.0f, radius, 0.0f));
+	_vertices.push_back(Vertex(glm::vec3(0.0f, radius, 0.0f), baseColor, glm::vec2(0.5f, 1.0f), glm::vec3(0.0f)));
 
 	// Body of the sphere
 	for (unsigned int latitude = 1; latitude < nLatitudes; ++latitude)
 	{
 		for (unsigned int longitude = 0; longitude <= nLongitudes; ++longitude)
-		{
-			verticesCoordinates.push_back(
-				glm::vec3(
-					radius * cos(longitude * longitudeSpace) * sin(latitude * latitudeSpace),
-					radius * cos(latitude * latitudeSpace),
-					radius * sin(longitude * longitudeSpace) * sin(latitude * latitudeSpace)
+		{	
+			_vertices.push_back(
+				Vertex(
+					/* Coordinates */
+					glm::vec3(
+						radius * cos(longitude * longitudeSpace) * sin(latitude * latitudeSpace),
+						radius * cos(latitude * latitudeSpace),
+						radius * sin(longitude * longitudeSpace) * sin(latitude * latitudeSpace)
+					),
+					/* Color */
+					baseColor,
+					/* Texture */
+					glm::vec2((GLfloat) longitude / nLongitudes, 1 - (GLfloat) latitude / nLatitudes),
+					/* Normals */
+					glm::vec3(0.0f)
 				)
 			);
 		}
 	}
 
 	// South pole
-	verticesCoordinates.push_back(glm::vec3(0.0f, -radius, 0.0f));
-
-	// Create vertices
-	std::vector<Vertex> _vertices;
-	for (unsigned int i = 0; i < nVertices; ++i)
-	{
-		_vertices.push_back(Vertex(verticesCoordinates[i], baseColor, glm::vec2(0.0f), glm::vec3(0.0f)));
-	}
+	_vertices.push_back(Vertex(glm::vec3(0.0f, -radius, 0.0f), baseColor, glm::vec2(0.5f, 0.0f), glm::vec3(0.0f)));
 	
 	/**** Store indices ****/
 	std::vector<GLuint> _indices;
