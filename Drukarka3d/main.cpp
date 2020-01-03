@@ -157,10 +157,37 @@ int main() {
 		objGroup.addObject(std::make_shared<BasicCone>(cone));
 		objGroup.addObject(std::make_shared<BasicSphere>(sphere1));
 
+		//make object group demo
+		auto objGroup = std::make_shared<ObjectGroup>();
+		{
+			// NOTE : that will link the objects to their origin ! 
+			// there is no copying with below use !!!
+
+			// To make a shared object best practise would be to incherit from Group Object and make Objects in constructor
+			// this also allows to make logic for moving some of the objects by keeping order of the objects in vector
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder1)));
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder2)));
+			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder3)));
+
+			//objects are pointed but ParentModel will move them apart
+			objGroup.get()->translate(glm::vec3(-1.0f, 1.0f, -1.0f));
+		}
+		ObjectGroup objGroup2;
+		objGroup2.addObject(objGroup);
+
+		//objects are pointed but ParentModel will move them apart
+		objGroup2.translate(glm::vec3(1.0f, 0.0f, 1.0f));
+		objGroup2.scale(glm::vec3(0.3f, 0.3f, 0.3f));
+		
 		// Calculate aspect ration for projection later to be used
 		GLfloat aspectRatio = static_cast<GLfloat>(screenWidth / screenHeight);
 
 		glm::mat4 projection = glm::mat4(1.0f);
+
+		// Make demo sphere
+		BasicSphere sphere1 = BasicSphere(glm::vec3(0.4f, 0.7f, 1.0f), 0.5f, 64, 64);
+
+		sphere1.translate(glm::vec3(-2.0f, 1.0f, -2.0f));
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -212,6 +239,10 @@ int main() {
 			// Draw Groups
 			compGroup.Draw(shaderBasic);
 			objGroup.Draw(shaderBasic);
+
+			// Draw Groups
+			compGroup.Draw(shaderBasic);
+			objGroup2.Draw(shaderBasic);
 
 			// Draw sphere
 			sphere1.Draw(shaderBasic);

@@ -21,9 +21,9 @@ BasicSphere::BasicSphere(glm::vec3 baseColor, GLfloat radius, GLuint nLatitudes,
 	verticesCoordinates.push_back(glm::vec3(0.0f, radius, 0.0f));
 
 	// Body of the sphere
-	for (unsigned int longitude = 0; longitude <= nLongitudes; ++longitude)
+	for (unsigned int latitude = 1; latitude < nLatitudes; ++latitude)
 	{
-		for (unsigned int latitude = 1; latitude < nLatitudes; ++latitude)
+		for (unsigned int longitude = 0; longitude <= nLongitudes; ++longitude)
 		{
 			verticesCoordinates.push_back(
 				glm::vec3(
