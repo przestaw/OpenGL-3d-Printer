@@ -37,4 +37,12 @@ public:
 	inline void setVec2Uniform(const std::string& name, const glm::vec2& vec) const {
 		glUniform2fv(glGetUniformLocation(get_programID(), name.c_str()), 1, &vec[0]);
 	}
+	// used to set any GLuint value
+	inline void setInt(const std::string& name, GLuint value) const{
+		glUniform1i(glGetUniformLocation(get_programID(), name.c_str()), value);
+	}
+	// used to set any GLfloat value
+	inline void setFloat(const std::string& name, GLfloat value) const{
+		glUniform1f(glGetUniformLocation(get_programID(), name.c_str()), value);
+	}
 };

@@ -113,7 +113,6 @@ int main() {
 		glViewport(0, 0, screenWidth, screenHeight);
 
 		// Build, compile and link shader program
-		ShaderProgram theProgram("shaders/core.vert", "shaders/core.frag");
 		ShaderProgram shaderBasic("shaders/vertshader.vert", "shaders/fragshader.frag");
 
 		// Enable depth test
@@ -124,67 +123,44 @@ int main() {
 		// Set camera options
 		camera.setPitchConstrains(-89.0f, 89.0f);
 		camera.setBoundries(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec3(10.0f, 10.0f, 10.0f));
-
-		// Make demo cylinders
-		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
-		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
-		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
 		
 		//make composite group demo
 		CompositeGroup compGroup;
 		{
-			cylinder2.translate(glm::vec3(0.f, -.5f, 0.f));
-			cylinder3.translate(glm::vec3(0.f, 2.2f, 0.f));
+			// Make demo cylinders
+			BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
+			BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
+			BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
+
+			cylinder2.translate(glm::vec3(0.f, 0.5f, 0.f));
+			cylinder3.translate(glm::vec3(0.f, 0.6f, 0.f));
 
 			compGroup.addObject(cylinder1);
 			compGroup.addObject(cylinder2);
 			compGroup.addObject(cylinder3);
 
 			compGroup.translate(glm::vec3(1.0f, -1.0f, 1.0f));
-
-			cylinder2.translate(glm::vec3(0.f, .5f, 0.f));
-			cylinder3.translate(glm::vec3(0.f, -2.2f, 0.f));
 		}
 
-		// Scale cylinders
-		cylinder1.scale(glm::vec3(.5f, 1.5f, .5f));
-		cylinder3.scale(glm::vec3(2.4f, 1.f, 1.f));
+		// Make demo sphere
+		BasicSphere sphere1 = BasicSphere(glm::vec3(0.9f, 0.5f, 0.6f), 0.6f, 64, 64);
 
-		// Move cylinders apart
-		cylinder2.translate(glm::vec3(-.5f, -.5f, -.5f));
-		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
+		sphere1.translate(glm::vec3(.0f, 1.4f, .0f));
 
-		//make object group demo
-		auto objGroup = std::make_shared<ObjectGroup>();
-		{
-			// NOTE : that will link the objects to their origin ! 
-			// there is no copying with below use !!!
+		// Make Demo wafer
+		BasicCone cone = BasicCone(glm::vec3(0.0), 2.0f, 0, 0.7);
 
-			// To make a shared object best practise would be to incherit from Group Object and make Objects in constructor
-			// this also allows to make logic for moving some of the objects by keeping order of the objects in vector
-			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder1)));
-			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder2)));
-			objGroup.get()->addObject(std::move(std::make_shared<BasicCylinder>(cylinder3)));
+		cone.setTexture(Texture("res/coneTex.png"), 1.0);
 
-			//objects are pointed but ParentModel will move them apart
-			objGroup.get()->translate(glm::vec3(-1.0f, 1.0f, -1.0f));
-		}
-		ObjectGroup objGroup2;
-		objGroup2.addObject(objGroup);
+		// Make demo cone
+		ObjectGroup objGroup;
+		objGroup.addObject(std::make_shared<BasicCone>(cone));
+		objGroup.addObject(std::make_shared<BasicSphere>(sphere1));
 
-		//objects are pointed but ParentModel will move them apart
-		objGroup2.translate(glm::vec3(1.0f, 0.0f, 1.0f));
-		objGroup2.scale(glm::vec3(0.3f, 0.3f, 0.3f));
-		
 		// Calculate aspect ration for projection later to be used
 		GLfloat aspectRatio = static_cast<GLfloat>(screenWidth / screenHeight);
 
 		glm::mat4 projection = glm::mat4(1.0f);
-
-		// Make demo sphere
-		BasicSphere sphere1 = BasicSphere(glm::vec3(0.4f, 0.7f, 1.0f), 0.5f, 64, 64);
-
-		sphere1.translate(glm::vec3(-2.0f, 1.0f, -2.0f));
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -219,35 +195,23 @@ int main() {
 			projection = glm::perspective(glm::radians(camera.getZoom()), aspectRatio, 0.1f, 100.0f);
 			shaderBasic.setMat4Uniform("projection", projection);
 
-			// Rotate cylinders
-			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
-			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);
-			cylinder3.rotate(glm::vec3(.9f, .1f, .1f), rot_angle);
-
 			// Rotate groups
 			compGroup.rotate(glm::vec3(.5f, .5f, .5f), rot_angle);
-			objGroup.get()->rotate(glm::vec3(.5f, -.5f, -.5f), -2*rot_angle);
-
-			// Rotate sphere
-			sphere1.rotate(glm::vec3(0.0f, 1.0f, 1.0f), rot_angle);
 
 			if (counter > 0) {
-				sphere1.scale(glm::vec3(1/(1.f - 0.3*deltaTime), 1/(1.f - 0.1 * deltaTime), 1/(1.f - 0.2 * deltaTime)));
+				sphere1.scale(glm::vec3(1/(1.f - 0.2*deltaTime), 1/(1.f - 0.2 * deltaTime), 1/(1.f - 0.2 * deltaTime)));
 			} else {
-				sphere1.scale(glm::vec3((1.f - 0.3*deltaTime), (1.f - 0.1 * deltaTime), (1.f - 0.2 * deltaTime)));
+				sphere1.scale(glm::vec3((1.f - 0.2*deltaTime), (1.f - 0.2 * deltaTime), (1.f - 0.2 * deltaTime)));
 			}
 			counter += deltaTime;
 			if (counter > 2) counter = -2;
 
 			// Draw our cylinders
 			shaderBasic.Use();
-			cylinder1.Draw(shaderBasic);
-			cylinder2.Draw(shaderBasic);
-			cylinder3.Draw(shaderBasic);
 
 			// Draw Groups
 			compGroup.Draw(shaderBasic);
-			objGroup2.Draw(shaderBasic);
+			objGroup.Draw(shaderBasic);
 
 			// Draw sphere
 			sphere1.Draw(shaderBasic);
