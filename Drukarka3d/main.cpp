@@ -223,9 +223,6 @@ int main() {
 
 		glm::mat4 projection = glm::mat4(1.0f);
 
-		// Make demo sphere
-		BasicSphere sphere1 = BasicSphere(glm::vec3(0.4f, 0.7f, 1.0f), 0.5f, 64, 64);
-
 		sphere1.translate(glm::vec3(-2.0f, 1.0f, -2.0f));
 
 		// Frame calculation for smooth animation
@@ -317,7 +314,6 @@ int main() {
 
 			// Draw Groups
 			compGroup.Draw(shaderBasic);
-			objGroup2.Draw(shaderBasic);
 
 			// Draw sphere
 			sphere1.Draw(shaderBasic);
