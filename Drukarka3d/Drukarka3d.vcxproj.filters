@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Pliki zasobów">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Pliki nagłówkowe\BasicPrimitives">
       <UniqueIdentifier>{44475d7b-7f6d-472b-82e7-9d7953eeafa6}</UniqueIdentifier>
     </Filter>
@@ -30,6 +26,10 @@
     </Filter>
     <Filter Include="Pliki źródłowe\LightAndCamera">
       <UniqueIdentifier>{cfb14eec-2504-4b6b-be95-36de2a623cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki zasobów">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,9 +60,6 @@
     <ClCompile Include="src\Camera.cpp">
       <Filter>Pliki źródłowe\LightAndCamera</Filter>
     </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
-      <Filter>Pliki źródłowe\BaseObj</Filter>
-    </ClCompile>
     <ClCompile Include="src\BasicCone.cpp">
       <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
     </ClCompile>
@@ -80,6 +77,12 @@
     </ClCompile>
     <ClCompile Include="src\SpotLight.cpp">
       <Filter>Pliki źródłowe\LightAndCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Skybox.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Pliki źródłowe\BaseObj</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,11 +140,16 @@
     <ClInclude Include="include\SpotLight.h">
       <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
     </ClInclude>
+    <ClInclude Include="include\Skybox.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\fragshader.frag" />
     <None Include="shaders\vertshader.vert" />
     <None Include="shaders\lampshader.vert" />
     <None Include="shaders\lampshader.frag" />
+    <None Include="shaders\skyboxshader.frag" />
+    <None Include="shaders\skyboxshader.vert" />
   </ItemGroup>
 </Project>
