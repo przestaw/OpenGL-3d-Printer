@@ -26,6 +26,8 @@
 #include <Camera.h>
 #include <CompositeGroup.h>
 #include <ObjectGroup.h>
+#include <Arm.h>
+#include "include/Extruder.h"
 
 #include "include/BasicSphere.h"
 
@@ -33,6 +35,7 @@
 #include "include\Camera.h"
 #include "LightManager.h"
 #include "Skybox.h"
+
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -128,8 +131,9 @@ int main() {
 	try
 	{
 		// Create a GLFWwindow object that we can use for GLFW's functions
-		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", glfwGetPrimaryMonitor(), nullptr);
-		
+		//GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", glfwGetPrimaryMonitor(), nullptr);
+		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", nullptr, nullptr);
+
 		// Check if window is created
 		if (window == nullptr)
 			throw exception("GLFW window not created");
@@ -184,13 +188,11 @@ int main() {
 		// Set uniform in skybox shader
 		shaderSkybox.Use();
 		shaderSkybox.setIntUniform("skybox", 0);
-
+		/*
 		// Make demo cylinders
 		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
 		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
 		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
-		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
-		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
 		
 		//make composite group demo
 		CompositeGroup compGroup;
@@ -211,9 +213,7 @@ int main() {
 		// Move cylinders apart
 		cylinder2.translate(glm::vec3(-.5f, -.5f, -5.5f));
 		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
-		lampCylinder1.translate(lamp1->getPosition());
-		lampCylinder2.translate(lamp2->getPosition());
-
+		
 		// Make Demo wafer
 		BasicCone cone = BasicCone(glm::vec3(0.0), 2.0f, 0, 0.7);
 		cone.setTexture(Texture("res/coneTex.png"), 1.0);
@@ -230,7 +230,7 @@ int main() {
 
 		// move sphere
 		sphere1.translate(glm::vec3(1.0f, 1.4f, 1.0f));
-
+		*/
 		// Calculate aspect ration for projection later to be used
 		// NOTE I do not know but sometimes line below cause program to crash. I cannot find proper solution nor
 		// reason for this to cause any damage. If white screen appears in front of you I'd suggest setting
@@ -242,7 +242,15 @@ int main() {
 
 		glm::mat4 projection = glm::mat4(1.0f);
 
-		sphere1.translate(glm::vec3(-2.0f, 1.0f, -2.0f));
+		// Lights
+		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
+		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
+		lampCylinder1.translate(lamp1->getPosition());
+		lampCylinder2.translate(lamp2->getPosition());
+
+		// TEMPORARY
+		Arm printerArm(2.0);
+		Extruder printerExtruder(2.0);
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -276,7 +284,7 @@ int main() {
 
 			// Handle potential movement based on delta time and key callbacks 
 			if (keyAHold || keyWHold || keySHold || keyDHold) {
-				handleMovement(static_cast<GLfloat>(deltaTime));
+				handleMovement(static_cast<GLfloat>(deltaTime/4.0));
 			}
 
 			glClearColor(.08f, .08f, 0.08f, 1.f);
@@ -304,6 +312,10 @@ int main() {
 			// Set up light on scene
 			lightManager.setUpLight(shaderBasic);
 
+			printerArm.Draw(shaderBasic);
+			printerExtruder.Draw(shaderBasic);
+
+			/*
 			// Rotate cylinders
 			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
 			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);
@@ -336,7 +348,7 @@ int main() {
 
 			// Draw sphere
 			sphere1.Draw(shaderBasic);
-
+			*/
 			// Start working with lamp's shader
 			shaderLamp.Use();
 
