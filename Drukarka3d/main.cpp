@@ -35,6 +35,7 @@
 #include "include\Camera.h"
 #include "LightManager.h"
 #include "Skybox.h"
+#include <Base.h>
 
 
 // Window dimensions
@@ -250,7 +251,10 @@ int main() {
 
 		// TEMPORARY
 		Arm printerArm(2.0);
+		printerArm.translate(glm::vec3(0.0, 1.0, 0.0));
 		Extruder printerExtruder(2.0);
+		printerExtruder.translate(glm::vec3(0.0, 1.0, 0.0));
+		Base printerBase(2.0);
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -314,6 +318,7 @@ int main() {
 
 			printerArm.Draw(shaderBasic);
 			printerExtruder.Draw(shaderBasic);
+			printerBase.Draw(shaderBasic);
 
 			/*
 			// Rotate cylinders

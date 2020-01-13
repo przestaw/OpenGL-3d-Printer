@@ -99,6 +99,9 @@
     <ClCompile Include="src\Extruder.cpp">
       <Filter>Pliki źródłowe\Printer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Base.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\shprogram.h">
@@ -162,6 +165,9 @@
       <Filter>Pliki nagłówkowe\Printer</Filter>
     </ClInclude>
     <ClInclude Include="include\Extruder.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Base.h">
       <Filter>Pliki nagłówkowe\Printer</Filter>
     </ClInclude>
   </ItemGroup>

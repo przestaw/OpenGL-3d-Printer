@@ -25,9 +25,9 @@ Arm::Arm(GLfloat scale) {
 
 	// Second : motor and mount
 	BasicCube box(glm::vec3(0.8, 0.4, 0.01), rodR * 18);
-	box.translate(glm::vec3(rodR * 7.5, 0.0, lenght / 2));
+	box.translate(glm::vec3(rodR * 7.5, 0.0, rodR * 9 + lenght / 2 ));
 	BasicCube motor(glm::vec3(0.01, 0.01, 0.01), rodR * 12);
-	motor.translate(glm::vec3(-rodR * 3, 0.0, lenght / 2));
+	motor.translate(glm::vec3(-rodR * 3, 0.0, rodR * 9 + lenght / 2));
 	motor.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCylinder::M_PI / 4);
 
 	this->addObject(box);
@@ -42,4 +42,6 @@ Arm::Arm(GLfloat scale) {
 	// Fourth : Screws 
 
 	//TODO
+
+	//this->translate(glm::vec3(0.0, 0.0, rodR*9));
 }
