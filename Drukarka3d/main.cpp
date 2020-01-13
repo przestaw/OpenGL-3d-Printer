@@ -36,6 +36,7 @@
 #include "LightManager.h"
 #include "Skybox.h"
 #include <Base.h>
+#include <Tabletop.h>
 
 
 // Window dimensions
@@ -250,11 +251,13 @@ int main() {
 		lampCylinder2.translate(lamp2->getPosition());
 
 		// TEMPORARY
-		Arm printerArm(2.0);
+		GLfloat scale = 2.0;
+		Arm printerArm(scale);
 		printerArm.translate(glm::vec3(0.0, 1.0, 0.0));
-		Extruder printerExtruder(2.0);
+		Extruder printerExtruder(scale);
 		printerExtruder.translate(glm::vec3(0.0, 1.0, 0.0));
-		Base printerBase(2.0);
+		Base printerBase(scale);
+		Tabletop printerTop(scale);
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -319,6 +322,7 @@ int main() {
 			printerArm.Draw(shaderBasic);
 			printerExtruder.Draw(shaderBasic);
 			printerBase.Draw(shaderBasic);
+			printerTop.Draw(shaderBasic);
 
 			/*
 			// Rotate cylinders

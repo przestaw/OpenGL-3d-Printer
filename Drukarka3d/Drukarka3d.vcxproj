@@ -121,6 +121,7 @@
     <ClCompile Include="src\LightObject.cpp" />
     <ClCompile Include="src\ObjectGroup.cpp" />
     <ClCompile Include="src\shprogram.cpp" />
+    <ClCompile Include="src\Tabletop.cpp" />
     <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -141,6 +142,7 @@
     <ClInclude Include="include\ObjectGroup.h" />
     <ClInclude Include="include\shprogram.h" />
     <ClInclude Include="include\Skybox.h" />
+    <ClInclude Include="include\Tabletop.h" />
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\Vertex.h" />
     <ClInclude Include="include\PointLight.h" />

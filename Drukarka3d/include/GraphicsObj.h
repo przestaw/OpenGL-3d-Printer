@@ -13,6 +13,7 @@ public:
 
 	void setTexture(const Texture &texture, GLfloat texImpact);
 
+	GraphicsObj(const GraphicsObj& other);
 protected:
 	// Vertex Array Object
 	GLuint VAO;
@@ -24,7 +25,6 @@ protected:
 	Texture tex;
 	// Tex impact
 	GLfloat texImpact;
-
 
 	// Triangles and Indices, vector allows for easy modification
 	std::vector<Vertex> vertices;

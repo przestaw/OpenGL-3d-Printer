@@ -5,9 +5,9 @@
 #include "BasicCylinder.h"
 #include "BasicCube.h"
 
-class Arm : public ObjectGroup {
+class Tabletop : public ObjectGroup {
 public:
-	Arm(GLfloat scale);
+	Tabletop(GLfloat scale);
 private:
 
 };

@@ -38,6 +38,12 @@ void GraphicsObj::setTexture(const Texture& texture, GLfloat texIm) {
 	texImpact = ((texIm > 0.0f) ? ((texIm <= 1.0) ? texIm : 1.0) : 0.0);
 }
 
+GraphicsObj::GraphicsObj(const GraphicsObj& other) : GraphicsObj() {
+	this->model = other.model;
+	this->setVertices(std::vector<Vertex>(other.vertices));
+	this->setIndices(std::vector<unsigned int>(other.indices));
+}
+
 void GraphicsObj::setVertices(std::vector<Vertex> vertices_a) {
 	// Assign Vertices
 	vertices = vertices_a; //copy to object field

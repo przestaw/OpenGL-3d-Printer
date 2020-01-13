@@ -102,6 +102,9 @@
     <ClCompile Include="src\Base.cpp">
       <Filter>Pliki źródłowe\Printer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Tabletop.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\shprogram.h">
@@ -168,6 +171,9 @@
       <Filter>Pliki nagłówkowe\Printer</Filter>
     </ClInclude>
     <ClInclude Include="include\Base.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Tabletop.h">
       <Filter>Pliki nagłówkowe\Printer</Filter>
     </ClInclude>
   </ItemGroup>
