@@ -8,9 +8,12 @@
 class ObjectGroup : public AbstractObj {
 public:
 	ObjectGroup();
+	ObjectGroup(const ObjectGroup& other);
 	virtual ~ObjectGroup() {}
 
-	void addObject(std::unique_ptr<AbstractObj> &&model);
+	void copyObjects(const ObjectGroup& other);
+
+	void addObject(std::unique_ptr<GraphicsObj> &&model);
 
 	void addObject(const GraphicsObj &model);
 
@@ -18,5 +21,5 @@ public:
 
 protected:
 
-	std::vector<std::unique_ptr<AbstractObj>> containedObjects;
+	std::vector<std::unique_ptr<GraphicsObj>> containedObjects;
 };

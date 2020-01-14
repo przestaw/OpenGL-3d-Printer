@@ -27,11 +27,13 @@ Base::Base(GLfloat scale) {
 	keyboardBloc.rotate(glm::vec3(0.0, 0.0, 1.0), BasicCylinder::M_PI / 4);
 	blocks.addObject(keyboardBloc);
 
+	blocks.setTexture(Texture("res/plastic.jpg"), 0.2);
+
 	this->addObject(blocks);
 
 	CompositeGroup rods;
 	// Second : Rods
-	BasicCylinder rod(glm::vec3(0.4, 0.4, 0.4), lenght, rodR);
+	BasicCylinder rod(glm::vec3(0.6, 0.6, 0.6), lenght, rodR);
 	rod.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCylinder::M_PI / 2);
 	rod.rotate(glm::vec3(0.0, 0.0, 1.0), BasicCylinder::M_PI / 2);
 	
@@ -47,7 +49,7 @@ Base::Base(GLfloat scale) {
 	rod.translate(glm::vec3(-lenght*0.8, 0.0, 0.0));
 	rods.addObject(rod);
 
-	
+	rods.setTexture(Texture("res/thread.jpg"), 0.50);
 
 	// Third : tower
 	BasicCylinder towerRod(glm::vec3(0.4, 0.4, 0.4), lenght, rodR);
@@ -59,9 +61,10 @@ Base::Base(GLfloat scale) {
 	
 	this->addObject(rods);
 
-	BasicCylinder threadRod(glm::vec3(0.2, 0.2, 0.2), lenght, rodR * 2);
+	BasicCylinder threadRod(glm::vec3(0.1, 0.1, 0.1), lenght, rodR * 2);
 
 	threadRod.translate(glm::vec3(rodR, lenght / 2, rodR * 9 + lenght / 2));
+	threadRod.setTexture(Texture("res/thread.jpg"), 0.50);
 	this->addObject(threadRod);
 
 	// Fourth : the screen

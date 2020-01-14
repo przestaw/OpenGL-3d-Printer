@@ -8,6 +8,7 @@
 class Tabletop : public ObjectGroup {
 public:
 	Tabletop(GLfloat scale);
+	virtual ~Tabletop() {}
 private:
 
 };

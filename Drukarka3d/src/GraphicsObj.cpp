@@ -42,6 +42,10 @@ GraphicsObj::GraphicsObj(const GraphicsObj& other) : GraphicsObj() {
 	this->model = other.model;
 	this->setVertices(std::vector<Vertex>(other.vertices));
 	this->setIndices(std::vector<unsigned int>(other.indices));
+	// Texture 
+	this->tex = other.tex;
+	// Tex impact
+	this->texImpact = other.texImpact;
 }
 
 void GraphicsObj::setVertices(std::vector<Vertex> vertices_a) {

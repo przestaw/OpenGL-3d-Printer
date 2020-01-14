@@ -8,6 +8,7 @@
 class Arm : public ObjectGroup {
 public:
 	Arm(GLfloat scale);
+	virtual ~Arm() {}
 private:
 
 };

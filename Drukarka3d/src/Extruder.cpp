@@ -13,6 +13,8 @@ Extruder::Extruder(GLfloat scale) {
 	blocks.addObject(handle);
 	blocks.addObject(mainBlock);
 
+	blocks.setTexture(Texture("res/extrude.jpg"), 0.6);
+
 	this->addObject(blocks);
 
 	BasicCylinder fan1(glm::vec3(0.1, 0.1, 0.1), rodR * 11, rodR * 6);
@@ -32,7 +34,7 @@ Extruder::Extruder(GLfloat scale) {
 
 	CompositeGroup rods; //Obj of same type
 	// Second rod keepers
-	BasicCylinder rod(glm::vec3(0.6, 0.6, 0.6), rodR*14.5, rodR*1.3);
+	BasicCylinder rod(glm::vec3(0.8, 0.8, 0.8), rodR*14.5, rodR*1.3);
 	rod.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCylinder::M_PI / 2);
 	rod.translate(glm::vec3(0.0, 0.0, rodR * 7.5));
 	rods.addObject(rod);

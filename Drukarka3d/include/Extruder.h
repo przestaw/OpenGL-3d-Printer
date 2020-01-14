@@ -8,6 +8,7 @@
 class Extruder : public ObjectGroup {
 public:
 	Extruder(GLfloat scale);
+	virtual ~Extruder() {}
 private:
 
 };

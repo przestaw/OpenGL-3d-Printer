@@ -8,6 +8,7 @@
 class Base : public ObjectGroup {
 public:
 	Base(GLfloat scale);
+	virtual ~Base() {}
 private:
 
 };

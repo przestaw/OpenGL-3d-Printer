@@ -4,7 +4,19 @@ ObjectGroup::ObjectGroup() {
 	this->model = glm::mat4(1.0f);
 }
 
-void ObjectGroup::addObject(std::unique_ptr<AbstractObj>&& model) {
+ObjectGroup::ObjectGroup(const ObjectGroup& other) {
+	copyObjects(other);
+}
+
+void ObjectGroup::copyObjects(const ObjectGroup& other) {
+	for (auto& it : other.containedObjects) {
+		auto temp = *it;
+		temp.transform(other.model);
+		this->addObject(temp);
+	}
+}
+
+void ObjectGroup::addObject(std::unique_ptr<GraphicsObj>&& model) {
 	containedObjects.push_back(std::move(model));
 }
 
