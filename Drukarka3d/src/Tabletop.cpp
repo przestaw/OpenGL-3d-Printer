@@ -38,7 +38,6 @@ Tabletop::Tabletop(GLfloat scale) {
 	handles.addObject(low);
 
 	// add 2 pairs
-
 	handles.translate(glm::vec3(lenght * 0.2, 0.0, 0.0));
 	rods.translate(glm::vec3(lenght * 0.2, 0.0, 0.0));
 	this->addObject(handles);

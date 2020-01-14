@@ -37,8 +37,6 @@
 #include "Skybox.h"
 #include <IceCream.h>
 
-
-
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
 
@@ -227,15 +225,15 @@ int main() {
 
 		exterior.addObject(grass);
 
-		IceCream ice1(1.0, glm::vec3(0.9, 0.18, 0.1));
-		IceCream ice2(1.0, glm::vec3(0.3, 0.18, 0.9));
-		IceCream ice3(1.0, glm::vec3(0.2, 0.8, 0.1));
-		IceCream ice4(1.0, glm::vec3(0.9, 0.0, 0.9));
+		IceCream ice1(1.2, glm::vec3(0.9, 0.18, 0.1));
+		IceCream ice2(1.3, glm::vec3(0.3, 0.18, 0.9));
+		IceCream ice3(0.9, glm::vec3(0.2, 0.8, 0.1));
+		IceCream ice4(1.0, glm::vec3(0.9, 0.0, 0.5));
 
 		ice1.translate(glm::f32vec1(5.0) * glm::vec3(0.9, -0.018, 1.0));
-		ice2.translate(glm::f32vec1(5.0) * glm::vec3(0.3, 0.018, 0.9));
+		ice2.translate(glm::f32vec1(5.0) * glm::vec3(-0.5, 0.018, -0.9));
 		ice3.translate(glm::f32vec1(5.0) * glm::vec3(-0.9, -0.018, 1.0));
-		ice4.translate(glm::f32vec1(5.0) * glm::vec3(0.9, 0.018, -1.0));
+		ice4.translate(glm::f32vec1(5.0) * glm::vec3(0.9, 0.018, -1.1));
 
 		exterior.copyObjects(ice1);
 		exterior.copyObjects(ice2);
