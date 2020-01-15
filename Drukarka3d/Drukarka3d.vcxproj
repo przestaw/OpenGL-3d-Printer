@@ -102,10 +102,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Arm.cpp" />
+    <ClCompile Include="src\Base.cpp" />
     <ClCompile Include="src\DirectionalLight.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Extruder.cpp" />
+    <ClCompile Include="src\IceCream.cpp" />
     <ClCompile Include="src\LightManager.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
+    <ClCompile Include="src\Printer.cpp" />
     <ClCompile Include="src\Skybox.cpp" />
     <ClCompile Include="src\SpotLight.cpp" />
     <ClCompile Include="src\AbstractObj.cpp" />
@@ -118,10 +123,13 @@
     <ClCompile Include="src\LightObject.cpp" />
     <ClCompile Include="src\ObjectGroup.cpp" />
     <ClCompile Include="src\shprogram.cpp" />
+    <ClCompile Include="src\Tabletop.cpp" />
     <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AbstractObj.h" />
+    <ClInclude Include="include\Arm.h" />
+    <ClInclude Include="include\Base.h" />
     <ClInclude Include="include\BasicCone.h" />
     <ClInclude Include="include\BasicCube.h" />
     <ClInclude Include="include\BasicCuboid.h" />
@@ -129,12 +137,16 @@
     <ClInclude Include="include\BasicSphere.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\CompositeGroup.h" />
+    <ClInclude Include="include\Extruder.h" />
     <ClInclude Include="include\GraphicsObj.h" />
+    <ClInclude Include="include\IceCream.h" />
     <ClInclude Include="include\LightManager.h" />
     <ClInclude Include="include\LightObject.h" />
     <ClInclude Include="include\ObjectGroup.h" />
+    <ClInclude Include="include\Printer.h" />
     <ClInclude Include="include\shprogram.h" />
     <ClInclude Include="include\Skybox.h" />
+    <ClInclude Include="include\Tabletop.h" />
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\Vertex.h" />
     <ClInclude Include="include\PointLight.h" />

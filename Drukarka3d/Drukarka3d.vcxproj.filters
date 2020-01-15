@@ -31,6 +31,21 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Pliki nagłówkowe\Printer">
+      <UniqueIdentifier>{315c4b2e-31ea-4ffc-bce6-142bd2072431}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Printer">
+      <UniqueIdentifier>{83b4afb9-c399-46ce-831c-abd08fdf2414}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{7840c31c-f2fa-479f-b6d3-aaabedd19be8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Surroundings">
+      <UniqueIdentifier>{54371179-b2d3-41f7-88da-a3d6e14788ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Surroundings">
+      <UniqueIdentifier>{d5e2370a-a63b-4ba8-a2e8-c0df4d07b828}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -83,6 +98,24 @@
     </ClCompile>
     <ClCompile Include="src\Texture.cpp">
       <Filter>Pliki źródłowe\BaseObj</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Arm.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Extruder.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Base.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tabletop.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IceCream.cpp">
+      <Filter>Pliki źródłowe\Surroundings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,13 +176,43 @@
     <ClInclude Include="include\Skybox.h">
       <Filter>Pliki nagłówkowe</Filter>
     </ClInclude>
+    <ClInclude Include="include\Arm.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Extruder.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Base.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Tabletop.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Printer.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IceCream.h">
+      <Filter>Pliki nagłówkowe\Surroundings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\fragshader.frag" />
-    <None Include="shaders\vertshader.vert" />
-    <None Include="shaders\lampshader.vert" />
-    <None Include="shaders\lampshader.frag" />
-    <None Include="shaders\skyboxshader.frag" />
-    <None Include="shaders\skyboxshader.vert" />
+    <None Include="shaders\fragshader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\lampshader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\lampshader.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\skyboxshader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\skyboxshader.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\vertshader.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

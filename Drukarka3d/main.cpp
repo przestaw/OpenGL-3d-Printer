@@ -27,12 +27,15 @@
 #include <CompositeGroup.h>
 #include <ObjectGroup.h>
 
+#include <Printer.h>
+
 #include "include/BasicSphere.h"
 
 #include "include/BasicCylinder.h"
-#include "include\Camera.h"
+#include "include/Camera.h"
 #include "LightManager.h"
 #include "Skybox.h"
+#include <IceCream.h>
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -128,8 +131,9 @@ int main() {
 	try
 	{
 		// Create a GLFWwindow object that we can use for GLFW's functions
-		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", glfwGetPrimaryMonitor(), nullptr);
-		
+		//GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", glfwGetPrimaryMonitor(), nullptr);
+		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", nullptr, nullptr);
+
 		// Check if window is created
 		if (window == nullptr)
 			throw exception("GLFW window not created");
@@ -185,52 +189,6 @@ int main() {
 		shaderSkybox.Use();
 		shaderSkybox.setIntUniform("skybox", 0);
 
-		// Make demo cylinders
-		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
-		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
-		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
-		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
-		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
-		
-		//make composite group demo
-		CompositeGroup compGroup;
-		{
-			cylinder2.translate(glm::vec3(0.f, 0.5f, 0.f));
-			cylinder3.translate(glm::vec3(0.f, -0.6f, 0.f));
-
-			compGroup.addObject(cylinder1);
-			compGroup.addObject(cylinder2);
-			compGroup.addObject(cylinder3);
-
-			compGroup.translate(glm::vec3(1.0f, -1.0f, 1.0f));
-		}
-
-		// Make demo sphere
-		BasicSphere sphere1 = BasicSphere(glm::vec3(0.9f, 0.5f, 0.6f), 0.6f, 64, 64);
-		
-		// Move cylinders apart
-		cylinder2.translate(glm::vec3(-.5f, -.5f, -5.5f));
-		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
-		lampCylinder1.translate(lamp1->getPosition());
-		lampCylinder2.translate(lamp2->getPosition());
-
-		// Make Demo wafer
-		BasicCone cone = BasicCone(glm::vec3(0.0), 2.0f, 0, 0.7);
-		cone.setTexture(Texture("res/coneTex.png"), 1.0);
-
-		// Make demo ice cream 
-		std::shared_ptr<BasicSphere> iceCream = std::make_shared<BasicSphere>(sphere1);
-		iceCream.get()->translate(glm::vec3(.0f, 1.5f, .0f));
-		// Make demo cone
-		ObjectGroup objGroup;
-		objGroup.addObject(std::make_shared<BasicCone>(cone));
-		objGroup.addObject(iceCream);
-
-		objGroup.translate(glm::vec3(-1.0f, 1.0f, -1.0f));
-
-		// move sphere
-		sphere1.translate(glm::vec3(1.0f, 1.4f, 1.0f));
-
 		// Calculate aspect ration for projection later to be used
 		// NOTE I do not know but sometimes line below cause program to crash. I cannot find proper solution nor
 		// reason for this to cause any damage. If white screen appears in front of you I'd suggest setting
@@ -242,8 +200,46 @@ int main() {
 
 		glm::mat4 projection = glm::mat4(1.0f);
 
-		sphere1.translate(glm::vec3(-2.0f, 1.0f, -2.0f));
+		// Lights
+		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
+		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
+		lampCylinder1.translate(lamp1->getPosition());
+		lampCylinder2.translate(lamp2->getPosition());
 
+		// Printer
+		Printer printer(3.0);
+
+		ObjectGroup exterior;
+		// Globe XD
+		BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 5.0, 1.0, 5.0);
+		table.translate(glm::vec3(0.0, -0.7, 0.0));
+		table.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCone::M_PI);
+		table.setTexture(Texture("res/table.jpg"), 0.8);
+		
+		exterior.addObject(table);
+
+		BasicCuboid grass(glm::vec3(0.1, 0.4, 0.2), 25.0, 0.2, 25.0);
+		grass.translate(glm::vec3(0.0, -0.7, 0.0));
+		grass.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCone::M_PI);
+		table.setTexture(Texture("res/grass.jpg"), 0.9);
+
+		exterior.addObject(grass);
+
+		IceCream ice1(1.2, glm::vec3(0.9, 0.18, 0.1));
+		IceCream ice2(1.3, glm::vec3(0.3, 0.18, 0.9));
+		IceCream ice3(0.9, glm::vec3(0.2, 0.8, 0.1));
+		IceCream ice4(1.0, glm::vec3(0.9, 0.0, 0.5));
+
+		ice1.translate(glm::f32vec1(5.0) * glm::vec3(0.9, -0.018, 1.0));
+		ice2.translate(glm::f32vec1(5.0) * glm::vec3(-0.5, 0.018, -0.9));
+		ice3.translate(glm::f32vec1(5.0) * glm::vec3(-0.9, -0.018, 1.0));
+		ice4.translate(glm::f32vec1(5.0) * glm::vec3(0.9, 0.018, -1.1));
+
+		exterior.copyObjects(ice1);
+		exterior.copyObjects(ice2);
+		exterior.copyObjects(ice3);
+		exterior.copyObjects(ice4);
+		
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
 		double deltaTime = 0;
@@ -251,6 +247,8 @@ int main() {
 
 		bool flashlightLastFrame = true;
 		double counter = 0;
+
+		printer.spawnIceCream();
 
 		while (!glfwWindowShouldClose(window)) {
 			currentFrame = glfwGetTime();
@@ -276,15 +274,12 @@ int main() {
 
 			// Handle potential movement based on delta time and key callbacks 
 			if (keyAHold || keyWHold || keySHold || keyDHold) {
-				handleMovement(static_cast<GLfloat>(deltaTime));
+				handleMovement(static_cast<GLfloat>(deltaTime/2.0));
 			}
 
 			glClearColor(.08f, .08f, 0.08f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
-			// Set angle [keeping velocity in time]
-			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 300.0f;
-
 			// Start working with basic shader
 			shaderBasic.Use();
 
@@ -304,38 +299,10 @@ int main() {
 			// Set up light on scene
 			lightManager.setUpLight(shaderBasic);
 
-			// Rotate cylinders
-			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
-			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);
-			cylinder3.rotate(glm::vec3(.9f, .2f, .2f), rot_angle);
-
-			// Rotate groups
-			compGroup.rotate(glm::vec3(.5f, .5f, .5f), rot_angle);
-
-			if (counter > 0) {
-				iceCream.get()->scale(glm::vec3(1/(1.f - 0.2*deltaTime), 1/(1.f - 0.2 * deltaTime), 1/(1.f - 0.2 * deltaTime)));
-			} else {
-				iceCream.get()->scale(glm::vec3((1.f - 0.2*deltaTime), (1.f - 0.2 * deltaTime), (1.f - 0.2 * deltaTime)));
-			}
-			counter += deltaTime;
-			if (counter > 2) counter = -2;
-
-			// Draw our cylinders
-			shaderBasic.Use();
-
-			cylinder1.Draw(shaderBasic);
-			cylinder2.Draw(shaderBasic);
-			cylinder3.Draw(shaderBasic);
-
-			// Draw Groups
-			compGroup.Draw(shaderBasic);
-			objGroup.Draw(shaderBasic);
-
-			// Draw Groups
-			compGroup.Draw(shaderBasic);
-
-			// Draw sphere
-			sphere1.Draw(shaderBasic);
+			// Printer and table
+			printer.Draw(shaderBasic);
+			exterior.Draw(shaderBasic);
+			// TODO : logick for moving extruder and shiting on objects
 
 			// Start working with lamp's shader
 			shaderLamp.Use();
