@@ -36,6 +36,7 @@
 #include "LightManager.h"
 #include "Skybox.h"
 #include <IceCream.h>
+#include <ConiferTree.h>
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -242,6 +243,12 @@ int main() {
 		exterior.copyObjects(ice2);
 		exterior.copyObjects(ice3);
 		exterior.copyObjects(ice4);
+
+		ConiferTree tree(glm::vec3(0.9, 0.108, 0.09), glm::vec3(0.9, 0.18, 0.9), 2.0, 1, 3);
+
+		tree.translate(glm::vec3(0.5, 1.018, -1.1));
+
+		exterior.copyObjects(tree);
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();

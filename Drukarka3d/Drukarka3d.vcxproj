@@ -104,6 +104,8 @@
   <ItemGroup>
     <ClCompile Include="src\Arm.cpp" />
     <ClCompile Include="src\Base.cpp" />
+    <ClCompile Include="src\ConiferTree.cpp" />
+    <ClCompile Include="src\DeciduousTree.cpp" />
     <ClCompile Include="src\DirectionalLight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Extruder.cpp" />
@@ -137,6 +139,8 @@
     <ClInclude Include="include\BasicSphere.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\CompositeGroup.h" />
+    <ClInclude Include="include\ConiferTree.h" />
+    <ClInclude Include="include\DeciduousTree.h" />
     <ClInclude Include="include\Extruder.h" />
     <ClInclude Include="include\GraphicsObj.h" />
     <ClInclude Include="include\IceCream.h" />
