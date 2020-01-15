@@ -168,6 +168,9 @@ int main() {
 		// Accept fragment if it closer to the camera than the former one
 		glDepthFunc(GL_LESS);
 
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+
 		// Set camera options
 		camera.setPitchConstrains(-89.0f, 89.0f);
 		camera.setBoundries(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec3(10.0f, 10.0f, 10.0f));
@@ -239,7 +242,7 @@ int main() {
 		exterior.copyObjects(ice2);
 		exterior.copyObjects(ice3);
 		exterior.copyObjects(ice4);
-		
+
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
 		double deltaTime = 0;
@@ -291,6 +294,7 @@ int main() {
 
 			// Set view position
 			shaderBasic.setVec3Uniform("viewPos", camera.getPosition());
+
 
 			// Set flashlight parameters
 			flashlight->setPosition(camera.getPosition());
