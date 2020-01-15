@@ -5,14 +5,14 @@ BasicCuboid::BasicCuboid(glm::vec3 baseColor, GLfloat width, GLfloat height, GLf
 {
 	std::vector<std::pair<glm::vec3, glm::vec2>> verticesCoordinates =
 	{
-		{glm::vec3(-width / 2.0f, -height / 2.0f, -lenght / 2.0f), glm::vec2(0.33f, 0.5f)},
-		{glm::vec3(width / 2.0f, -height / 2.0f, -lenght / 2.0f), glm::vec2(0.66f, 0.5f)},
-		{glm::vec3(-width / 2.0f, height / 2.0f, -lenght / 2.0f), glm::vec2(0.33f, 0.0f)},
-		{glm::vec3(width / 2.0f, height / 2.0f, -lenght / 2.0f), glm::vec2(0.66f, 0.0f)},
-		{glm::vec3(-width / 2.0f, -height / 2.0f, lenght / 2.0f), glm::vec2(0.0f, 0.5f)},
-		{glm::vec3(width / 2.0f, -height / 2.0f, lenght / 2.0f), glm::vec2(0.33f, 0.5f)},
-		{glm::vec3(-width / 2.0f, height / 2.0f, lenght / 2.0f), glm::vec2(0.0f, 0.0f)},
-		{glm::vec3(width / 2.0f, height / 2.0f, lenght / 2.0f), glm::vec2(0.33f, 0.0f)}
+		{glm::vec3(-width / 2.0f, -height / 2.0f, lenght / 2.0f), glm::vec2(0.33f, 0.5f)},
+		{glm::vec3(width / 2.0f, -height / 2.0f, lenght / 2.0f), glm::vec2(0.66f, 0.5f)},
+		{glm::vec3(width / 2.0f, height / 2.0f, lenght / 2.0f), glm::vec2(0.33f, 0.0f)},
+		{glm::vec3(-width / 2.0f, height / 2.0f, lenght / 2.0f), glm::vec2(0.66f, 0.0f)},
+		{glm::vec3(-width / 2.0f, -height / 2.0f, -lenght / 2.0f), glm::vec2(0.0f, 0.5f)},
+		{glm::vec3(width / 2.0f, -height / 2.0f, -lenght / 2.0f), glm::vec2(0.33f, 0.5f)},
+		{glm::vec3(width / 2.0f, height / 2.0f, -lenght / 2.0f), glm::vec2(0.0f, 0.0f)},
+		{glm::vec3(-width / 2.0f, height / 2.0f, -lenght / 2.0f), glm::vec2(0.33f, 0.0f)}
 	};
 
 	std::vector<Vertex> _vertices;
@@ -22,24 +22,24 @@ BasicCuboid::BasicCuboid(glm::vec3 baseColor, GLfloat width, GLfloat height, GLf
 	}
 
 	std::vector<GLuint> _indices = {
-		// back
-		0, 1, 2,
-		3, 2, 1,
 		// front
-		4, 5, 6,
-		7, 6, 5,
-		// left
-		0, 4, 2,
-		6, 2, 4,
+		0, 1, 2,
+		2, 3, 0,
 		// right
-		1, 5, 3,
-		7, 3, 5,
+		1, 5, 6,
+		6, 2, 1,
+		// back
+		7, 6, 5,
+		5, 4, 7,
+		// left
+		4, 0, 3,
+		3, 7, 4,
 		// bottom
-		4, 5, 0,
-		1, 0, 5,
+		4, 5, 1,
+		1, 0, 4,
 		// top
-		6, 7, 2,
-		3, 7, 6
+		3, 2, 6,
+		6, 7, 3
 	};
 
 	/* Save calculated vertices and indices in the GraphicsObj fields, calculate normales */
