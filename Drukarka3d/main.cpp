@@ -134,7 +134,7 @@ int main() {
 	try
 	{
 		// Create a GLFWwindow object that we can use for GLFW's functions
-		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", glfwGetPrimaryMonitor(), nullptr);
+		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", nullptr /* glfwGetPrimaryMonitor()*/, nullptr);
 
 		// Check if window is created
 		if (window == nullptr)
@@ -210,19 +210,19 @@ int main() {
 		lampCylinder2.translate(lamp2->getPosition());
 
 		// Printer
-		Printer printer(1.0);
+		Printer printer(0.7);
 
 		ObjectGroup exterior;
 		// Globe XD
-		BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 5.0, 1.0, 5.0);
-		table.translate(glm::vec3(0.0, -0.7, 0.0));
-		table.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCone::M_PI);
+		BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 1.0, 0.2, 1.0);
+		table.translate(glm::vec3(0.0, -0.15, 0.0));
 		table.setTexture(Texture("res/table.jpg"), 0.8);
-		
 		exterior.addObject(table);
 
 		// Pretty random forrest
-		Forrest forrest(0.7, 6.0, 0.4, 45, 45, Texture("res/bark.jpg"), Texture("res/leaves.jpg"), Texture("res/neadles.jpg"));
+		Forrest forrest(0.6, 6.0, 0.35, 55, 55, Texture("res/bark.jpg"), Texture("res/leaves.jpg"), Texture("res/neadles.jpg"));
+
+		forrest.translate(glm::vec3(0.0, -0.1, 0.0));
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();

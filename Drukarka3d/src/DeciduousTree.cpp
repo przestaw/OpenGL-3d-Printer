@@ -7,17 +7,17 @@
 
 DeciduousTree::DeciduousTree(glm::vec3 leaves, glm::vec3 wood, GLfloat height, GLfloat radius, GLuint segments, Texture leavesTex, Texture woodTex) {
 	std::mt19937_64 myRand(std::random_device{}());
-	std::normal_distribution<GLfloat> myRandFloat(0.0, 0.8 * radius);
-	BasicCone woodCyl(wood, height, radius * 0.35, radius * 0.2);
+	std::uniform_real_distribution<GLfloat> myRandFloat(0.24, 1.);
+	BasicCone woodCyl(wood, height*0.8, radius * 0.35, radius * 0.2);
 
-	woodCyl.translate(glm::vec3(0.0, -height * 0.6, 0.0));
+	woodCyl.translate(glm::vec3(0.0, -height * 0.5, 0.0));
 	if (woodTex.getId() != 0)
 		woodCyl.setTexture(woodTex, 0.6);
 
 	this->addObject(woodCyl);
 
-	GLfloat step = height / segments;
-	radius = radius / 2.0;
+	GLfloat step = height / (segments * 1.5);
+	radius = radius / 2.8;
 	CompositeGroup green;
 	BasicSphere bot(leaves, radius);
 	green.addObject(bot);
@@ -25,15 +25,15 @@ DeciduousTree::DeciduousTree(glm::vec3 leaves, glm::vec3 wood, GLfloat height, G
 	for (unsigned i = 0; i < segments; ++i) {
 		unsigned j = i <= (segments / 2) ? i : ((segments - i) / 2);
 		++j;
-		for (; j > 0; --j) {
-			GLfloat move = (i - segments / 2.0) * radius / segments;
-			BasicSphere sphere(leaves, radius * (1.0 + (segments - i)*0.1), 24, 24);
+		for (j *= 2; j > 0; --j) {
+			GLfloat move = radius / (i+2);
+			BasicSphere sphere(leaves, radius * (0.8 + (segments - i)*0.15), 24, 24);
 
 			GLfloat moveX = myRandFloat(myRand) * move;
 			GLfloat moveY = myRandFloat(myRand) * move;
 			moveX = myRand() % 2 == 1 ? moveX : -moveX;
 			moveY = myRand() % 2 == 1 ? moveY : -moveY;
-			sphere.translate(glm::vec3(moveX, step * i, moveY));
+			sphere.translate(glm::vec3(moveX, step * (i + 0.01 * j), moveY));
 			green.addObject(sphere);
 		}
 	}
@@ -45,5 +45,5 @@ DeciduousTree::DeciduousTree(glm::vec3 leaves, glm::vec3 wood, GLfloat height, G
 	green.addObject(top);
 
 	this->addObject(green);
-	this->translate(glm::vec3(0.0, height * 0.75, 0.0));
+	this->translate(glm::vec3(0.0, height * 0.8, 0.0));
 }
