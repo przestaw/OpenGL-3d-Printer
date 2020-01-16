@@ -42,7 +42,8 @@ void Printer::spawnCylinder(glm::vec3 color) {
 
 void Printer::spawnIceCream(glm::vec3 color){
 	IceCream temp(scale * ratio * 5, color);
-	temp.translate(getNeadle() + glm::vec3(0.0, -scale*ratio*2.5, 0.0));
+	temp.translate(getNeadle() + glm::vec3(0.0, -scale*(ratio*2.5*1.17), 0.0));
+	
 	this->copyObjects(temp);
 }
 

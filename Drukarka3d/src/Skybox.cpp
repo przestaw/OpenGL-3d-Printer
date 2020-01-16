@@ -1,27 +1,27 @@
 #include "../include/Skybox.h"
 
-Skybox::Skybox ()
+Skybox::Skybox (const std::vector<std::string> &faces)
 {
     /* For skybox drawing we will use a cube of 36 vertices (and use glDrawArrays()) */
     GLfloat vertices[] =
     {
-        -1.0f,  1.0f, -1.0f,  -1.0f, -1.0f, -1.0f,   1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,   1.0f,  1.0f, -1.0f,  -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,    1.0f, -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,   -1.0f,  1.0f, -1.0f, 1.0f,  1.0f, -1.0f,
 
-        -1.0f, -1.0f,  1.0f,  -1.0f, -1.0f, -1.0f,  -1.0f,  1.0f, -1.0f,
-        -1.0f,  1.0f, -1.0f,  -1.0f,  1.0f,  1.0f,  -1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,  -1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,   -1.0f, -1.0f,  1.0f, -1.0f,  1.0f,  1.0f,
 
-         1.0f, -1.0f, -1.0f,   1.0f, -1.0f,  1.0f,   1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,   1.0f,  1.0f, -1.0f,   1.0f, -1.0f, -1.0f,
+         1.0f, -1.0f, -1.0f,  1.0f,  1.0f,  1.0f,  1.0f, -1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,    1.0f, -1.0f, -1.0f, 1.0f,  1.0f, -1.0f,
 
-        -1.0f, -1.0f,  1.0f,  -1.0f,  1.0f,  1.0f,   1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,   1.0f, -1.0f,  1.0f,  -1.0f, -1.0f,  1.0f,
+        -1.0f, -1.0f,  1.0f,    1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f,
+         1.0f,  1.0f,  1.0f,  -1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f,
 
-        -1.0f,  1.0f, -1.0f,   1.0f,  1.0f, -1.0f,   1.0f,  1.0f,  1.0f,
-         1.0f,  1.0f,  1.0f,  -1.0f,  1.0f,  1.0f,  -1.0f,  1.0f, -1.0f,
+        -1.0f,  1.0f, -1.0f,   1.0f,  1.0f,  1.0f, 1.0f,  1.0f, -1.0f,
+         1.0f,  1.0f,  1.0f,    -1.0f,  1.0f, -1.0f, -1.0f,  1.0f,  1.0f,
 
-        -1.0f, -1.0f, -1.0f,  -1.0f, -1.0f,  1.0f,   1.0f, -1.0f, -1.0f,
-         1.0f, -1.0f, -1.0f,  -1.0f, -1.0f,  1.0f,   1.0f, -1.0f,  1.0f
+        -1.0f, -1.0f, -1.0f,   1.0f, -1.0f, -1.0f,  -1.0f, -1.0f,  1.0f,
+         1.0f, -1.0f, -1.0f,   1.0f, -1.0f,  1.0f , -1.0f, -1.0f,  1.0f,
     };
 
     // Generate buffers
@@ -36,6 +36,8 @@ Skybox::Skybox ()
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     // Unbind VAO - just in case.
     glBindVertexArray(0);
+
+	setCubemapFaces(faces);
 }
 
 Skybox::~Skybox()
@@ -44,8 +46,14 @@ Skybox::~Skybox()
     glDeleteBuffers(1, &VBO);
 }
 
-void Skybox::Draw()
-{
+void Skybox::Draw(ShaderProgram shader, glm::mat3 cameraView, glm::mat4 projection) {
+	shader.Use();
+
+	// We want to remove translation from the view matrix so that camera movement
+	// doesn't affect the skybox's position vectors.
+	shader.setMat4Uniform("view", glm::mat4(cameraView));
+	shader.setMat4Uniform("projection", projection);
+
     // Change depth function so depth test passes when values are equal to depth buffer's content.
     glDepthFunc(GL_LEQUAL);
 
@@ -61,7 +69,7 @@ void Skybox::Draw()
     glDepthFunc(GL_LESS);
 }
 
-void Skybox::setCubemapFaces(const std::vector<std::string> faces)
+void Skybox::setCubemapFaces(const std::vector<std::string> &faces)
 {
     GLuint textureID;
     glGenTextures(1, &textureID);

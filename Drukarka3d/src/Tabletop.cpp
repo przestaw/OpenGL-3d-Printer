@@ -22,11 +22,11 @@ Tabletop::Tabletop(GLfloat scale) {
 	// crate table handlers
 	CompositeGroup handles;
 
-	BasicCuboid high(glm::vec3(0.6, 0.6, 0.6), rodR * 5, rodR * 3, rodR * 3);
-	BasicCuboid low(glm::vec3(0.6, 0.6, 0.6), rodR * 5, rodR * 8, rodR * 3);
+	BasicCuboid high(glm::vec3(0.6, 0.6, 0.6), rodR * 5, rodR * 4, rodR * 3);
+	BasicCuboid low(glm::vec3(0.6, 0.6, 0.6), rodR * 5, rodR * 9, rodR * 3);
 
-	high.translate(glm::vec3(0.0, rodR * 4, lenght * 0.2));
-	low.translate(glm::vec3(0.0, rodR, lenght * 0.4));
+	high.translate(glm::vec3(0.0, rodR * 5, lenght * 0.2));
+	low.translate(glm::vec3(0.0, rodR *2, lenght * 0.4));
 
 	handles.addObject(high);
 	handles.addObject(low);
@@ -48,9 +48,9 @@ Tabletop::Tabletop(GLfloat scale) {
 	this->addObject(handles);
 	this->addObject(rods);
 
-	BasicCuboid table(glm::vec3(0.8, 0.1, 0.1), lenght*0.8, 2*rodR, lenght * 0.8);
+	BasicCuboid table(glm::vec3(0.8, 0.1, 0.1), lenght*0.85, 2*rodR, lenght * 0.85);
 
-	table.translate(glm::vec3(0.0, 6 * rodR, 0.0));
+	table.translate(glm::vec3(0.0, 7 * rodR, 0.0));
 	table.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCone::M_PI);
 	table.setTexture(Texture("res/coneTex.png"), 0.4);
 
