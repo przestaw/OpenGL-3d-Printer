@@ -3,7 +3,8 @@
 #include "ObjectGroup.h"
 
 class DeciduousTree : public ObjectGroup {
-	DeciduousTree(glm::vec3 leaves, Texture leaves_tex, glm::vec3 wood, Texture wood_tex, GLfloat height, GLfloat radius, GLuint segments);
+public:
+	DeciduousTree(glm::vec3 leaves, glm::vec3 wood, GLfloat height, GLfloat radius, GLuint segments, Texture leavesTex = Texture(), Texture woodTex = Texture());
 	virtual ~DeciduousTree() {}
 
 };

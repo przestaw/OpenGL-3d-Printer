@@ -37,6 +37,8 @@
 #include "Skybox.h"
 #include <IceCream.h>
 #include <ConiferTree.h>
+#include <DeciduousTree.h>
+#include <Forest.h>
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -132,8 +134,7 @@ int main() {
 	try
 	{
 		// Create a GLFWwindow object that we can use for GLFW's functions
-		//GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", glfwGetPrimaryMonitor(), nullptr);
-		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", nullptr, nullptr);
+		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", glfwGetPrimaryMonitor(), nullptr);
 
 		// Check if window is created
 		if (window == nullptr)
@@ -176,9 +177,6 @@ int main() {
 		camera.setPitchConstrains(-89.0f, 89.0f);
 		camera.setBoundries(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec3(10.0f, 10.0f, 10.0f));
 
-		/* Initialize skybox */
-		Skybox skybox;
-		
 		std::vector<std::string> skyboxFaces =
 		{
 			"res/skybox/ely_lakes/lakes_ft.jpg",
@@ -188,7 +186,8 @@ int main() {
 			"res/skybox/ely_lakes/lakes_rt.jpg",
 			"res/skybox/ely_lakes/lakes_lf.jpg",
 		};
-		skybox.setCubemapFaces(skyboxFaces);
+		/* Initialize skybox */
+		Skybox skybox(skyboxFaces);
 		// Set uniform in skybox shader
 		shaderSkybox.Use();
 		shaderSkybox.setIntUniform("skybox", 0);
@@ -211,7 +210,7 @@ int main() {
 		lampCylinder2.translate(lamp2->getPosition());
 
 		// Printer
-		Printer printer(3.0);
+		Printer printer(1.0);
 
 		ObjectGroup exterior;
 		// Globe XD
@@ -222,33 +221,8 @@ int main() {
 		
 		exterior.addObject(table);
 
-		BasicCuboid grass(glm::vec3(0.1, 0.4, 0.2), 25.0, 0.2, 25.0);
-		grass.translate(glm::vec3(0.0, -0.7, 0.0));
-		grass.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCone::M_PI);
-		table.setTexture(Texture("res/grass.jpg"), 0.9);
-
-		exterior.addObject(grass);
-
-		IceCream ice1(1.2, glm::vec3(0.9, 0.18, 0.1));
-		IceCream ice2(1.3, glm::vec3(0.3, 0.18, 0.9));
-		IceCream ice3(0.9, glm::vec3(0.2, 0.8, 0.1));
-		IceCream ice4(1.0, glm::vec3(0.9, 0.0, 0.5));
-
-		ice1.translate(glm::f32vec1(5.0) * glm::vec3(0.9, -0.018, 1.0));
-		ice2.translate(glm::f32vec1(5.0) * glm::vec3(-0.5, 0.018, -0.9));
-		ice3.translate(glm::f32vec1(5.0) * glm::vec3(-0.9, -0.018, 1.0));
-		ice4.translate(glm::f32vec1(5.0) * glm::vec3(0.9, 0.018, -1.1));
-
-		exterior.copyObjects(ice1);
-		exterior.copyObjects(ice2);
-		exterior.copyObjects(ice3);
-		exterior.copyObjects(ice4);
-
-		ConiferTree tree(glm::vec3(0.9, 0.108, 0.09), glm::vec3(0.9, 0.18, 0.9), 2.0, 1, 3);
-
-		tree.translate(glm::vec3(0.5, 1.018, -1.1));
-
-		exterior.copyObjects(tree);
+		// Pretty random forrest
+		Forrest forrest(0.7, 6.0, 0.4, 45, 45, Texture("res/bark.jpg"), Texture("res/leaves.jpg"), Texture("res/neadles.jpg"));
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -313,6 +287,7 @@ int main() {
 			// Printer and table
 			printer.Draw(shaderBasic);
 			exterior.Draw(shaderBasic);
+			forrest.Draw(shaderBasic);
 			// TODO : logick for moving extruder and shiting on objects
 
 			// Start working with lamp's shader
@@ -327,16 +302,8 @@ int main() {
 			lampCylinder1.Draw(shaderLamp);
 			lampCylinder2.Draw(shaderLamp);
 
-			// Start working with skybox shader (skybox should be drawn as the last object!)
-			shaderSkybox.Use();
-
-			// We want to remove translation from the view matrix so that camera movement
-			// doesn't affect the skybox's position vectors.
-			shaderSkybox.setMat4Uniform("view", glm::mat4(glm::mat3(camera.getView())));
-			shaderSkybox.setMat4Uniform("projection", projection);
-
-			// Draw skybox
-			skybox.Draw();
+			// Draw skybox, as last object so 
+			skybox.Draw(shaderSkybox, glm::mat3(camera.getView()), projection);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);

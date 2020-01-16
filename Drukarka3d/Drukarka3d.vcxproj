@@ -104,11 +104,13 @@
   <ItemGroup>
     <ClCompile Include="src\Arm.cpp" />
     <ClCompile Include="src\Base.cpp" />
+    <ClCompile Include="src\BasicCone.cpp" />
     <ClCompile Include="src\ConiferTree.cpp" />
     <ClCompile Include="src\DeciduousTree.cpp" />
     <ClCompile Include="src\DirectionalLight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Extruder.cpp" />
+    <ClCompile Include="src\Forest.cpp" />
     <ClCompile Include="src\IceCream.cpp" />
     <ClCompile Include="src\LightManager.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
@@ -116,7 +118,6 @@
     <ClCompile Include="src\Skybox.cpp" />
     <ClCompile Include="src\SpotLight.cpp" />
     <ClCompile Include="src\AbstractObj.cpp" />
-    <ClCompile Include="src\BasicCone.cpp" />
     <ClCompile Include="src\BasicCuboid.cpp" />
     <ClCompile Include="src\BasicSphere.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -142,6 +143,7 @@
     <ClInclude Include="include\ConiferTree.h" />
     <ClInclude Include="include\DeciduousTree.h" />
     <ClInclude Include="include\Extruder.h" />
+    <ClInclude Include="include\Forest.h" />
     <ClInclude Include="include\GraphicsObj.h" />
     <ClInclude Include="include\IceCream.h" />
     <ClInclude Include="include\LightManager.h" />
@@ -164,6 +166,19 @@
     <None Include="shaders\skyboxshader.frag" />
     <None Include="shaders\skyboxshader.vert" />
     <None Include="shaders\vertshader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bark.jpg" />
+    <Image Include="res\citrus.jpg" />
+    <Image Include="res\coneTex.png" />
+    <Image Include="res\extrude.jpg" />
+    <Image Include="res\grass.jpg" />
+    <Image Include="res\leaves.jpg" />
+    <Image Include="res\motor.jpg" />
+    <Image Include="res\neadles.jpg" />
+    <Image Include="res\plastic.jpg" />
+    <Image Include="res\table.jpg" />
+    <Image Include="res\thread.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

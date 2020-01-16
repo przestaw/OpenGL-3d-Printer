@@ -75,9 +75,6 @@
     <ClCompile Include="src\Camera.cpp">
       <Filter>Pliki źródłowe\LightAndCamera</Filter>
     </ClCompile>
-    <ClCompile Include="src\BasicCone.cpp">
-      <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
-    </ClCompile>
     <ClCompile Include="src\DirectionalLight.cpp">
       <Filter>Pliki źródłowe\LightAndCamera</Filter>
     </ClCompile>
@@ -122,6 +119,12 @@
     </ClCompile>
     <ClCompile Include="src\DeciduousTree.cpp">
       <Filter>Pliki źródłowe\Surroundings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Forest.cpp">
+      <Filter>Pliki źródłowe\Surroundings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BasicCone.cpp">
+      <Filter>Pliki źródłowe\BasicPrimitives</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -206,6 +209,9 @@
     <ClInclude Include="include\ConiferTree.h">
       <Filter>Pliki nagłówkowe\Surroundings</Filter>
     </ClInclude>
+    <ClInclude Include="include\Forest.h">
+      <Filter>Pliki nagłówkowe\Surroundings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\fragshader.frag">
@@ -226,5 +232,40 @@
     <None Include="shaders\vertshader.vert">
       <Filter>Shaders</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bark.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\citrus.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\coneTex.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\extrude.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\grass.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\leaves.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\motor.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\neadles.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\plastic.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\table.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\thread.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
   </ItemGroup>
 </Project>

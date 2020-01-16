@@ -1,0 +1,100 @@
+#include "Forest.h"
+#include <BasicCuboid.h>
+#include <BasicCone.h>
+#include <random>
+#include <iostream>
+
+Forrest::Forrest(GLfloat centerR, GLfloat outerR, GLfloat maxHeight, unsigned coniferCount, unsigned deciduousCount, Texture woodTex, Texture deciduousGreen, Texture coniferGreen, unsigned iceCreamCount) {
+	std::mt19937_64 myRand(std::random_device{}());
+	std::uniform_real_distribution<GLfloat> myRandFloat(centerR, outerR);
+	std::normal_distribution<GLfloat> myRandHeight(0.0, 0.3 * maxHeight);
+
+	BasicCuboid grass(glm::vec3(0.1, 0.4, 0.2), outerR * 2.5, - 0.1 * maxHeight, outerR * 2.5);
+	grass.translate(glm::vec3(0.0, -0.2 * maxHeight, 0.0));
+	grass.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCone::M_PI);
+
+	this->addObject(grass);
+	
+	for (unsigned i = 0; i < iceCreamCount; ++i) {
+		GLfloat moveX = myRandFloat(myRand);
+		GLfloat moveY = myRandFloat(myRand);
+
+		moveX = myRand() % 2 == 1 ? moveX : -moveX;
+		moveY = myRand() % 2 == 0 ? moveY : -moveY;
+
+		GLfloat height = 1.6*maxHeight - abs(myRandHeight(myRand));
+
+		IceCream ice1(abs(height));
+		ice1.translate(glm::vec3(moveX, 0.0, moveY));
+
+		this->copyObjects(ice1);
+	}
+
+	for (unsigned i = 0; i < 1 + coniferCount/2; ++i) {
+		GLfloat moveX = myRandFloat(myRand);
+		GLfloat moveY = myRandFloat(myRand);
+
+		moveX = myRand() % 2 == 1 ? moveX : -moveX;
+		moveY = myRand() % 2 == 0 ? moveY : -moveY;
+
+		GLfloat height = 1.5*maxHeight - abs(myRandHeight(myRand));
+		GLfloat radius = maxHeight*0.7 - abs(myRandHeight(myRand))*0.4;
+		unsigned segments = 5 + myRand() % 6;
+
+		ConiferTree tree(glm::vec3(0.1, 0.99, 0.3), glm::vec3(0.3, 0.18, 0.1), abs(height), abs(radius), segments, coniferGreen, woodTex);
+		tree.translate(glm::vec3(moveX, 0.0, moveY));
+
+		this->copyObjects(tree);
+	}
+
+	for (unsigned i = 0; i < 1 + coniferCount/2; ++i) {
+		GLfloat moveX = myRandFloat(myRand);
+		GLfloat moveY = myRandFloat(myRand);
+
+		moveX = myRand() % 2 == 1 ? moveX : -moveX;
+		moveY = myRand() % 2 == 0 ? moveY : -moveY;
+
+		GLfloat height = 1.5 * maxHeight - abs(myRandHeight(myRand));
+		GLfloat radius = maxHeight * 0.7 - abs(myRandHeight(myRand)) * 0.4;
+		unsigned segments = 1 + myRand() % 5;
+
+		ConiferTree tree(glm::vec3(0.1, 0.7, 0.5), glm::vec3(0.3, 0.18, 0.1), abs(height), abs(radius), segments, coniferGreen, woodTex);
+		tree.translate(glm::vec3(moveX, 0.0, moveY));
+
+		this->copyObjects(tree);
+	}
+
+	for (unsigned i = 0; i < 1 + deciduousCount / 2; ++i) {
+		GLfloat moveX = myRandFloat(myRand);
+		GLfloat moveY = myRandFloat(myRand);
+
+		moveX = myRand() % 2 == 1 ? moveX : -moveX;
+		moveY = myRand() % 2 == 0 ? moveY : -moveY;
+
+		GLfloat height = 1.5*maxHeight - abs(myRandHeight(myRand));
+		GLfloat radius = maxHeight - abs(myRandHeight(myRand));
+		unsigned segments = 6 + myRand() % 6;
+
+		DeciduousTree tree(glm::vec3(0.7, 0.3, 0.0), glm::vec3(0.35, 0.18, 0.15), abs(height), abs(radius), segments, deciduousGreen, woodTex);
+		tree.translate(glm::vec3(moveX, 0.0, moveY));
+
+		this->copyObjects(tree);
+	}	
+
+	for (unsigned i = 0; i < 1 + deciduousCount / 2; ++i) {
+		GLfloat moveX = myRandFloat(myRand);
+		GLfloat moveY = myRandFloat(myRand);
+
+		moveX = myRand() % 2 == 1 ? moveX : -moveX;
+		moveY = myRand() % 2 == 0 ? moveY : -moveY;
+
+		GLfloat height = maxHeight - abs(myRandHeight(myRand));
+		GLfloat radius = maxHeight - abs(myRandHeight(myRand));
+		unsigned segments = 6 + myRand() % 5;
+
+		DeciduousTree tree(glm::vec3(0.3, 0.6, 0.0), glm::vec3(0.35, 0.2, 0.1), abs(height), abs(radius), segments, deciduousGreen, woodTex);
+		tree.translate(glm::vec3(moveX, 0.0, moveY));
+
+		this->copyObjects(tree);
+	}
+}
