@@ -52,6 +52,13 @@ bool keyAHold = false;
 bool keySHold = false;
 bool keyDHold = false;
 
+bool moveExtruderUp = false;
+bool moveExtruderDown = false;
+bool moveExtruderLeft = false;
+bool moveExtruderRight = false;
+bool moveExtruderAhead = false;
+bool moveExtruderBack = false;
+
 bool flashlightOn = true;
 
 // Using directives
@@ -65,6 +72,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 // Handling movement in four directions based on delta time and key callbacks
 void handleMovement(GLfloat deltaTime);
+
+// Handling extruder movement
+void handleExtruderMovement(Printer& printer, const GLfloat deltaTime);
 
 void mouseCallback(GLFWwindow* window, double xPos, double yPos);
 
@@ -266,6 +276,8 @@ int main() {
 				handleMovement(static_cast<GLfloat>(deltaTime/2.0));
 			}
 
+			handleExtruderMovement(printer, static_cast<GLfloat>(deltaTime / 2.0));
+
 			glClearColor(.08f, .08f, 0.08f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
@@ -329,36 +341,30 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		if (key == GLFW_KEY_ESCAPE) {
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
-		if (key == GLFW_KEY_W) {
-			keyWHold = true;
-		}
-		if (key == GLFW_KEY_A) {
-			keyAHold = true;
-		}
-		if (key == GLFW_KEY_S) {
-			keySHold = true;
-		}
-		if (key == GLFW_KEY_D) {
-			keyDHold = true;
-		}
-		if (key == GLFW_KEY_F) {
-			flashlightOn = !flashlightOn;
-		}
+		if (key == GLFW_KEY_W) { keyWHold = true; }
+		if (key == GLFW_KEY_A) { keyAHold = true; }
+		if (key == GLFW_KEY_S) { keySHold = true; }
+		if (key == GLFW_KEY_D) { keyDHold = true; }
+		if (key == GLFW_KEY_F) { flashlightOn = !flashlightOn; }
+		if (key == GLFW_KEY_UP) { moveExtruderUp = true; }
+		if (key == GLFW_KEY_DOWN) { moveExtruderDown = true; }
+		if (key == GLFW_KEY_LEFT) { moveExtruderLeft = true; }
+		if (key == GLFW_KEY_RIGHT) { moveExtruderRight = true; }
+		if (key == GLFW_KEY_O) { moveExtruderAhead = true; }
+		if (key == GLFW_KEY_L) { moveExtruderBack = true; }
 	}
 
 	if (action == GLFW_RELEASE) {
-		if (key == GLFW_KEY_W) {
-			keyWHold = false;
-		}
-		if (key == GLFW_KEY_A) {
-			keyAHold = false;
-		}
-		if (key == GLFW_KEY_S) {
-			keySHold = false;
-		}
-		if (key == GLFW_KEY_D) {
-			keyDHold = false;
-		}
+		if (key == GLFW_KEY_W) { keyWHold = false; }
+		if (key == GLFW_KEY_A) { keyAHold = false; }
+		if (key == GLFW_KEY_S) { keySHold = false; } 
+		if (key == GLFW_KEY_D) { keyDHold = false; }
+		if (key == GLFW_KEY_UP) { moveExtruderUp = false; }
+		if (key == GLFW_KEY_DOWN) { moveExtruderDown = false; }
+		if (key == GLFW_KEY_LEFT) { moveExtruderLeft = false; }
+		if (key == GLFW_KEY_RIGHT) { moveExtruderRight = false; }
+		if (key == GLFW_KEY_O) { moveExtruderAhead = false; }
+		if (key == GLFW_KEY_L) { moveExtruderBack = false; }
 	}
 
 }
@@ -375,6 +381,27 @@ void handleMovement(GLfloat deltaTime) {
 	}
 	if (keyDHold) {
 		camera.handleKeyboard(Camera::RIGHT, deltaTime);
+	}
+}
+
+void handleExtruderMovement(Printer& printer, const GLfloat deltaTime) {
+	if (moveExtruderAhead) {
+		printer.moveExtruderX(true);
+	}
+	if (moveExtruderBack) {
+		printer.moveExtruderX(false);
+	}
+	if (moveExtruderUp) {
+		printer.moveExtruderZ(true);
+	}
+	if (moveExtruderDown) {
+		printer.moveExtruderZ(false);
+	}
+	if (moveExtruderRight) {
+		printer.moveExtruderY(true);
+	}
+	if (moveExtruderLeft) {
+		printer.moveExtruderY(false);
 	}
 }
 
