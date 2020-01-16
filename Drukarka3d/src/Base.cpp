@@ -7,14 +7,14 @@ Base::Base(GLfloat scale) {
 	CompositeGroup blocks; //objs of same material
 	// Frirst : blocks
 	BasicCuboid block(glm::vec3(0.8, 0.4, 0.01), rodR * 6, rodR * 16, lenght);
-	BasicCuboid baseBloc(glm::vec3(0.8, 0.4, 0.01), lenght/2, rodR * 16, rodR*18);
+	BasicCuboid baseBloc(glm::vec3(0.8, 0.4, 0.01), lenght/2, rodR * 18, rodR*18);
 	BasicCuboid topBlock(glm::vec3(0.8, 0.4, 0.01), rodR * 8, rodR * 10, rodR * 18);
 	BasicCuboid keyboardBloc(glm::vec3(0.8, 0.4, 0.01), lenght * 0.4, rodR * 6, lenght / 5);
 
 	baseBloc.translate(glm::vec3(0.0, 0.0, rodR * 9 + lenght / 2));
 	blocks.addObject(baseBloc);
 
-	block.translate(glm::vec3(lenght / 2, 0.0, 0.0));
+	block.translate(glm::vec3(lenght / 2, -rodR * 3, 0.0));
 	blocks.addObject(block);
 
 	block.translate(glm::vec3(-lenght, 0.0, 0.0));
