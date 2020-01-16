@@ -6,9 +6,17 @@ in vec4 Normal;
 
 out vec3 color;
 
-vec3 texturedColor;
-uniform sampler2D ShTexture;
-uniform float textureImpact;
+vec3 diffuseColor;
+vec3 specularColor;
+
+struct Material {
+    sampler2D diffuseMap;
+    sampler2D specularMap;
+    float diffuseImpact;
+    float specularImpact;
+
+    float shininess;
+};
 
 struct DirectionalLight {
     vec3 direction;
@@ -61,6 +69,8 @@ uniform SpotLight spotLights[5];
 uniform int amountOfPointLights;
 uniform int amountOfSpotLights;
 
+uniform Material material;
+
 // NOTE For whatever reason these functions have to start with capital letter
 vec3 CalculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDirection);
 vec3 CalculatePointLight(PointLight light, vec3 normal, vec3 position, vec3 viewDirection);
@@ -68,7 +78,10 @@ vec3 CalculateSpotLight(SpotLight light, vec3 normal, vec3 position, vec3 viewDi
 
 void main()
 {   
-	texturedColor = vec3(mix(vec4(VecColor, 1.0), texture(ShTexture,TexCoord), textureImpact));
+	diffuseColor = vec3(mix(vec4(VecColor, 1.0), texture(material.diffuseMap,TexCoord), material.diffuseImpact));
+    specularColor = vec3(mix(vec4(VecColor, 1.0), texture(material.specularMap,TexCoord), material.specularImpact));
+
+
     // Normalize normal vector and view direction vector
     // It is done because we are interested in directions and angles and not in length
     vec3 normal = normalize(vec3(Normal));
@@ -97,11 +110,11 @@ vec3 CalculateDirectionalLight(DirectionalLight light, vec3 normal, vec3 viewDir
     
     // Specular light
     vec3 reflectDirection = reflect(-lightDirection, normal);
-    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), 32);
+    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), material.shininess);
 
-    vec3 ambientLight = light.ambientStrength * texturedColor;
-    vec3 diffuseLight = light.diffuseStrength * diff * texturedColor;
-    vec3 specularLight = light.specularStrength * spec * texturedColor;
+    vec3 ambientLight = light.ambientStrength * diffuseColor;
+    vec3 diffuseLight = light.diffuseStrength * diff * diffuseColor;
+    vec3 specularLight = light.specularStrength * spec * specularColor;
 
     return (ambientLight + diffuseLight + specularLight);
 }
@@ -114,16 +127,16 @@ vec3 CalculatePointLight (PointLight light, vec3 normal, vec3 position, vec3 vie
 
     // Specular light
     vec3 reflectDirection = reflect(-lightDirection, normal);
-    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), 32);
+    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), material.shininess);
 
     // Attenuation
     float distance = length(light.position - position);
     float attenuation = 1.0 / (light.constantParameter + light.linearParameter * distance +
                                light.quadraticParameter * (distance * distance));
 
-    vec3 ambientLight = light.ambientStrength * texturedColor;
-    vec3 diffuseLight = light.diffuseStrength * diff * texturedColor;
-    vec3 specularLight = light.specularStrength * spec * texturedColor;
+    vec3 ambientLight = light.ambientStrength * diffuseColor;
+    vec3 diffuseLight = light.diffuseStrength * diff * diffuseColor;
+    vec3 specularLight = light.specularStrength * spec * specularColor;
 
     ambientLight *= attenuation;
     diffuseLight *= attenuation;
@@ -140,7 +153,7 @@ vec3 CalculateSpotLight(SpotLight light, vec3 normal, vec3 position, vec3 viewDi
 
     // Specular light
     vec3 reflectDirection = reflect(-lightDirection, normal);
-    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), 32);
+    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), material.shininess);
 
     // Attenuation
     float distance = length(light.position - position);
@@ -162,9 +175,9 @@ vec3 CalculateSpotLight(SpotLight light, vec3 normal, vec3 position, vec3 viewDi
     // inner cone) and (0.0 ; 1.0) (when fragment is between inside and outer cone)
     float intensity  = clamp((theta - light.outerCutOff) / epsilon, 0.0, 1.0);
 
-    vec3 ambientLight = light.ambientStrength * texturedColor;
-    vec3 diffuseLight = light.diffuseStrength * diff * texturedColor;
-    vec3 specularLight = light.specularStrength * spec * texturedColor;
+    vec3 ambientLight = light.ambientStrength * diffuseColor;
+    vec3 diffuseLight = light.diffuseStrength * diff * diffuseColor;
+    vec3 specularLight = light.specularStrength * spec * specularColor;
 
     ambientLight *= attenuation * intensity;
     diffuseLight *= attenuation * intensity;

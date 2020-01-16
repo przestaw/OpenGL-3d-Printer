@@ -47,7 +47,10 @@ Arm::Arm(GLfloat scale) {
 
 	orangeBoxes.addObject(end);
 
-	orangeBoxes.setTexture(Texture("res/plastic.jpg"), 0.2);
+	orangeBoxes.setDiffuseMap(Texture("res/plastic.jpg"), 0.2);
+	orangeBoxes.setSpecularMap(Texture("res/black.jpg"), 0.5);
+	orangeBoxes.setShininess(16);
+	//orangeBoxes.setTexture(Texture("res/plastic.jpg"), 0.2);
 
 	this->addObject(orangeBoxes);
 

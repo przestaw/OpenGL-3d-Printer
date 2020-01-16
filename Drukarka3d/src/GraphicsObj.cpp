@@ -1,6 +1,6 @@
 #include "../include/GraphicsObj.h"
 
-GraphicsObj::GraphicsObj() : texImpact(0.0) {
+GraphicsObj::GraphicsObj() : diffuseImpact(0.0f), specularImpact(0.0f), shininess(32.0f) {
 	// Generate buffers
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -19,10 +19,16 @@ void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 	glm::mat4 finalModel = parentMat * model;
 	shader.setMat4Uniform("model", finalModel);
 	shader.setMat4Uniform("normalTrans", glm::transpose(glm::inverse(finalModel)));
-	shader.setFloatUniform("textureImpact", texImpact);
+	shader.setFloatUniform("material.diffuseImpact", diffuseImpact);
+	shader.setFloatUniform("material.specularImpact", specularImpact);
+	shader.setFloatUniform("material.shininess", shininess);
 
+	// Choose light maps
 	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, tex.getId()); //choose texture
+	glBindTexture(GL_TEXTURE_2D, diffuseTex.getId()); 
+
+	glActiveTexture(GL_TEXTURE1);
+	glBindTexture(GL_TEXTURE_2D, specularTex.getId());
 
 	// Bind the Vertex Array Object
 	glBindVertexArray(VAO);
@@ -32,20 +38,42 @@ void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 	glBindVertexArray(0);
 }
 
-void GraphicsObj::setTexture(const Texture& texture, GLfloat texIm) {
-	tex = texture;
-	
-	texImpact = ((texIm > 0.0f) ? ((texIm <= 1.0) ? texIm : 1.0) : 0.0);
+// DEPRECATED please use setDiffuseMap and setSpecularMap
+void GraphicsObj::setTexture(const Texture& texture, const GLfloat texIm) {
+	setDiffuseMap(texture, texIm);
+	setSpecularMap(texture, texIm);
+}
+
+void GraphicsObj::setDiffuseMap(const Texture& map, const GLfloat mapImpact)
+{
+	diffuseTex = map;
+
+	diffuseImpact = ((mapImpact > 0.0f) ? ((mapImpact <= 1.0) ? mapImpact : 1.0) : 0.0);
+}
+
+void GraphicsObj::setSpecularMap(const Texture& map, const GLfloat mapImpact)
+{
+	specularTex = map;
+
+	specularImpact = ((mapImpact > 0.0f) ? ((mapImpact <= 1.0) ? mapImpact : 1.0) : 0.0);
+}
+
+void GraphicsObj::setShininess(const GLfloat shininess)
+{
+	this->shininess = shininess;
 }
 
 GraphicsObj::GraphicsObj(const GraphicsObj& other) : GraphicsObj() {
 	this->model = other.model;
 	this->setVertices(std::vector<Vertex>(other.vertices));
 	this->setIndices(std::vector<unsigned int>(other.indices));
-	// Texture 
-	this->tex = other.tex;
-	// Tex impact
-	this->texImpact = other.texImpact;
+
+	// Copy material
+	this->diffuseTex = other.diffuseTex;
+	this->diffuseImpact = other.diffuseImpact;
+	this->specularTex = other.specularTex;
+	this->specularImpact = other.specularImpact;
+	this->shininess = other.shininess;
 }
 
 void GraphicsObj::setVertices(std::vector<Vertex> vertices_a) {
@@ -64,8 +92,8 @@ void GraphicsObj::setVertices(std::vector<Vertex> vertices_a) {
 	glEnableVertexAttribArray(0);
 
 	// Color attribute
-	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Color));
+	glEnableVertexAttribArray(1);
 
 	// Texture coordinates
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));

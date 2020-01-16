@@ -168,6 +168,11 @@ int main() {
 		// Accept fragment if it closer to the camera than the former one
 		glDepthFunc(GL_LESS);
 
+		// Set light maps, 0 and 1 are just IDs
+		shaderBasic.Use();
+		shaderBasic.setIntUniform("material.diffuseMap", 0);
+		shaderBasic.setIntUniform("material.specularMap", 1);
+
 		// Set camera options
 		camera.setPitchConstrains(-89.0f, 89.0f);
 		camera.setBoundries(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec3(10.0f, 10.0f, 10.0f));

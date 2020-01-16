@@ -11,7 +11,15 @@ public:
 
 	void Draw(ShaderProgram shader, const glm::mat4& parentMat = glm::mat4(1.0f));
 
-	void setTexture(const Texture &texture, GLfloat texImpact);
+	void setTexture(const Texture &texture, const GLfloat texImpact);
+
+	void setDiffuseMap(const Texture& map, const GLfloat mapImpact);
+
+	void setSpecularMap(const Texture& map, const GLfloat mapImpact);
+
+	// Preferably a power of two
+	void setShininess(const GLfloat shininess);
+
 
 	GraphicsObj(const GraphicsObj& other);
 protected:
@@ -21,10 +29,14 @@ protected:
 	GLuint VBO;
 	// Element Buffer Object
 	GLuint EBO;
-	// Texture 
-	Texture tex;
-	// Tex impact
-	GLfloat texImpact;
+	// Light maps
+	Texture diffuseTex;
+	Texture specularTex;
+	// Impact of light maps
+	GLfloat diffuseImpact;
+	GLfloat specularImpact;
+	// Shininess
+	GLfloat shininess;
 
 	// Triangles and Indices, vector allows for easy modification
 	std::vector<Vertex> vertices;
