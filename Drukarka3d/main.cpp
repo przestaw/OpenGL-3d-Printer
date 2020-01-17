@@ -39,6 +39,7 @@
 #include <ConiferTree.h>
 #include <DeciduousTree.h>
 #include <Forest.h>
+#include <Terrain.h>
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -134,7 +135,7 @@ int main() {
 	try
 	{
 		// Create a GLFWwindow object that we can use for GLFW's functions
-		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", nullptr /* glfwGetPrimaryMonitor()*/, nullptr);
+		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trojwymiaru !", nullptr /* glfwGetPrimaryMonitor()*/, nullptr);
 
 		// Check if window is created
 		if (window == nullptr)
@@ -214,10 +215,15 @@ int main() {
 
 		ObjectGroup exterior;
 		// Globe XD
-		BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 1.0, 0.2, 1.0);
+		/*BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 1.0, 0.2f, 1.0);
 		table.translate(glm::vec3(0.0, -0.15, 0.0));
 		table.setTexture(Texture("res/table.jpg"), 0.8);
 		exterior.addObject(table);
+		*/
+		// Terrain
+		Terrain terrain(15.0f, 15.0f, 300, 0.05f);
+		terrain.translate(glm::vec3(0.0f, -0.1f, 0.0f));
+		terrain.setTexture(Texture("res/grass.jpg"), 0.8f);
 
 		// Pretty random forrest
 		Forrest forrest(0.6, 6.0, 0.35, 55, 55, Texture("res/bark.jpg"), Texture("res/leaves.jpg"), Texture("res/neadles.jpg"));
@@ -283,6 +289,9 @@ int main() {
 
 			// Set up light on scene
 			lightManager.setUpLight(shaderBasic);
+
+			// Terrain
+			terrain.Draw(shaderBasic);
 
 			// Printer and table
 			printer.Draw(shaderBasic);
