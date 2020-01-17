@@ -42,13 +42,13 @@ Tabletop::Tabletop(GLfloat scale) {
 	rods.setMaterial(shine);
 
 	// add 2 pairs
-	handles.translate(glm::vec3(lenght * 0.2, 0.0, 0.0));
-	rods.translate(glm::vec3(lenght * 0.2, 0.0, 0.0));
+	handles.translate(glm::vec3(lenght * 0.1, 0.0, 0.0));
+	rods.translate(glm::vec3(lenght * 0.1, 0.0, 0.0));
 	this->addObject(handles);
 	this->addObject(rods);
 
-	handles.translate(glm::vec3(-lenght * 0.4, 0.0, 0.0));
-	rods.translate(glm::vec3(-lenght * 0.4, 0.0, 0.0));
+	handles.translate(glm::vec3(-lenght * 0.2, 0.0, 0.0));
+	rods.translate(glm::vec3(-lenght * 0.2, 0.0, 0.0));
 	this->addObject(handles);
 	this->addObject(rods);
 

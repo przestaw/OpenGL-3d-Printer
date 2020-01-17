@@ -104,6 +104,10 @@ void Printer::moveExtruderZ(bool up) {
 	}
 }
 
+void Printer::setMoveDelta(GLfloat deltaTime)
+{
+}
+
 inline glm::vec3 Printer::getNeadle()
 {
 	return glm::vec3(

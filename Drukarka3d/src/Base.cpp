@@ -14,13 +14,13 @@ Base::Base(GLfloat scale) {
 	baseBloc.translate(glm::vec3(0.0, 0.0, rodR * 9 + lenght / 2));
 	blocks.addObject(baseBloc);
 
-	block.translate(glm::vec3(lenght / 2, -rodR * 3, 0.0));
+	block.translate(glm::vec3(lenght * 0.6, -rodR * 3, 0.0));
 	blocks.addObject(block);
 
-	block.translate(glm::vec3(-lenght, 0.0, 0.0));
+	block.translate(glm::vec3(-1.2 * lenght, 0.0, 0.0));
 	blocks.addObject(block);
 
-	topBlock.translate(glm::vec3(rodR, lenght, rodR * 9 + lenght / 2));
+	topBlock.translate(glm::vec3(rodR, 1.2 * lenght, rodR * 9 + lenght / 2));
 	blocks.addObject(topBlock);
 
 	keyboardBloc.translate(glm::vec3(-lenght * 0.25, lenght * 0.08, rodR * 9 + lenght / 2));
@@ -34,7 +34,7 @@ Base::Base(GLfloat scale) {
 
 	CompositeGroup rods;
 	// Second : Rods
-	BasicCylinder rod(glm::vec3(0.6, 0.6, 0.6), lenght, rodR);
+	BasicCylinder rod(glm::vec3(0.6, 0.6, 0.6), 1.2 * lenght, rodR);
 	rod.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCylinder::M_PI / 2);
 	rod.rotate(glm::vec3(0.0, 0.0, 1.0), BasicCylinder::M_PI / 2);
 	
@@ -53,9 +53,9 @@ Base::Base(GLfloat scale) {
 	rods.setTexture(Texture("res/thread.jpg"), 0.50);
 
 	// Third : tower
-	BasicCylinder towerRod(glm::vec3(0.4, 0.4, 0.4), lenght, rodR);
+	BasicCylinder towerRod(glm::vec3(0.4, 0.4, 0.4), 1.1 * lenght, rodR);
 	
-	towerRod.translate(glm::vec3(0.0, lenght / 2, rodR * 2 + lenght / 2));
+	towerRod.translate(glm::vec3(0.0, lenght *0.6, rodR * 2 + lenght / 2));
 	rods.addObject(towerRod);
 	towerRod.translate(glm::vec3(0.0, 0.0, rodR * 14));
 	rods.addObject(towerRod);
@@ -65,7 +65,7 @@ Base::Base(GLfloat scale) {
 
 	this->addObject(rods);
 
-	BasicCylinder threadRod(glm::vec3(0.01, 0.01, 0.01), lenght, rodR * 2);
+    BasicCylinder threadRod(glm::vec3(0.1, 0.1, 0.1), 1.1 * lenght, rodR * 2);
 
 	threadRod.translate(glm::vec3(rodR, lenght / 2, rodR * 9 + lenght / 2));
 	Material metal2(32, Texture("res/thread.jpg"), 0.6, Texture("res/thread_ref.jpg"), 0.4);
