@@ -27,7 +27,8 @@ Base::Base(GLfloat scale) {
 	keyboardBloc.rotate(glm::vec3(0.0, 0.0, 1.0), BasicCylinder::M_PI / 4);
 	blocks.addObject(keyboardBloc);
 
-	blocks.setTexture(Texture("res/plastic.jpg"), 0.2);
+	Material plastic(26.0f, Texture("res/plastic.jpg"), 0.2f, Texture("res/plastic_ref.jpg"), 0.8f);
+	blocks.setMaterial(plastic);
 
 	this->addObject(blocks);
 
@@ -59,12 +60,17 @@ Base::Base(GLfloat scale) {
 	towerRod.translate(glm::vec3(0.0, 0.0, rodR * 14));
 	rods.addObject(towerRod);
 	
+	Material metal1(128, Texture("res/thread.jpg"), 0.8, Texture("res/thread_ref.jpg"), 0.6);
+	rods.setMaterial(metal1);
+
 	this->addObject(rods);
 
-	BasicCylinder threadRod(glm::vec3(0.1, 0.1, 0.1), 1.1 * lenght, rodR * 2);
+    BasicCylinder threadRod(glm::vec3(0.1, 0.1, 0.1), 1.1 * lenght, rodR * 2);
 
-	threadRod.translate(glm::vec3(rodR, lenght * 0.6, rodR * 9 + lenght / 2));
-	threadRod.setTexture(Texture("res/thread.jpg"), 0.50);
+	threadRod.translate(glm::vec3(rodR, lenght / 2, rodR * 9 + lenght / 2));
+	Material metal2(32, Texture("res/thread.jpg"), 0.6, Texture("res/thread_ref.jpg"), 0.4);
+	threadRod.setMaterial(metal2);
+
 	this->addObject(threadRod);
 
 	// Fourth : the screen

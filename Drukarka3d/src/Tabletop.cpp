@@ -37,6 +37,10 @@ Tabletop::Tabletop(GLfloat scale) {
 	handles.addObject(high);
 	handles.addObject(low);
 
+	Material shine(186);
+	handles.setMaterial(shine);
+	rods.setMaterial(shine);
+
 	// add 2 pairs
 	handles.translate(glm::vec3(lenght * 0.1, 0.0, 0.0));
 	rods.translate(glm::vec3(lenght * 0.1, 0.0, 0.0));
@@ -52,7 +56,9 @@ Tabletop::Tabletop(GLfloat scale) {
 
 	table.translate(glm::vec3(0.0, 7 * rodR, 0.0));
 	table.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCone::M_PI);
-	table.setTexture(Texture("res/coneTex.png"), 0.4);
+	Material grill(64, Texture("res/coneTex.png"), 0.5, Texture("res/coneTex.png"), 0.2);
+	
+	table.setMaterial(grill);
 
 	this->addObject(table);
 }
