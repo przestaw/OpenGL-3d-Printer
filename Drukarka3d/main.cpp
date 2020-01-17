@@ -61,6 +61,12 @@ bool moveExtruderBack = false;
 
 bool flashlightOn = true;
 
+bool spawnBallPressed = false;
+bool spawnCubePressed = false;
+bool spawnConePressed = false;
+bool spawnCylinderPressed = false;
+bool spawnIceCreamPressed = false;
+
 // Using directives
 using std::cout;
 using std::cerr;
@@ -75,6 +81,9 @@ void handleMovement(GLfloat deltaTime);
 
 // Handling extruder movement
 void handleExtruderMovement(Printer& printer, const GLfloat deltaTime);
+
+// Handling "3d printing"
+void handleSpawningObjects(Printer& printer);
 
 void mouseCallback(GLFWwindow* window, double xPos, double yPos);
 
@@ -277,6 +286,7 @@ int main() {
 			}
 
 			handleExtruderMovement(printer, static_cast<GLfloat>(deltaTime / 2.0));
+			handleSpawningObjects(printer);
 
 			glClearColor(.08f, .08f, 0.08f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -352,6 +362,11 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		if (key == GLFW_KEY_RIGHT) { moveExtruderRight = true; }
 		if (key == GLFW_KEY_O) { moveExtruderAhead = true; }
 		if (key == GLFW_KEY_L) { moveExtruderBack = true; }
+		if (key == GLFW_KEY_1) { spawnBallPressed = true; }
+		if (key == GLFW_KEY_2) { spawnConePressed = true; }
+		if (key == GLFW_KEY_3) { spawnCubePressed = true; }
+		if (key == GLFW_KEY_4) { spawnCylinderPressed = true; }
+		if (key == GLFW_KEY_5) { spawnIceCreamPressed = true; }
 	}
 
 	if (action == GLFW_RELEASE) {
@@ -359,12 +374,6 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		if (key == GLFW_KEY_A) { keyAHold = false; }
 		if (key == GLFW_KEY_S) { keySHold = false; } 
 		if (key == GLFW_KEY_D) { keyDHold = false; }
-		if (key == GLFW_KEY_UP) { moveExtruderUp = false; }
-		if (key == GLFW_KEY_DOWN) { moveExtruderDown = false; }
-		if (key == GLFW_KEY_LEFT) { moveExtruderLeft = false; }
-		if (key == GLFW_KEY_RIGHT) { moveExtruderRight = false; }
-		if (key == GLFW_KEY_O) { moveExtruderAhead = false; }
-		if (key == GLFW_KEY_L) { moveExtruderBack = false; }
 	}
 
 }
@@ -385,23 +394,54 @@ void handleMovement(GLfloat deltaTime) {
 }
 
 void handleExtruderMovement(Printer& printer, const GLfloat deltaTime) {
+	printer.setMoveDelta(deltaTime);
 	if (moveExtruderAhead) {
 		printer.moveExtruderX(true);
+		moveExtruderAhead = false;
 	}
 	if (moveExtruderBack) {
 		printer.moveExtruderX(false);
+		moveExtruderBack = false;
 	}
 	if (moveExtruderUp) {
 		printer.moveExtruderZ(true);
+		moveExtruderUp = false;
 	}
 	if (moveExtruderDown) {
 		printer.moveExtruderZ(false);
+		moveExtruderDown = false;
 	}
 	if (moveExtruderRight) {
 		printer.moveExtruderY(true);
+		moveExtruderRight = false;
 	}
 	if (moveExtruderLeft) {
 		printer.moveExtruderY(false);
+		moveExtruderLeft = false;
+	}
+}
+
+void handleSpawningObjects(Printer& printer)
+{
+	if (spawnBallPressed) {
+		printer.spawnBall();
+		spawnBallPressed = false;
+	}
+	if (spawnCubePressed) {
+		printer.spawnCube();
+		spawnCubePressed = false;
+	}
+	if (spawnConePressed) {
+		printer.spawnCone();
+		spawnConePressed = false;
+	}
+	if (spawnCylinderPressed) {
+		printer.spawnCylinder();
+		spawnCylinderPressed = false;
+	}
+	if (spawnIceCreamPressed) {
+		printer.spawnIceCream();
+		spawnIceCreamPressed = false;
 	}
 }
 
