@@ -221,7 +221,7 @@ int main() {
 		exterior.addObject(table);
 		*/
 		// Terrain
-		Terrain terrain(15.0f, 15.0f, 300, 0.05f);
+		Terrain terrain(15.0f, 15.0f, 300, 0.05f, true);
 		terrain.translate(glm::vec3(0.0f, -0.1f, 0.0f));
 		terrain.setTexture(Texture("res/grass.jpg"), 0.8f);
 

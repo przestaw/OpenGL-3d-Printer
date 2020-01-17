@@ -1,18 +1,8 @@
 #include "../include/Terrain.h"
 #include <ctime> // time
 
-Terrain::Terrain(GLfloat width, GLfloat lenght, GLuint subdivisions, GLfloat maxHeight)
-{
-	this->width = width;
-	this->lenght = lenght;
-	this->subdivisions = subdivisions;
-	this->maxHeight = maxHeight;
-	
-	generate();
-}
-
-void Terrain::generate()
-{
+Terrain::Terrain(GLfloat width, GLfloat lenght, GLuint subdivisions, GLfloat maxHeight, bool textureMappingByPrzemek)
+{	
 	/* Generate vertices */
 	std::vector<Vertex> _vertices;
 
@@ -43,8 +33,9 @@ void Terrain::generate()
 			position = glm::vec3(col * width / subdivisions - width / 2.0f, 
 			                               height, 
 				                           ((subdivisions - row) * lenght) / subdivisions - (lenght / 2.0f));
-			texCoord = glm::vec2((GLfloat)(col % 2), (GLfloat)(row % 2));
-			//texCoord = glm::vec2((GLfloat)col, (GLfloat)row);
+			texCoord = textureMappingByPrzemek ?
+			            glm::vec2((GLfloat)(col % 2), (GLfloat)(row % 2)) :
+			            glm::vec2((GLfloat)col, (GLfloat)row);
 			_vertices.push_back(Vertex(position, color, texCoord, glm::vec3(0.0f)));
 		}
 	}
