@@ -113,6 +113,7 @@
     <ClCompile Include="src\Forest.cpp" />
     <ClCompile Include="src\IceCream.cpp" />
     <ClCompile Include="src\LightManager.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
     <ClCompile Include="src\Printer.cpp" />
     <ClCompile Include="src\Skybox.cpp" />
@@ -148,6 +149,7 @@
     <ClInclude Include="include\IceCream.h" />
     <ClInclude Include="include\LightManager.h" />
     <ClInclude Include="include\LightObject.h" />
+    <ClInclude Include="include\Material.h" />
     <ClInclude Include="include\ObjectGroup.h" />
     <ClInclude Include="include\Printer.h" />
     <ClInclude Include="include\shprogram.h" />

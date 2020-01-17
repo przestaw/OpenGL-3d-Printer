@@ -3,6 +3,8 @@
 #include "AbstractObj.h"
 #include "Vertex.h"
 #include "Texture.h"
+#include <Material.h>
+
 #include <vector>
 
 class GraphicsObj : public AbstractObj {
@@ -11,14 +13,10 @@ public:
 
 	void Draw(ShaderProgram shader, const glm::mat4& parentMat = glm::mat4(1.0f));
 
+	// This function is deprecated please use setMaterial instead
 	void setTexture(const Texture &texture, const GLfloat texImpact);
 
-	void setDiffuseMap(const Texture& map, const GLfloat mapImpact);
-
-	void setSpecularMap(const Texture& map, const GLfloat mapImpact);
-
-	// Preferably a power of two
-	void setShininess(const GLfloat shininess);
+	void setMaterial(const Material& material);
 
 
 	GraphicsObj(const GraphicsObj& other);
@@ -29,14 +27,8 @@ protected:
 	GLuint VBO;
 	// Element Buffer Object
 	GLuint EBO;
-	// Light maps
-	Texture diffuseTex;
-	Texture specularTex;
-	// Impact of light maps
-	GLfloat diffuseImpact;
-	GLfloat specularImpact;
-	// Shininess
-	GLfloat shininess;
+
+	Material material;
 
 	// Triangles and Indices, vector allows for easy modification
 	std::vector<Vertex> vertices;

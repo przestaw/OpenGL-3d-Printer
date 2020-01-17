@@ -1,6 +1,6 @@
 #include "../include/GraphicsObj.h"
 
-GraphicsObj::GraphicsObj() : diffuseImpact(0.0f), specularImpact(0.0f), shininess(32.0f) {
+GraphicsObj::GraphicsObj() {
 	// Generate buffers
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -19,16 +19,7 @@ void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 	glm::mat4 finalModel = parentMat * model;
 	shader.setMat4Uniform("model", finalModel);
 	shader.setMat4Uniform("normalTrans", glm::transpose(glm::inverse(finalModel)));
-	shader.setFloatUniform("material.diffuseImpact", diffuseImpact);
-	shader.setFloatUniform("material.specularImpact", specularImpact);
-	shader.setFloatUniform("material.shininess", shininess);
-
-	// Choose light maps
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, diffuseTex.getId()); 
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, specularTex.getId());
+	material.draw(shader);
 
 	// Bind the Vertex Array Object
 	glBindVertexArray(VAO);
@@ -40,40 +31,19 @@ void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 
 // DEPRECATED please use setDiffuseMap and setSpecularMap
 void GraphicsObj::setTexture(const Texture& texture, const GLfloat texIm) {
-	setDiffuseMap(texture, texIm);
-	setSpecularMap(texture, texIm);
+	this->material = Material(texture, texIm);
 }
 
-void GraphicsObj::setDiffuseMap(const Texture& map, const GLfloat mapImpact)
+void GraphicsObj::setMaterial(const Material& material)
 {
-	diffuseTex = map;
-
-	diffuseImpact = ((mapImpact > 0.0f) ? ((mapImpact <= 1.0) ? mapImpact : 1.0) : 0.0);
-}
-
-void GraphicsObj::setSpecularMap(const Texture& map, const GLfloat mapImpact)
-{
-	specularTex = map;
-
-	specularImpact = ((mapImpact > 0.0f) ? ((mapImpact <= 1.0) ? mapImpact : 1.0) : 0.0);
-}
-
-void GraphicsObj::setShininess(const GLfloat shininess)
-{
-	this->shininess = shininess;
+	this->material = material;
 }
 
 GraphicsObj::GraphicsObj(const GraphicsObj& other) : GraphicsObj() {
 	this->model = other.model;
 	this->setVertices(std::vector<Vertex>(other.vertices));
 	this->setIndices(std::vector<unsigned int>(other.indices));
-
-	// Copy material
-	this->diffuseTex = other.diffuseTex;
-	this->diffuseImpact = other.diffuseImpact;
-	this->specularTex = other.specularTex;
-	this->specularImpact = other.specularImpact;
-	this->shininess = other.shininess;
+	this->material = other.material;
 }
 
 void GraphicsObj::setVertices(std::vector<Vertex> vertices_a) {
