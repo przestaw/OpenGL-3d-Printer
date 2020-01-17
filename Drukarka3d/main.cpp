@@ -225,7 +225,7 @@ int main() {
 		exterior.addObject(table);
 
 		// Pretty random forrest
-		Forrest forrest(0.6, 6.0, 0.35, 55, 55, Texture("res/bark.jpg"), Texture("res/leaves.jpg"), Texture("res/neadles.jpg"));
+		Forrest forrest(0.6, 6.0, 0.35, 5, 5, Texture("res/bark.jpg"), Texture("res/leaves.jpg"), Texture("res/neadles.jpg"));
 
 		forrest.translate(glm::vec3(0.0, -0.1, 0.0));
 
@@ -236,8 +236,6 @@ int main() {
 
 		bool flashlightLastFrame = true;
 		double counter = 0;
-
-		printer.spawnIceCream();
 
 		while (!glfwWindowShouldClose(window)) {
 			currentFrame = glfwGetTime();
