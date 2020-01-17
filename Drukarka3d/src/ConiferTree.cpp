@@ -3,12 +3,12 @@
 #include "BasicCone.h"
 #include <CompositeGroup.h>
 
-ConiferTree::ConiferTree(glm::vec3 leaves, glm::vec3 wood, GLfloat height, GLfloat radius, GLuint segments, Texture leavesTex, Texture woodTex) {
+ConiferTree::ConiferTree(glm::vec3 leaves, glm::vec3 wood, GLfloat height, GLfloat radius, GLuint segments, Material leavesTex, Material woodTex) {
 	BasicCone woodCyl(wood, height, radius * 0.2, radius * 0.15);
 
 	woodCyl.translate(glm::vec3(0.0, -height * 0.45, 0.0));
-	if (woodTex.getId() != 0)
-		woodCyl.setTexture(woodTex, 0.6);
+
+	woodCyl.setMaterial(woodTex);
 	
 	this->addObject(woodCyl);
 
@@ -28,8 +28,7 @@ ConiferTree::ConiferTree(glm::vec3 leaves, glm::vec3 wood, GLfloat height, GLflo
 	top.translate(glm::vec3(0.0, step * ++segments, 0.0));
 	green.addObject(top);
 
-	if (leavesTex.getId() != 0)
-		green.setTexture(leavesTex, 0.6);
+	green.setMaterial(leavesTex);
 
 	green.translate(glm::vec3(0.0, -(height - step*segments/2.2), 0.0));
 

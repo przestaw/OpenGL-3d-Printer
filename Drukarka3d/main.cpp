@@ -221,11 +221,15 @@ int main() {
 		// Globe XD
 		BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 1.0, 0.2, 1.0);
 		table.translate(glm::vec3(0.0, -0.15, 0.0));
-		table.setTexture(Texture("res/table.jpg"), 0.8);
+		Material wood(10, Texture("res/table.jpg"), 0.8, Texture("res/black.jpg"), 1.0);
+		table.setMaterial(wood);
 		exterior.addObject(table);
 
 		// Pretty random forrest
-		Forrest forrest(0.6, 6.0, 0.35, 5, 5, Texture("res/bark.jpg"), Texture("res/leaves.jpg"), Texture("res/neadles.jpg"));
+		Material leaves = Material(16.0, Texture("res/leaves.jpg"), 0.8, Texture("res/leaves_ref.jpg"), 1.0);
+		Material neadles = Material(64.0, Texture("res/neadles.jpg"), 0.8, Texture("res/neadles_ref.jpg"), 1.0);
+		Material bark = Material(4.0, Texture("res/bark.jpg"), 0.8, Texture("res/white.jpg"), 0.2);
+		Forrest forrest(0.6, 6.0, 0.35, 65, 65, bark, leaves, neadles, 12);
 
 		forrest.translate(glm::vec3(0.0, -0.1, 0.0));
 

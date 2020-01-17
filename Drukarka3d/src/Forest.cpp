@@ -4,7 +4,7 @@
 #include <random>
 #include <iostream>
 
-Forrest::Forrest(GLfloat centerR, GLfloat outerR, GLfloat maxHeight, unsigned coniferCount, unsigned deciduousCount, Texture woodTex, Texture deciduousGreen, Texture coniferGreen, unsigned iceCreamCount) {
+Forrest::Forrest(GLfloat centerR, GLfloat outerR, GLfloat maxHeight, unsigned coniferCount, unsigned deciduousCount, Material woodTex, Material deciduousGreen, Material coniferGreen, unsigned iceCreamCount) {
 	std::mt19937_64 myRand(std::random_device{}());
 	std::uniform_real_distribution<GLfloat> myRandFloat(centerR, outerR);
 	std::normal_distribution<GLfloat> myRandHeight(0.0, 0.3 * maxHeight);
