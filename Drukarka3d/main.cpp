@@ -221,12 +221,12 @@ int main() {
 		exterior.addObject(table);
 		*/
 		// Terrain
-		Terrain terrain(15.0f, 15.0f, 300, 0.05f, true);
+		Terrain terrain(36.0f, 36.0f, 200, 0.18f, false);
 		terrain.translate(glm::vec3(0.0f, -0.1f, 0.0f));
 		terrain.setTexture(Texture("res/grass.jpg"), 0.8f);
 
 		// Pretty random forrest
-		Forrest forrest(0.6, 6.0, 0.35, 55, 55, Texture("res/bark.jpg"), Texture("res/leaves.jpg"), Texture("res/neadles.jpg"));
+		Forrest forrest(0.6, 6.0, 0.35, 5, 5, Texture("res/bark.jpg"), Texture("res/leaves.jpg"), Texture("res/neadles.jpg"));
 
 		forrest.translate(glm::vec3(0.0, -0.1, 0.0));
 

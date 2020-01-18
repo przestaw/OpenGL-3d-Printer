@@ -1,12 +1,13 @@
 #include "../include/Terrain.h"
-#include <ctime> // time
+#include <random>
 
 Terrain::Terrain(GLfloat width, GLfloat lenght, GLuint subdivisions, GLfloat maxHeight, bool textureMappingByPrzemek)
 {	
 	/* Generate vertices */
 	std::vector<Vertex> _vertices;
 
-	srand((unsigned)time(0));
+	std::mt19937_64 myRand(std::random_device{}());
+	std::uniform_real_distribution<GLfloat> myRandFloat(-0.7, 0.7);
 
 	// Generate first vertex, with completely random height from the range [0, maxHeight).
 	// Height of every next vertex will depend on the height of the previous one.
@@ -25,7 +26,7 @@ Terrain::Terrain(GLfloat width, GLfloat lenght, GLuint subdivisions, GLfloat max
 		{
 			if (row == 0 && col == 0) continue;
 
-			height = lastHeight + 0.01f * ((rand() % 2) == 0 ? 1.0f : -1.0f);
+			height = 0.5f * (lastHeight +  myRandFloat(myRand) * maxHeight);
 			if (height > maxHeight) height = maxHeight;
 			else if (height < 0.0f) height = 0.0;
 			lastHeight = height;
@@ -35,7 +36,7 @@ Terrain::Terrain(GLfloat width, GLfloat lenght, GLuint subdivisions, GLfloat max
 				                           ((subdivisions - row) * lenght) / subdivisions - (lenght / 2.0f));
 			texCoord = textureMappingByPrzemek ?
 			            glm::vec2((GLfloat)(col % 2), (GLfloat)(row % 2)) :
-			            glm::vec2((GLfloat)col, (GLfloat)row);
+			            glm::vec2(0.12 * (GLfloat)col, 0.12 *(GLfloat)row);
 			_vertices.push_back(Vertex(position, color, texCoord, glm::vec3(0.0f)));
 		}
 	}
