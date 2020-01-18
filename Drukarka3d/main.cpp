@@ -39,6 +39,7 @@
 #include <ConiferTree.h>
 #include <DeciduousTree.h>
 #include <Forest.h>
+#include <Terrain.h>
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -66,6 +67,7 @@ bool spawnCubePressed = false;
 bool spawnConePressed = false;
 bool spawnCylinderPressed = false;
 bool spawnIceCreamPressed = false;
+bool deleteSpawned = false;
 
 // Using directives
 using std::cout;
@@ -153,7 +155,7 @@ int main() {
 	try
 	{
 		// Create a GLFWwindow object that we can use for GLFW's functions
-		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", nullptr /* glfwGetPrimaryMonitor()*/, nullptr);
+		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trojwymiaru !", nullptr /* glfwGetPrimaryMonitor()*/, nullptr);
 
 		// Check if window is created
 		if (window == nullptr)
@@ -243,12 +245,18 @@ int main() {
 		Material wood(10, Texture("res/table.jpg"), 0.8, Texture("res/black.jpg"), 1.0);
 		table.setMaterial(wood);
 		exterior.addObject(table);
+		
+		// Terrain
+		Terrain terrain(18.0f, 18.0f, 90, 0.14f, false);
+		terrain.translate(glm::vec3(0.0f, -0.23f, 0.0f));
+		Material grassy(12, Texture("res/grass.jpg"), 0.8f, Texture("res/black.jpg"), 0.1f);
+		terrain.setMaterial(grassy);
 
 		// Pretty random forrest
 		Material leaves = Material(16.0, Texture("res/leaves.jpg"), 0.8, Texture("res/leaves_ref.jpg"), 1.0);
 		Material neadles = Material(64.0, Texture("res/neadles.jpg"), 0.8, Texture("res/neadles_ref.jpg"), 1.0);
 		Material bark = Material(4.0, Texture("res/bark.jpg"), 0.8, Texture("res/white.jpg"), 0.2);
-		Forrest forrest(0.6, 6.0, 0.35, 65, 65, bark, leaves, neadles, 12);
+		Forrest forrest(0.6, 8.5, 0.35, 70, 70, bark, leaves, neadles, 18);
 
 		forrest.translate(glm::vec3(0.0, -0.1, 0.0));
 
@@ -313,6 +321,9 @@ int main() {
 			// Set up light on scene
 			lightManager.setUpLight(shaderBasic);
 
+			// Terrain
+			terrain.Draw(shaderBasic);
+
 			// Printer and table
 			printer.Draw(shaderBasic);
 			exterior.Draw(shaderBasic);
@@ -364,6 +375,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		if (key == GLFW_KEY_RIGHT) { moveExtruderRight = true; }
 		if (key == GLFW_KEY_O) { moveExtruderAhead = true; }
 		if (key == GLFW_KEY_L) { moveExtruderBack = true; }
+		if (key == GLFW_KEY_0) { deleteSpawned = true; }
 		if (key == GLFW_KEY_1) { spawnBallPressed = true; }
 		if (key == GLFW_KEY_2) { spawnConePressed = true; }
 		if (key == GLFW_KEY_3) { spawnCubePressed = true; }
@@ -425,6 +437,10 @@ void handleExtruderMovement(Printer& printer, const GLfloat deltaTime) {
 
 void handleSpawningObjects(Printer& printer)
 {
+	if (deleteSpawned) {
+		printer.deleteSpawned();
+		deleteSpawned = false;
+	}
 	if (spawnBallPressed) {
 		printer.spawnBall();
 		spawnBallPressed = false;

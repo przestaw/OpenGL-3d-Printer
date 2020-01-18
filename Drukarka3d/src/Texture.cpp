@@ -19,7 +19,7 @@ void Texture::loadTexture(const char* fname) {
 	// Load tex
 	unsigned char* image = SOIL_load_image(fname, &width, &height, 0, SOIL_LOAD_RGB);
 	if (image == nullptr)
-		throw std::exception("Failde to load texture");
+		throw std::exception("Failed to load texture");
 	glGenTextures(1, &textureId);
 
 	glBindTexture(GL_TEXTURE_2D, textureId);

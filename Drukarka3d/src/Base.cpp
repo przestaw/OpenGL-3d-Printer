@@ -67,7 +67,7 @@ Base::Base(GLfloat scale) {
 
     BasicCylinder threadRod(glm::vec3(0.1, 0.1, 0.1), 1.1 * lenght, rodR * 2);
 
-	threadRod.translate(glm::vec3(rodR, lenght / 2, rodR * 9 + lenght / 2));
+	threadRod.translate(glm::vec3(rodR, lenght *0.6, rodR * 9 + lenght / 2));
 	Material metal2(32, Texture("res/thread.jpg"), 0.6, Texture("res/thread_ref.jpg"), 0.4);
 	threadRod.setMaterial(metal2);
 

@@ -126,6 +126,9 @@
     <ClCompile Include="src\BasicCone.cpp">
       <Filter>Pliki źródłowe\BasicPrimitives</Filter>
     </ClCompile>
+    <ClCompile Include="src\Terrain.cpp">
+      <Filter>Pliki źródłowe\Surroundings</Filter>
+    </ClCompile>
     <ClCompile Include="src\Material.cpp">
       <Filter>Pliki źródłowe\BaseObj</Filter>
     </ClCompile>
@@ -213,6 +216,9 @@
       <Filter>Pliki nagłówkowe\Surroundings</Filter>
     </ClInclude>
     <ClInclude Include="include\Forest.h">
+      <Filter>Pliki nagłówkowe\Surroundings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Terrain.h">
       <Filter>Pliki nagłówkowe\Surroundings</Filter>
     </ClInclude>
     <ClInclude Include="include\Material.h">
