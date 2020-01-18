@@ -107,6 +107,7 @@
     <ClCompile Include="src\BasicCone.cpp" />
     <ClCompile Include="src\ConiferTree.cpp" />
     <ClCompile Include="src\DeciduousTree.cpp" />
+    <ClCompile Include="src\Digit.cpp" />
     <ClCompile Include="src\DirectionalLight.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="src\Extruder.cpp" />
@@ -116,6 +117,7 @@
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
     <ClCompile Include="src\Printer.cpp" />
+    <ClCompile Include="src\Screen.cpp" />
     <ClCompile Include="src\Skybox.cpp" />
     <ClCompile Include="src\SpotLight.cpp" />
     <ClCompile Include="src\AbstractObj.cpp" />
@@ -144,6 +146,7 @@
     <ClInclude Include="include\CompositeGroup.h" />
     <ClInclude Include="include\ConiferTree.h" />
     <ClInclude Include="include\DeciduousTree.h" />
+    <ClInclude Include="include\Digit.h" />
     <ClInclude Include="include\Extruder.h" />
     <ClInclude Include="include\Forest.h" />
     <ClInclude Include="include\GraphicsObj.h" />
@@ -153,6 +156,7 @@
     <ClInclude Include="include\Material.h" />
     <ClInclude Include="include\ObjectGroup.h" />
     <ClInclude Include="include\Printer.h" />
+    <ClInclude Include="include\Screen.h" />
     <ClInclude Include="include\shprogram.h" />
     <ClInclude Include="include\Skybox.h" />
     <ClInclude Include="include\Tabletop.h" />

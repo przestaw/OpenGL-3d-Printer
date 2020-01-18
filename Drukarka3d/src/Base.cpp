@@ -1,6 +1,8 @@
 #include "Base.h"
 
-Base::Base(GLfloat scale) {
+Base::Base(GLfloat scale)
+	: screen(scale, 0)
+{
 	GLfloat lenght = scale;
 	GLfloat rodR = scale * 0.01;
 
@@ -73,10 +75,25 @@ Base::Base(GLfloat scale) {
 
 	this->addObject(threadRod);
 
-	// Fourth : the screen
-	BasicCuboid screenBloc(glm::vec3(0.2, 0.4, 0.9), lenght / 6, rodR * 6, lenght / 6);
+	// Fourth : the screen	
+	screen.translate(glm::vec3(-lenght * 0.2, lenght * 0.14, rodR * 9 + lenght / 2));
+	screen.rotate(glm::vec3(0.0, 0.0, 1.0), BasicCylinder::M_PI / 4);
+}
 
-	screenBloc.translate(glm::vec3(-lenght * 0.2, lenght * 0.14, rodR * 9 + lenght / 2));
-	screenBloc.rotate(glm::vec3(0.0, 0.0, 1.0), BasicCylinder::M_PI / 4);
-	this->addObject(screenBloc);
+void Base::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
+	for (auto& it : containedObjects) {
+		it->Draw(shader, (parentMat * this->model));
+	}
+
+	screen.Draw(shader, parentMat * this->model);
+}
+
+void Base::incrementNumberOnScreen()
+{
+	screen.incrementNumber();
+}
+
+void Base::setNumberOnScreen(short number)
+{
+	screen.setNumber(number);
 }

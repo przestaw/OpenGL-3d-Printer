@@ -132,6 +132,12 @@
     <ClCompile Include="src\Material.cpp">
       <Filter>Pliki źródłowe\BaseObj</Filter>
     </ClCompile>
+    <ClCompile Include="src\Screen.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Digit.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\shprogram.h">
@@ -223,6 +229,12 @@
     </ClInclude>
     <ClInclude Include="include\Material.h">
       <Filter>Pliki nagłówkowe\BaseObj</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Screen.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Digit.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
