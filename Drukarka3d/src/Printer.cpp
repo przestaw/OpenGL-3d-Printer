@@ -19,6 +19,8 @@ void Printer::spawnBall(glm::vec3 color){
 	BasicSphere temp(color, scale * ratio, 9, 9);
 	temp.translate(getNeadle()); 
 	this->addObject(std::make_unique<BasicSphere>(std::move(temp)));
+	
+	printerBase.incrementNumberOnScreen();
 }
 
 void Printer::spawnCube(glm::vec3 color) {
@@ -26,18 +28,25 @@ void Printer::spawnCube(glm::vec3 color) {
 	temp.translate(getNeadle()); 
 	temp.setTexture(Texture("res/citrus.jpg"),0.99);
 	this->addObject(std::make_unique<BasicCube>(std::move(temp)));
+
+	printerBase.incrementNumberOnScreen();
+
 }
 
 void Printer::spawnCone(glm::vec3 color) {
 	BasicCone temp(color,scale * ratio ,scale * ratio);
 	temp.translate(getNeadle()); 
 	this->addObject(std::make_unique<BasicCone>(std::move(temp)));
+
+	printerBase.incrementNumberOnScreen();
 }
 
 void Printer::spawnCylinder(glm::vec3 color) {
 	BasicCone temp(color, scale * ratio, scale * ratio);
 	temp.translate(getNeadle()); 
 	this->addObject(std::make_unique<BasicCone>(std::move(temp)));
+
+	printerBase.incrementNumberOnScreen();
 }
 
 void Printer::spawnIceCream(glm::vec3 color){
@@ -45,6 +54,8 @@ void Printer::spawnIceCream(glm::vec3 color){
 	temp.translate(getNeadle() + glm::vec3(0.0, -scale*(ratio*2.5*1.17), 0.0));
 	
 	this->copyObjects(temp);
+
+	printerBase.incrementNumberOnScreen();
 }
 
 void Printer::deleteSpawned() {

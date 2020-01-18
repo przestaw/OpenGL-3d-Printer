@@ -1,7 +1,8 @@
 #pragma once
+
 #include "BasicCuboid.h"
-//#include "ObjectGroup.h"
 #include "Digit.h"
+
 class Screen : public GraphicsObj
 {
 public:
@@ -11,6 +12,8 @@ public:
 
 	void setNumber(GLshort number);
 	void incrementNumber();
+
+	static const double M_PI;
 private:
 	GLshort number;
 	BasicCuboid screen;

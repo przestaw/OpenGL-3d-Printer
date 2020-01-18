@@ -1,7 +1,6 @@
 #pragma once
 
-#include <GraphicsObj.h>
-#include <BasicCuboid.h>
+#include "BasicCuboid.h"
 
 class Digit : public GraphicsObj
 {
