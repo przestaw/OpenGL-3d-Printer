@@ -129,6 +129,9 @@
     <ClCompile Include="src\Terrain.cpp">
       <Filter>Pliki źródłowe\Surroundings</Filter>
     </ClCompile>
+    <ClCompile Include="src\Material.cpp">
+      <Filter>Pliki źródłowe\BaseObj</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\shprogram.h">
@@ -217,6 +220,9 @@
     </ClInclude>
     <ClInclude Include="include\Terrain.h">
       <Filter>Pliki nagłówkowe\Surroundings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Material.h">
+      <Filter>Pliki nagłówkowe\BaseObj</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

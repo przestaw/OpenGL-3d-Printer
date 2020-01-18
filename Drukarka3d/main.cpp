@@ -67,6 +67,7 @@ bool spawnCubePressed = false;
 bool spawnConePressed = false;
 bool spawnCylinderPressed = false;
 bool spawnIceCreamPressed = false;
+bool deleteSpawned = false;
 
 // Using directives
 using std::cout;
@@ -246,15 +247,16 @@ int main() {
 		exterior.addObject(table);
 		
 		// Terrain
-		Terrain terrain(36.0f, 36.0f, 200, 0.18f, false);
-		terrain.translate(glm::vec3(0.0f, -0.1f, 0.0f));
-		terrain.setTexture(Texture("res/grass.jpg"), 0.8f);
+		Terrain terrain(16.0f, 16.0f, 120, 0.18f, false);
+		terrain.translate(glm::vec3(0.0f, -0.23f, 0.0f));
+		Material grassy(12, Texture("res/grass.jpg"), 0.8f, Texture("res/black.jpg"), 0.1f);
+		terrain.setMaterial(grassy);
 
 		// Pretty random forrest
 		Material leaves = Material(16.0, Texture("res/leaves.jpg"), 0.8, Texture("res/leaves_ref.jpg"), 1.0);
 		Material neadles = Material(64.0, Texture("res/neadles.jpg"), 0.8, Texture("res/neadles_ref.jpg"), 1.0);
 		Material bark = Material(4.0, Texture("res/bark.jpg"), 0.8, Texture("res/white.jpg"), 0.2);
-		Forrest forrest(0.6, 6.0, 0.35, 65, 65, bark, leaves, neadles, 12);
+		Forrest forrest(0.6, 8.0, 0.35, 65, 65, bark, leaves, neadles, 12);
 
 		forrest.translate(glm::vec3(0.0, -0.1, 0.0));
 
@@ -373,6 +375,7 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		if (key == GLFW_KEY_RIGHT) { moveExtruderRight = true; }
 		if (key == GLFW_KEY_O) { moveExtruderAhead = true; }
 		if (key == GLFW_KEY_L) { moveExtruderBack = true; }
+		if (key == GLFW_KEY_0) { deleteSpawned = true; }
 		if (key == GLFW_KEY_1) { spawnBallPressed = true; }
 		if (key == GLFW_KEY_2) { spawnConePressed = true; }
 		if (key == GLFW_KEY_3) { spawnCubePressed = true; }
@@ -434,6 +437,10 @@ void handleExtruderMovement(Printer& printer, const GLfloat deltaTime) {
 
 void handleSpawningObjects(Printer& printer)
 {
+	if (deleteSpawned) {
+		printer.deleteSpawned();
+		deleteSpawned = false;
+	}
 	if (spawnBallPressed) {
 		printer.spawnBall();
 		spawnBallPressed = false;

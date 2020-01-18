@@ -9,11 +9,6 @@ Forrest::Forrest(GLfloat centerR, GLfloat outerR, GLfloat maxHeight, unsigned co
 	std::uniform_real_distribution<GLfloat> myRandFloat(centerR, outerR);
 	std::normal_distribution<GLfloat> myRandHeight(0.0, 0.3 * maxHeight);
 
-	BasicCuboid grass(glm::vec3(0.1, 0.4, 0.2), outerR * 2.5, - 0.4 * maxHeight, outerR * 2.5);
-	grass.translate(glm::vec3(0.0, -0.2 * maxHeight, 0.0));
-	grass.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCone::M_PI);
-
-	this->addObject(grass);
 	
 	for (unsigned i = 0; i < iceCreamCount; ++i) {
 		GLfloat moveX = myRandFloat(myRand);

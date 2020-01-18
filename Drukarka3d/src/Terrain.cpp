@@ -13,7 +13,7 @@ Terrain::Terrain(GLfloat width, GLfloat lenght, GLuint subdivisions, GLfloat max
 	// Height of every next vertex will depend on the height of the previous one.
 	GLfloat height = (rand() % (GLuint)(maxHeight * 100)) / 100.0f;
 	glm::vec3 position = glm::vec3(-width / 2.0f, height, lenght / 2.0f);
-	glm::vec3 color = glm::vec3(0.0f, 0.9f, 0.0f);
+	glm::vec3 color = glm::vec3(0.01f, 0.75f, 0.1f);
 	glm::vec2 texCoord = glm::vec2(0.0f, 0.0f);
 	_vertices.push_back(Vertex(position, color, texCoord, glm::vec3(0.0f)));
 
