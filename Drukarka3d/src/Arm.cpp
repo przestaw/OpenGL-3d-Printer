@@ -6,9 +6,10 @@ Arm::Arm(GLfloat scale) {
 	GLfloat threadR = scale * 0.003;
 
 	CompositeGroup rods; //Obj of same type [texture]
+	CompositeGroup threads; //Obj of same type [texture]
 	// First : Cylinders
-	BasicCylinder rod(glm::vec3(0.6, 0.6, 0.6), lenght, rodR);
-	BasicCylinder thread(glm::vec3(0.1, 0.1, 0.1), lenght, threadR);
+	BasicCylinder rod(glm::vec3(0.4, 0.4, 0.4), lenght, rodR);
+	BasicCylinder thread(glm::vec3(0.01, 0.01, 0.01), lenght, threadR);
 	rod.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCylinder::M_PI / 2);
 	thread.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCylinder::M_PI / 2);
 
@@ -16,17 +17,22 @@ Arm::Arm(GLfloat scale) {
 	thread.translate(glm::vec3(0.0, 0.0, rodR * 2));
 
 	rods.addObject(rod);
-	rods.addObject(thread);
+	threads.addObject(thread);
 
 	rod.translate(glm::vec3(0.0, 0.0, -rodR * 15));
 	thread.translate(glm::vec3(0.0, 0.0, -rodR * 4));
 
 	rods.addObject(rod);
-	rods.addObject(thread);
+	threads.addObject(thread);
 
-	rods.setTexture(Texture("res/thread.jpg"), 0.50);
+	Material metal1(128, Texture("res/thread.jpg"), 0.8, Texture("res/thread_ref.jpg"), 0.6);
+	rods.setMaterial(metal1);
 
+	Material metal2(32, Texture("res/thread.jpg"), 0.6, Texture("res/thread_ref.jpg"), 0.4);
+	threads.setMaterial(metal2);
+	
 	this->addObject(rods);
+	this->addObject(threads);
 
 	CompositeGroup orangeBoxes; //Obj of same type
 	// Second : motor and mount
@@ -36,7 +42,8 @@ Arm::Arm(GLfloat scale) {
 	motor.translate(glm::vec3(-rodR * 3, 0.0, rodR * 9 + lenght / 2));
 	motor.rotate(glm::vec3(1.0, 0.0, 0.0), BasicCylinder::M_PI / 4);
 
-	motor.setTexture(Texture("res/motor.jpg"), 0.4);
+	Material darkPlastic(26.0f, Texture("res/motor.jpg"), 0.9f, Texture("res/white.jpg"), 0.5f);
+	motor.setMaterial(darkPlastic);
 
 	orangeBoxes.addObject(box);
 
@@ -47,13 +54,11 @@ Arm::Arm(GLfloat scale) {
 
 	orangeBoxes.addObject(end);
 
-	orangeBoxes.setTexture(Texture("res/plastic.jpg"), 0.2);
+	Material plastic(26.0f, Texture("res/plastic.jpg"), 0.2f, Texture("res/plastic_ref.jpg"), 0.8f);
+	orangeBoxes.setMaterial(plastic);
 
 	this->addObject(orangeBoxes);
 
 	// Fourth : Screws 
-
 	//TODO
-
-	//this->translate(glm::vec3(0.0, 0.0, rodR*9));
 }

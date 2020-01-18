@@ -53,7 +53,20 @@ bool keyAHold = false;
 bool keySHold = false;
 bool keyDHold = false;
 
+bool moveExtruderUp = false;
+bool moveExtruderDown = false;
+bool moveExtruderLeft = false;
+bool moveExtruderRight = false;
+bool moveExtruderAhead = false;
+bool moveExtruderBack = false;
+
 bool flashlightOn = true;
+
+bool spawnBallPressed = false;
+bool spawnCubePressed = false;
+bool spawnConePressed = false;
+bool spawnCylinderPressed = false;
+bool spawnIceCreamPressed = false;
 
 // Using directives
 using std::cout;
@@ -66,6 +79,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 // Handling movement in four directions based on delta time and key callbacks
 void handleMovement(GLfloat deltaTime);
+
+// Handling extruder movement
+void handleExtruderMovement(Printer& printer, const GLfloat deltaTime);
+
+// Handling "3d printing"
+void handleSpawningObjects(Printer& printer);
 
 void mouseCallback(GLFWwindow* window, double xPos, double yPos);
 
@@ -171,6 +190,11 @@ int main() {
 		// Accept fragment if it closer to the camera than the former one
 		glDepthFunc(GL_LESS);
 
+		// Set light maps, 0 and 1 are just IDs
+		shaderBasic.Use();
+		shaderBasic.setIntUniform("material.diffuseMap", 0);
+		shaderBasic.setIntUniform("material.specularMap", 1);
+		
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_FRONT);
 
@@ -215,18 +239,22 @@ int main() {
 
 		ObjectGroup exterior;
 		// Globe XD
-		/*BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 1.0, 0.2f, 1.0);
+		BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 1.0, 0.2, 1.0);
 		table.translate(glm::vec3(0.0, -0.15, 0.0));
-		table.setTexture(Texture("res/table.jpg"), 0.8);
+		Material wood(10, Texture("res/table.jpg"), 0.8, Texture("res/black.jpg"), 1.0);
+		table.setMaterial(wood);
 		exterior.addObject(table);
-		*/
+		
 		// Terrain
 		Terrain terrain(36.0f, 36.0f, 200, 0.18f, false);
 		terrain.translate(glm::vec3(0.0f, -0.1f, 0.0f));
 		terrain.setTexture(Texture("res/grass.jpg"), 0.8f);
 
 		// Pretty random forrest
-		Forrest forrest(0.6, 6.0, 0.35, 5, 5, Texture("res/bark.jpg"), Texture("res/leaves.jpg"), Texture("res/neadles.jpg"));
+		Material leaves = Material(16.0, Texture("res/leaves.jpg"), 0.8, Texture("res/leaves_ref.jpg"), 1.0);
+		Material neadles = Material(64.0, Texture("res/neadles.jpg"), 0.8, Texture("res/neadles_ref.jpg"), 1.0);
+		Material bark = Material(4.0, Texture("res/bark.jpg"), 0.8, Texture("res/white.jpg"), 0.2);
+		Forrest forrest(0.6, 6.0, 0.35, 65, 65, bark, leaves, neadles, 12);
 
 		forrest.translate(glm::vec3(0.0, -0.1, 0.0));
 
@@ -237,8 +265,6 @@ int main() {
 
 		bool flashlightLastFrame = true;
 		double counter = 0;
-
-		printer.spawnIceCream();
 
 		while (!glfwWindowShouldClose(window)) {
 			currentFrame = glfwGetTime();
@@ -266,6 +292,9 @@ int main() {
 			if (keyAHold || keyWHold || keySHold || keyDHold) {
 				handleMovement(static_cast<GLfloat>(deltaTime/2.0));
 			}
+
+			handleExtruderMovement(printer, static_cast<GLfloat>(deltaTime / 2.0));
+			handleSpawningObjects(printer);
 
 			glClearColor(.08f, .08f, 0.08f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -333,36 +362,29 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		if (key == GLFW_KEY_ESCAPE) {
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
-		if (key == GLFW_KEY_W) {
-			keyWHold = true;
-		}
-		if (key == GLFW_KEY_A) {
-			keyAHold = true;
-		}
-		if (key == GLFW_KEY_S) {
-			keySHold = true;
-		}
-		if (key == GLFW_KEY_D) {
-			keyDHold = true;
-		}
-		if (key == GLFW_KEY_F) {
-			flashlightOn = !flashlightOn;
-		}
+		if (key == GLFW_KEY_W) { keyWHold = true; }
+		if (key == GLFW_KEY_A) { keyAHold = true; }
+		if (key == GLFW_KEY_S) { keySHold = true; }
+		if (key == GLFW_KEY_D) { keyDHold = true; }
+		if (key == GLFW_KEY_F) { flashlightOn = !flashlightOn; }
+		if (key == GLFW_KEY_UP) { moveExtruderUp = true; }
+		if (key == GLFW_KEY_DOWN) { moveExtruderDown = true; }
+		if (key == GLFW_KEY_LEFT) { moveExtruderLeft = true; }
+		if (key == GLFW_KEY_RIGHT) { moveExtruderRight = true; }
+		if (key == GLFW_KEY_O) { moveExtruderAhead = true; }
+		if (key == GLFW_KEY_L) { moveExtruderBack = true; }
+		if (key == GLFW_KEY_1) { spawnBallPressed = true; }
+		if (key == GLFW_KEY_2) { spawnConePressed = true; }
+		if (key == GLFW_KEY_3) { spawnCubePressed = true; }
+		if (key == GLFW_KEY_4) { spawnCylinderPressed = true; }
+		if (key == GLFW_KEY_5) { spawnIceCreamPressed = true; }
 	}
 
 	if (action == GLFW_RELEASE) {
-		if (key == GLFW_KEY_W) {
-			keyWHold = false;
-		}
-		if (key == GLFW_KEY_A) {
-			keyAHold = false;
-		}
-		if (key == GLFW_KEY_S) {
-			keySHold = false;
-		}
-		if (key == GLFW_KEY_D) {
-			keyDHold = false;
-		}
+		if (key == GLFW_KEY_W) { keyWHold = false; }
+		if (key == GLFW_KEY_A) { keyAHold = false; }
+		if (key == GLFW_KEY_S) { keySHold = false; } 
+		if (key == GLFW_KEY_D) { keyDHold = false; }
 	}
 
 }
@@ -379,6 +401,58 @@ void handleMovement(GLfloat deltaTime) {
 	}
 	if (keyDHold) {
 		camera.handleKeyboard(Camera::RIGHT, deltaTime);
+	}
+}
+
+void handleExtruderMovement(Printer& printer, const GLfloat deltaTime) {
+	printer.setMoveDelta(deltaTime);
+	if (moveExtruderAhead) {
+		printer.moveExtruderX(true);
+		moveExtruderAhead = false;
+	}
+	if (moveExtruderBack) {
+		printer.moveExtruderX(false);
+		moveExtruderBack = false;
+	}
+	if (moveExtruderUp) {
+		printer.moveExtruderZ(true);
+		moveExtruderUp = false;
+	}
+	if (moveExtruderDown) {
+		printer.moveExtruderZ(false);
+		moveExtruderDown = false;
+	}
+	if (moveExtruderRight) {
+		printer.moveExtruderY(true);
+		moveExtruderRight = false;
+	}
+	if (moveExtruderLeft) {
+		printer.moveExtruderY(false);
+		moveExtruderLeft = false;
+	}
+}
+
+void handleSpawningObjects(Printer& printer)
+{
+	if (spawnBallPressed) {
+		printer.spawnBall();
+		spawnBallPressed = false;
+	}
+	if (spawnCubePressed) {
+		printer.spawnCube();
+		spawnCubePressed = false;
+	}
+	if (spawnConePressed) {
+		printer.spawnCone();
+		spawnConePressed = false;
+	}
+	if (spawnCylinderPressed) {
+		printer.spawnCylinder();
+		spawnCylinderPressed = false;
+	}
+	if (spawnIceCreamPressed) {
+		printer.spawnIceCream();
+		spawnIceCreamPressed = false;
 	}
 }
 

@@ -21,6 +21,8 @@ public:
 	void moveExtruderX(bool up);
 	void moveExtruderY(bool up);
 	void moveExtruderZ(bool up);
+	void setMoveDelta(GLfloat deltaTime);
+
 private:
 	inline glm::vec3 getNeadle();
 
@@ -37,6 +39,9 @@ private:
 	unsigned posX;
 	unsigned posY;
 	unsigned posZ;
+
+	// time between frames used for smooth move
+	GLfloat deltaTime;
 
 	// Printer parts
 	Arm printerArm;

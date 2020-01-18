@@ -1,6 +1,6 @@
 #include "../include/GraphicsObj.h"
 
-GraphicsObj::GraphicsObj() : texImpact(0.0) {
+GraphicsObj::GraphicsObj() {
 	// Generate buffers
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
@@ -19,10 +19,7 @@ void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 	glm::mat4 finalModel = parentMat * model;
 	shader.setMat4Uniform("model", finalModel);
 	shader.setMat4Uniform("normalTrans", glm::transpose(glm::inverse(finalModel)));
-	shader.setFloatUniform("textureImpact", texImpact);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, tex.getId()); //choose texture
+	material.draw(shader);
 
 	// Bind the Vertex Array Object
 	glBindVertexArray(VAO);
@@ -32,20 +29,21 @@ void GraphicsObj::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
 	glBindVertexArray(0);
 }
 
-void GraphicsObj::setTexture(const Texture& texture, GLfloat texIm) {
-	tex = texture;
-	
-	texImpact = ((texIm > 0.0f) ? ((texIm <= 1.0) ? texIm : 1.0) : 0.0);
+// DEPRECATED please use setDiffuseMap and setSpecularMap
+void GraphicsObj::setTexture(const Texture& texture, const GLfloat texIm) {
+	this->material = Material(texture, texIm);
+}
+
+void GraphicsObj::setMaterial(const Material& material)
+{
+	this->material = material;
 }
 
 GraphicsObj::GraphicsObj(const GraphicsObj& other) : GraphicsObj() {
 	this->model = other.model;
 	this->setVertices(std::vector<Vertex>(other.vertices));
 	this->setIndices(std::vector<unsigned int>(other.indices));
-	// Texture 
-	this->tex = other.tex;
-	// Tex impact
-	this->texImpact = other.texImpact;
+	this->material = other.material;
 }
 
 void GraphicsObj::setVertices(std::vector<Vertex> vertices_a) {
@@ -64,8 +62,8 @@ void GraphicsObj::setVertices(std::vector<Vertex> vertices_a) {
 	glEnableVertexAttribArray(0);
 
 	// Color attribute
-	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, Color));
+	glEnableVertexAttribArray(1);
 
 	// Texture coordinates
 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, TexCoords));

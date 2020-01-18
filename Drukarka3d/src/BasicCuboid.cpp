@@ -5,14 +5,14 @@ BasicCuboid::BasicCuboid(glm::vec3 baseColor, GLfloat width, GLfloat height, GLf
 {
 	std::vector<std::pair<glm::vec3, glm::vec2>> verticesCoordinates =
 	{
-		{glm::vec3(-width / 2.0f, -height / 2.0f, lenght / 2.0f), glm::vec2(0.33f, 0.5f)},
-		{glm::vec3(width / 2.0f, -height / 2.0f, lenght / 2.0f), glm::vec2(0.66f, 0.5f)},
-		{glm::vec3(width / 2.0f, height / 2.0f, lenght / 2.0f), glm::vec2(0.33f, 0.0f)},
-		{glm::vec3(-width / 2.0f, height / 2.0f, lenght / 2.0f), glm::vec2(0.66f, 0.0f)},
-		{glm::vec3(-width / 2.0f, -height / 2.0f, -lenght / 2.0f), glm::vec2(0.0f, 0.5f)},
-		{glm::vec3(width / 2.0f, -height / 2.0f, -lenght / 2.0f), glm::vec2(0.33f, 0.5f)},
-		{glm::vec3(width / 2.0f, height / 2.0f, -lenght / 2.0f), glm::vec2(0.0f, 0.0f)},
-		{glm::vec3(-width / 2.0f, height / 2.0f, -lenght / 2.0f), glm::vec2(0.33f, 0.0f)}
+		{glm::vec3(-width / 2.0f, -height / 2.0f, lenght / 2.0f), glm::vec2(1.0f, 1.0f)},
+		{glm::vec3(width / 2.0f, -height / 2.0f, lenght / 2.0f), glm::vec2(0.0f, 1.0f)},
+		{glm::vec3(width / 2.0f, height / 2.0f, lenght / 2.0f), glm::vec2(1.0f, 0.0f)},
+		{glm::vec3(-width / 2.0f, height / 2.0f, lenght / 2.0f), glm::vec2(0.0f, 0.0f)},
+		{glm::vec3(-width / 2.0f, -height / 2.0f, -lenght / 2.0f), glm::vec2(1.0f, 0.0f)},
+		{glm::vec3(width / 2.0f, -height / 2.0f, -lenght / 2.0f), glm::vec2(0.0f, 0.0f)},
+		{glm::vec3(width / 2.0f, height / 2.0f, -lenght / 2.0f), glm::vec2(1.0f, 1.0f)},
+		{glm::vec3(-width / 2.0f, height / 2.0f, -lenght / 2.0f), glm::vec2(0.0f, 1.0f)}
 	};
 
 	std::vector<Vertex> _vertices;
