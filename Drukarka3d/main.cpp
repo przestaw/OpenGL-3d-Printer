@@ -247,7 +247,7 @@ int main() {
 		exterior.addObject(table);
 		
 		// Terrain
-		Terrain terrain(16.0f, 16.0f, 120, 0.18f, false);
+		Terrain terrain(18.0f, 18.0f, 90, 0.14f, false);
 		terrain.translate(glm::vec3(0.0f, -0.23f, 0.0f));
 		Material grassy(12, Texture("res/grass.jpg"), 0.8f, Texture("res/black.jpg"), 0.1f);
 		terrain.setMaterial(grassy);
@@ -256,7 +256,7 @@ int main() {
 		Material leaves = Material(16.0, Texture("res/leaves.jpg"), 0.8, Texture("res/leaves_ref.jpg"), 1.0);
 		Material neadles = Material(64.0, Texture("res/neadles.jpg"), 0.8, Texture("res/neadles_ref.jpg"), 1.0);
 		Material bark = Material(4.0, Texture("res/bark.jpg"), 0.8, Texture("res/white.jpg"), 0.2);
-		Forrest forrest(0.6, 8.0, 0.35, 65, 65, bark, leaves, neadles, 12);
+		Forrest forrest(0.6, 8.5, 0.35, 70, 70, bark, leaves, neadles, 18);
 
 		forrest.translate(glm::vec3(0.0, -0.1, 0.0));
 
