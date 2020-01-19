@@ -264,7 +264,7 @@ int main() {
 		// Pretty random forrest
 		Material leaves = Material(16.0, Texture("res/leaves.jpg"), 0.8, Texture("res/leaves_ref.jpg"), 1.0);
 		Material neadles = Material(64.0, Texture("res/neadles.jpg"), 0.8, Texture("res/neadles_ref.jpg"), 1.0);
-		Material bark = Material(4.0, Texture("res/bark.jpg"), 0.8, Texture("res/white.jpg"), 0.2);
+		Material bark = Material(4.0, Texture("res/bark.jpg"), 0.8, Texture("res/bark_ref2.jpg"), 0.45);
 		Forrest forrest(0.6, 8.5, 0.35, 70, 70, bark, leaves, neadles, 18);
 
 		forrest.translate(glm::vec3(0.0, -0.1, 0.0));
