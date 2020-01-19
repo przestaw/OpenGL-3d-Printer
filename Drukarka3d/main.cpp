@@ -236,6 +236,10 @@ int main() {
 
 		glm::mat4 projection = glm::mat4(1.0f);
 
+		// Printer
+		Printer printer(0.7);
+		ObjectGroup exterior;
+
 		// Lights
 		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .4f, .1f);
 		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .4f, .1f);
@@ -260,6 +264,9 @@ int main() {
 		lampStick1.setMaterial(wood);
 		lampStick2.setMaterial(wood);
 		lampStick3.setMaterial(wood);
+		exterior.addObject(lampStick1);
+		exterior.addObject(lampStick2);
+		exterior.addObject(lampStick3);
 
 		std::vector<BasicCone> lampDownWoodenCone;
 		std::vector<BasicCone> lampUpWoodenCone;
@@ -273,13 +280,12 @@ int main() {
 			lampUpWoodenCone.push_back(BasicCone(glm::vec3(0.7f, 0.1f, 0.2f), 0.06f, 0.15f, 0.1f, 32));
 			lampUpWoodenCone[i].translate(lamp->getPosition());
 			lampUpWoodenCone[i].translate(glm::vec3(0.0f, 0.2f, 0.0f));
-			lampUpWoodenCone[i++].setMaterial(wood);
+			lampUpWoodenCone[i].setMaterial(wood);
+
+			exterior.addObject(lampDownWoodenCone[i]);
+			exterior.addObject(lampUpWoodenCone[i++]);
 		}
 
-		// Printer
-		Printer printer(0.7);
-
-		ObjectGroup exterior;
 		// Globe XD
 		BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 1.0, 0.2, 1.0);
 		table.translate(glm::vec3(0.0, -0.15, 0.0));
@@ -369,16 +375,6 @@ int main() {
 			exterior.Draw(shaderBasic);
 			forrest.Draw(shaderBasic);
 			// TODO : logick for moving extruder and shiting on objects
-
-			lampStick1.Draw(shaderBasic);
-			lampStick2.Draw(shaderBasic);
-			lampStick3.Draw(shaderBasic);
-
-			for (GLuint i = 0; i < lampDownWoodenCone.size(); ++i)
-			{
-				lampDownWoodenCone[i].Draw(shaderBasic);
-				lampUpWoodenCone[i].Draw(shaderBasic);
-			}
 
 			// Start working with lamp's shader
 			shaderLamp.Use();
