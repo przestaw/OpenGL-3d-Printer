@@ -60,6 +60,8 @@ void Printer::spawnIceCream(glm::vec3 color){
 
 void Printer::deleteSpawned() {
 	this->containedObjects.clear();
+
+	printerBase.setNumberOnScreen(0);
 }
 
 void Printer::Draw(ShaderProgram shader, const glm::mat4& parentMat) {
