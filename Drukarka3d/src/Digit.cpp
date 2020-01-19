@@ -38,6 +38,10 @@ Digit::Digit(GLfloat scale)
 Digit::~Digit()
 {}
 
+void Digit::Draw(ShaderProgram shader, const glm::mat4& parentMat)
+{
+	this->Draw(shader, parentMat, 0);
+}
 void Digit::Draw(ShaderProgram shader, const glm::mat4& parentMat, GLshort digit)
 {
 	switch (digit)

@@ -3,7 +3,7 @@
 #include "BasicCuboid.h"
 #include "Digit.h"
 
-class Screen : public GraphicsObj
+class Screen : public AbstractObj
 {
 public:
 	Screen(GLfloat scale, GLshort number);
