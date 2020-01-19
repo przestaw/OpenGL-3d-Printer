@@ -40,6 +40,7 @@
 #include <DeciduousTree.h>
 #include <Forest.h>
 #include <Terrain.h>
+#include <Lamp.h>
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -240,51 +241,13 @@ int main() {
 		Printer printer(0.7);
 		ObjectGroup exterior;
 
-		// Lights
-		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .4f, .1f);
-		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .4f, .1f);
-		BasicCylinder lampCylinder3 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .4f, .1f);
-
-		lampCylinder1.translate(lamp1->getPosition());
-		lampCylinder2.translate(lamp2->getPosition());
-		lampCylinder3.translate(lamp3->getPosition());
-
-		BasicCylinder lampStick1 = BasicCylinder(glm::vec3(0.7f, 0.1f, 0.2f), 1.5f, 0.02f);
-		BasicCylinder lampStick2 = BasicCylinder(glm::vec3(0.7f, 0.1f, 0.2f), 1.5f, 0.02f);
-		BasicCylinder lampStick3 = BasicCylinder(glm::vec3(0.7f, 0.1f, 0.2f), 1.5f, 0.02f);
-
-		lampStick1.translate(lamp1->getPosition());
-		lampStick1.translate(glm::vec3(0.0f, -0.75f, 0.0f));
-		lampStick2.translate(lamp2->getPosition());
-		lampStick2.translate(glm::vec3(0.0f, -0.75f, 0.0f));
-		lampStick3.translate(lamp3->getPosition());
-		lampStick3.translate(glm::vec3(0.0f, -0.75f, 0.0f));
-
 		Material wood(10, Texture("res/table.jpg"), 0.8, Texture("res/black.jpg"), 1.0);
-		lampStick1.setMaterial(wood);
-		lampStick2.setMaterial(wood);
-		lampStick3.setMaterial(wood);
-		exterior.addObject(lampStick1);
-		exterior.addObject(lampStick2);
-		exterior.addObject(lampStick3);
 
-		std::vector<BasicCone> lampDownWoodenCone;
-		std::vector<BasicCone> lampUpWoodenCone;
-		GLuint i = 0;
-		for (auto lamp : { lamp1, lamp2, lamp3 })
-		{
-			lampDownWoodenCone.push_back(BasicCone(glm::vec3(0.7f, 0.1f, 0.2f), 0.06f, 0.1f, 0.15f, 32));
-			lampDownWoodenCone[i].translate(lamp->getPosition());
-			lampDownWoodenCone[i].translate(glm::vec3(0.0f, -0.2f, 0.0f));
-			lampDownWoodenCone[i].setMaterial(wood);
-			lampUpWoodenCone.push_back(BasicCone(glm::vec3(0.7f, 0.1f, 0.2f), 0.06f, 0.15f, 0.1f, 32));
-			lampUpWoodenCone[i].translate(lamp->getPosition());
-			lampUpWoodenCone[i].translate(glm::vec3(0.0f, 0.2f, 0.0f));
-			lampUpWoodenCone[i].setMaterial(wood);
-
-			exterior.addObject(lampDownWoodenCone[i]);
-			exterior.addObject(lampUpWoodenCone[i++]);
-		}
+		// Lights
+		std::vector<Lamp> lamps;
+		lamps.push_back(Lamp(lamp1->getPosition(), wood));
+		lamps.push_back(Lamp(lamp2->getPosition(), wood));
+		lamps.push_back(Lamp(lamp3->getPosition(), wood));
 
 		// Globe XD
 		BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 1.0, 0.2, 1.0);
@@ -295,7 +258,7 @@ int main() {
 		// Terrain
 		Terrain terrain(18.0f, 18.0f, 90, 0.14f, false);
 		terrain.translate(glm::vec3(0.0f, -0.23f, 0.0f));
-		Material grassy(12, Texture("res/grass.jpg"), 0.8f, Texture("res/black.jpg"), 0.1f);
+		Material grassy(12, Texture("res/grass.jpg"), 0.8f, Texture("res/black.jpg"), 0.8f);
 		terrain.setMaterial(grassy);
 
 		// Pretty random forrest
@@ -384,10 +347,10 @@ int main() {
 			shaderLamp.setMat4Uniform("view", camera.getView());
 			shaderLamp.setVec3Uniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
-			// Draw lamp 
-			lampCylinder1.Draw(shaderLamp);
-			lampCylinder2.Draw(shaderLamp);
-			lampCylinder3.Draw(shaderLamp);
+			for (auto lamp : lamps)
+			{
+				lamp.Draw(shaderBasic, shaderLamp);
+			}
 
 			// Draw skybox, as last object so 
 			skybox.Draw(shaderSkybox, glm::mat3(camera.getView()), projection);

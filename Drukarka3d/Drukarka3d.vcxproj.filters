@@ -138,6 +138,9 @@
     <ClCompile Include="src\Digit.cpp">
       <Filter>Pliki źródłowe\Printer</Filter>
     </ClCompile>
+    <ClCompile Include="src\Lamp.cpp">
+      <Filter>Pliki źródłowe\Surroundings</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\shprogram.h">
@@ -235,6 +238,9 @@
     </ClInclude>
     <ClInclude Include="include\Digit.h">
       <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Lamp.h">
+      <Filter>Pliki nagłówkowe\Surroundings</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

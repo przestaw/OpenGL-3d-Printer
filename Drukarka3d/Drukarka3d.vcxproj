@@ -113,6 +113,7 @@
     <ClCompile Include="src\Extruder.cpp" />
     <ClCompile Include="src\Forest.cpp" />
     <ClCompile Include="src\IceCream.cpp" />
+    <ClCompile Include="src\Lamp.cpp" />
     <ClCompile Include="src\LightManager.cpp" />
     <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
@@ -151,6 +152,7 @@
     <ClInclude Include="include\Forest.h" />
     <ClInclude Include="include\GraphicsObj.h" />
     <ClInclude Include="include\IceCream.h" />
+    <ClInclude Include="include\Lamp.h" />
     <ClInclude Include="include\LightManager.h" />
     <ClInclude Include="include\LightObject.h" />
     <ClInclude Include="include\Material.h" />
