@@ -137,20 +137,27 @@ int main() {
 	flashlight->setCutOff(12.5f);
 	flashlight->setOuterCutOff(15.0f);
 
-	// Create two example lamps
+	// Lamps
 	auto lamp1 = lightManager.addPointLight();
-	lamp1->setAmbientStrength(glm::vec3(0.2f));
-	lamp1->setDiffuseStrength(glm::vec3(0.8f));
+	lamp1->setAmbientStrength(glm::vec3(0.1f));
+	lamp1->setDiffuseStrength(glm::vec3(0.8f)); 
 	lamp1->setSpecularStrength(glm::vec3(1.0f));
-	lamp1->setLightRange(PointLight::LightRange::RANGE_100);
-	lamp1->setPosition(glm::vec3(3.0f, 3.0f, 5.0f));
+	lamp1->setLightRange(PointLight::LightRange::RANGE_50);
+	lamp1->setPosition(glm::vec3(3.0f, 1.0f, 5.0f));
 
 	auto lamp2 = lightManager.addPointLight();
 	lamp2->setAmbientStrength(glm::vec3(0.2f));
 	lamp2->setDiffuseStrength(glm::vec3(0.8f));
 	lamp2->setSpecularStrength(glm::vec3(1.0f));
 	lamp2->setLightRange(PointLight::LightRange::RANGE_32);
-	lamp2->setPosition(glm::vec3(-5.0f, 0.0f, -2.0f));
+	lamp2->setPosition(glm::vec3(5.0f, 1.0f, -5.0f));
+
+	auto lamp3 = lightManager.addPointLight();
+	lamp3->setAmbientStrength(glm::vec3(0.1f));
+	lamp3->setDiffuseStrength(glm::vec3(1.0f));
+	lamp3->setSpecularStrength(glm::vec3(0.2f));
+	lamp3->setLightRange(PointLight::LightRange::RANGE_32);
+	lamp3->setPosition(glm::vec3(-2.2f, 1.0f, -2.0f));
 
 	try
 	{
@@ -230,10 +237,44 @@ int main() {
 		glm::mat4 projection = glm::mat4(1.0f);
 
 		// Lights
-		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
-		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
+		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .4f, .1f);
+		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .4f, .1f);
+		BasicCylinder lampCylinder3 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .4f, .1f);
+
 		lampCylinder1.translate(lamp1->getPosition());
 		lampCylinder2.translate(lamp2->getPosition());
+		lampCylinder3.translate(lamp3->getPosition());
+
+		BasicCylinder lampStick1 = BasicCylinder(glm::vec3(0.7f, 0.1f, 0.2f), 1.5f, 0.02f);
+		BasicCylinder lampStick2 = BasicCylinder(glm::vec3(0.7f, 0.1f, 0.2f), 1.5f, 0.02f);
+		BasicCylinder lampStick3 = BasicCylinder(glm::vec3(0.7f, 0.1f, 0.2f), 1.5f, 0.02f);
+
+		lampStick1.translate(lamp1->getPosition());
+		lampStick1.translate(glm::vec3(0.0f, -0.75f, 0.0f));
+		lampStick2.translate(lamp2->getPosition());
+		lampStick2.translate(glm::vec3(0.0f, -0.75f, 0.0f));
+		lampStick3.translate(lamp3->getPosition());
+		lampStick3.translate(glm::vec3(0.0f, -0.75f, 0.0f));
+
+		Material wood(10, Texture("res/table.jpg"), 0.8, Texture("res/black.jpg"), 1.0);
+		lampStick1.setMaterial(wood);
+		lampStick2.setMaterial(wood);
+		lampStick3.setMaterial(wood);
+
+		std::vector<BasicCone> lampDownWoodenCone;
+		std::vector<BasicCone> lampUpWoodenCone;
+		GLuint i = 0;
+		for (auto lamp : { lamp1, lamp2, lamp3 })
+		{
+			lampDownWoodenCone.push_back(BasicCone(glm::vec3(0.7f, 0.1f, 0.2f), 0.06f, 0.1f, 0.15f, 32));
+			lampDownWoodenCone[i].translate(lamp->getPosition());
+			lampDownWoodenCone[i].translate(glm::vec3(0.0f, -0.2f, 0.0f));
+			lampDownWoodenCone[i].setMaterial(wood);
+			lampUpWoodenCone.push_back(BasicCone(glm::vec3(0.7f, 0.1f, 0.2f), 0.06f, 0.15f, 0.1f, 32));
+			lampUpWoodenCone[i].translate(lamp->getPosition());
+			lampUpWoodenCone[i].translate(glm::vec3(0.0f, 0.2f, 0.0f));
+			lampUpWoodenCone[i++].setMaterial(wood);
+		}
 
 		// Printer
 		Printer printer(0.7);
@@ -242,7 +283,6 @@ int main() {
 		// Globe XD
 		BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 1.0, 0.2, 1.0);
 		table.translate(glm::vec3(0.0, -0.15, 0.0));
-		Material wood(10, Texture("res/table.jpg"), 0.8, Texture("res/black.jpg"), 1.0);
 		table.setMaterial(wood);
 		exterior.addObject(table);
 		
@@ -330,6 +370,16 @@ int main() {
 			forrest.Draw(shaderBasic);
 			// TODO : logick for moving extruder and shiting on objects
 
+			lampStick1.Draw(shaderBasic);
+			lampStick2.Draw(shaderBasic);
+			lampStick3.Draw(shaderBasic);
+
+			for (GLuint i = 0; i < lampDownWoodenCone.size(); ++i)
+			{
+				lampDownWoodenCone[i].Draw(shaderBasic);
+				lampUpWoodenCone[i].Draw(shaderBasic);
+			}
+
 			// Start working with lamp's shader
 			shaderLamp.Use();
 
@@ -338,9 +388,10 @@ int main() {
 			shaderLamp.setMat4Uniform("view", camera.getView());
 			shaderLamp.setVec3Uniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
-			// Draw lamp
+			// Draw lamp 
 			lampCylinder1.Draw(shaderLamp);
 			lampCylinder2.Draw(shaderLamp);
+			lampCylinder3.Draw(shaderLamp);
 
 			// Draw skybox, as last object so 
 			skybox.Draw(shaderSkybox, glm::mat3(camera.getView()), projection);
