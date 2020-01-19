@@ -7,6 +7,7 @@ class Screen : public AbstractObj
 {
 public:
 	Screen(GLfloat scale, GLshort number);
+	virtual ~Screen();
 
 	void Draw(ShaderProgram shader, const glm::mat4& parentMat);
 

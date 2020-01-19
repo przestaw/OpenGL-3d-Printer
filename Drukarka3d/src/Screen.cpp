@@ -23,6 +23,8 @@ Screen::Screen(GLfloat scale, GLshort number = 0)
 	hundreds.rotate(glm::vec3(1.0f, 0.0f, 0.0f), -M_PI / 2);
 }
 
+Screen::~Screen()
+{}
 
 void Screen::setNumber(GLshort number)
 {
