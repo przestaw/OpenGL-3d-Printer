@@ -59,7 +59,7 @@ Projekt drukarki 3d
 - obsługa materiałów
 - stworzenie shaderów
 
-# Kamil Zacharczuk aka KamZet
+## Kamil Zacharczuk aka KamZet
 - implementacja prymitywów sfery i kostki
 - implementacja skyboxa
 - implementacja wyświetlacza
