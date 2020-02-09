@@ -27,11 +27,19 @@
 #include <CompositeGroup.h>
 #include <ObjectGroup.h>
 
+#include <Printer.h>
+
 #include "include/BasicSphere.h"
 
 #include "include/BasicCylinder.h"
-#include "include\Camera.h"
+#include "include/Camera.h"
 #include "LightManager.h"
+#include "Skybox.h"
+#include <IceCream.h>
+#include <ConiferTree.h>
+#include <DeciduousTree.h>
+#include <Forest.h>
+#include <Terrain.h>
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -45,7 +53,21 @@ bool keyAHold = false;
 bool keySHold = false;
 bool keyDHold = false;
 
+bool moveExtruderUp = false;
+bool moveExtruderDown = false;
+bool moveExtruderLeft = false;
+bool moveExtruderRight = false;
+bool moveExtruderAhead = false;
+bool moveExtruderBack = false;
+
 bool flashlightOn = true;
+
+bool spawnBallPressed = false;
+bool spawnCubePressed = false;
+bool spawnConePressed = false;
+bool spawnCylinderPressed = false;
+bool spawnIceCreamPressed = false;
+bool deleteSpawned = false;
 
 // Using directives
 using std::cout;
@@ -58,6 +80,12 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 
 // Handling movement in four directions based on delta time and key callbacks
 void handleMovement(GLfloat deltaTime);
+
+// Handling extruder movement
+void handleExtruderMovement(Printer& printer, const GLfloat deltaTime);
+
+// Handling "3d printing"
+void handleSpawningObjects(Printer& printer);
 
 void mouseCallback(GLFWwindow* window, double xPos, double yPos);
 
@@ -127,8 +155,8 @@ int main() {
 	try
 	{
 		// Create a GLFWwindow object that we can use for GLFW's functions
-		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trujwymiaru !", glfwGetPrimaryMonitor(), nullptr);
-		
+		GLFWwindow* window = glfwCreateWindow(WIDTH, HEIGHT, "Niewielka Drukarka Trojwymiaru !", nullptr /* glfwGetPrimaryMonitor()*/, nullptr);
+
 		// Check if window is created
 		if (window == nullptr)
 			throw exception("GLFW window not created");
@@ -156,61 +184,39 @@ int main() {
 		// Build, compile and link shader program
 		ShaderProgram shaderBasic("shaders/vertshader.vert", "shaders/fragshader.frag");
 		ShaderProgram shaderLamp("shaders/lampshader.vert", "shaders/lampshader.frag");
+		ShaderProgram shaderSkybox("shaders/skyboxshader.vert", "shaders/skyboxshader.frag");
 
 		// Enable depth test
 		glEnable(GL_DEPTH_TEST);
 		// Accept fragment if it closer to the camera than the former one
 		glDepthFunc(GL_LESS);
 
+		// Set light maps, 0 and 1 are just IDs
+		shaderBasic.Use();
+		shaderBasic.setIntUniform("material.diffuseMap", 0);
+		shaderBasic.setIntUniform("material.specularMap", 1);
+		
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_FRONT);
+
 		// Set camera options
 		camera.setPitchConstrains(-89.0f, 89.0f);
 		camera.setBoundries(glm::vec3(-10.0f, -10.0f, -10.0f), glm::vec3(10.0f, 10.0f, 10.0f));
 
-		// Make demo cylinders
-		BasicCylinder cylinder1 = BasicCylinder(glm::vec3(.0f, .7f, .1f), 1.f, .1f);
-		BasicCylinder cylinder2 = BasicCylinder(glm::vec3(.7f, .1f, .5f), 1.f, .3f);
-		BasicCylinder cylinder3 = BasicCylinder(glm::vec3(.1f, .5f, .7f), .3f, .05f);
-		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
-		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
-		
-		//make composite group demo
-		CompositeGroup compGroup;
+		std::vector<std::string> skyboxFaces =
 		{
-			cylinder2.translate(glm::vec3(0.f, 0.5f, 0.f));
-			cylinder3.translate(glm::vec3(0.f, -0.6f, 0.f));
-
-			compGroup.addObject(cylinder1);
-			compGroup.addObject(cylinder2);
-			compGroup.addObject(cylinder3);
-
-			compGroup.translate(glm::vec3(1.0f, -1.0f, 1.0f));
-		}
-
-		// Make demo sphere
-		BasicSphere sphere1 = BasicSphere(glm::vec3(0.9f, 0.5f, 0.6f), 0.6f, 64, 64);
-		
-		// Move cylinders apart
-		cylinder2.translate(glm::vec3(-.5f, -.5f, -5.5f));
-		cylinder3.translate(glm::vec3(.2f, .2f, .2f));
-		lampCylinder1.translate(lamp1->getPosition());
-		lampCylinder2.translate(lamp2->getPosition());
-
-		// Make Demo wafer
-		BasicCone cone = BasicCone(glm::vec3(0.0), 2.0f, 0, 0.7);
-		cone.setTexture(Texture("res/coneTex.png"), 1.0);
-
-		// Make demo ice cream 
-		std::shared_ptr<BasicSphere> iceCream = std::make_shared<BasicSphere>(sphere1);
-		iceCream.get()->translate(glm::vec3(.0f, 1.5f, .0f));
-		// Make demo cone
-		ObjectGroup objGroup;
-		objGroup.addObject(std::make_shared<BasicCone>(cone));
-		objGroup.addObject(iceCream);
-
-		objGroup.translate(glm::vec3(-1.0f, 1.0f, -1.0f));
-
-		// move sphere
-		sphere1.translate(glm::vec3(1.0f, 1.4f, 1.0f));
+			"res/skybox/ely_lakes/lakes_ft.jpg",
+			"res/skybox/ely_lakes/lakes_bk.jpg",
+			"res/skybox/ely_lakes/lakes_up.jpg",
+			"res/skybox/ely_lakes/lakes_dn.jpg",
+			"res/skybox/ely_lakes/lakes_rt.jpg",
+			"res/skybox/ely_lakes/lakes_lf.jpg",
+		};
+		/* Initialize skybox */
+		Skybox skybox(skyboxFaces);
+		// Set uniform in skybox shader
+		shaderSkybox.Use();
+		shaderSkybox.setIntUniform("skybox", 0);
 
 		// Calculate aspect ration for projection later to be used
 		// NOTE I do not know but sometimes line below cause program to crash. I cannot find proper solution nor
@@ -223,7 +229,36 @@ int main() {
 
 		glm::mat4 projection = glm::mat4(1.0f);
 
-		sphere1.translate(glm::vec3(-2.0f, 1.0f, -2.0f));
+		// Lights
+		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
+		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
+		lampCylinder1.translate(lamp1->getPosition());
+		lampCylinder2.translate(lamp2->getPosition());
+
+		// Printer
+		Printer printer(0.7);
+
+		ObjectGroup exterior;
+		// Globe XD
+		BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 1.0, 0.2, 1.0);
+		table.translate(glm::vec3(0.0, -0.15, 0.0));
+		Material wood(10, Texture("res/table.jpg"), 0.8, Texture("res/black.jpg"), 1.0);
+		table.setMaterial(wood);
+		exterior.addObject(table);
+		
+		// Terrain
+		Terrain terrain(18.0f, 18.0f, 90, 0.14f, false);
+		terrain.translate(glm::vec3(0.0f, -0.23f, 0.0f));
+		Material grassy(12, Texture("res/grass.jpg"), 0.8f, Texture("res/black.jpg"), 0.1f);
+		terrain.setMaterial(grassy);
+
+		// Pretty random forrest
+		Material leaves = Material(16.0, Texture("res/leaves.jpg"), 0.8, Texture("res/leaves_ref.jpg"), 1.0);
+		Material neadles = Material(64.0, Texture("res/neadles.jpg"), 0.8, Texture("res/neadles_ref.jpg"), 1.0);
+		Material bark = Material(4.0, Texture("res/bark.jpg"), 0.8, Texture("res/white.jpg"), 0.2);
+		Forrest forrest(0.6, 8.5, 0.35, 70, 70, bark, leaves, neadles, 18);
+
+		forrest.translate(glm::vec3(0.0, -0.1, 0.0));
 
 		// Frame calculation for smooth animation
 		double currentFrame = glfwGetTime();
@@ -257,15 +292,15 @@ int main() {
 
 			// Handle potential movement based on delta time and key callbacks 
 			if (keyAHold || keyWHold || keySHold || keyDHold) {
-				handleMovement(static_cast<GLfloat>(deltaTime));
+				handleMovement(static_cast<GLfloat>(deltaTime/2.0));
 			}
+
+			handleExtruderMovement(printer, static_cast<GLfloat>(deltaTime / 2.0));
+			handleSpawningObjects(printer);
 
 			glClearColor(.08f, .08f, 0.08f, 1.f);
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 			
-			// Set angle [keeping velocity in time]
-			static GLfloat rot_angle = static_cast<GLfloat>(deltaTime) * 300.0f;
-
 			// Start working with basic shader
 			shaderBasic.Use();
 
@@ -278,6 +313,7 @@ int main() {
 			// Set view position
 			shaderBasic.setVec3Uniform("viewPos", camera.getPosition());
 
+
 			// Set flashlight parameters
 			flashlight->setPosition(camera.getPosition());
 			flashlight->setDirection(camera.getFrontVector());
@@ -285,38 +321,14 @@ int main() {
 			// Set up light on scene
 			lightManager.setUpLight(shaderBasic);
 
-			// Rotate cylinders
-			cylinder1.rotate(glm::vec3(.3f, .6f, .8f), 3*rot_angle);
-			cylinder2.rotate(glm::vec3(.3f, .1f, .8f), -rot_angle);
-			cylinder3.rotate(glm::vec3(.9f, .2f, .2f), rot_angle);
+			// Terrain
+			terrain.Draw(shaderBasic);
 
-			// Rotate groups
-			compGroup.rotate(glm::vec3(.5f, .5f, .5f), rot_angle);
-
-			if (counter > 0) {
-				iceCream.get()->scale(glm::vec3(1/(1.f - 0.2*deltaTime), 1/(1.f - 0.2 * deltaTime), 1/(1.f - 0.2 * deltaTime)));
-			} else {
-				iceCream.get()->scale(glm::vec3((1.f - 0.2*deltaTime), (1.f - 0.2 * deltaTime), (1.f - 0.2 * deltaTime)));
-			}
-			counter += deltaTime;
-			if (counter > 2) counter = -2;
-
-			// Draw our cylinders
-			shaderBasic.Use();
-
-			cylinder1.Draw(shaderBasic);
-			cylinder2.Draw(shaderBasic);
-			cylinder3.Draw(shaderBasic);
-
-			// Draw Groups
-			compGroup.Draw(shaderBasic);
-			objGroup.Draw(shaderBasic);
-
-			// Draw Groups
-			compGroup.Draw(shaderBasic);
-
-			// Draw sphere
-			sphere1.Draw(shaderBasic);
+			// Printer and table
+			printer.Draw(shaderBasic);
+			exterior.Draw(shaderBasic);
+			forrest.Draw(shaderBasic);
+			// TODO : logick for moving extruder and shiting on objects
 
 			// Start working with lamp's shader
 			shaderLamp.Use();
@@ -329,6 +341,9 @@ int main() {
 			// Draw lamp
 			lampCylinder1.Draw(shaderLamp);
 			lampCylinder2.Draw(shaderLamp);
+
+			// Draw skybox, as last object so 
+			skybox.Draw(shaderSkybox, glm::mat3(camera.getView()), projection);
 
 			// Swap the screen buffers
 			glfwSwapBuffers(window);
@@ -349,36 +364,30 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		if (key == GLFW_KEY_ESCAPE) {
 			glfwSetWindowShouldClose(window, GL_TRUE);
 		}
-		if (key == GLFW_KEY_W) {
-			keyWHold = true;
-		}
-		if (key == GLFW_KEY_A) {
-			keyAHold = true;
-		}
-		if (key == GLFW_KEY_S) {
-			keySHold = true;
-		}
-		if (key == GLFW_KEY_D) {
-			keyDHold = true;
-		}
-		if (key == GLFW_KEY_F) {
-			flashlightOn = !flashlightOn;
-		}
+		if (key == GLFW_KEY_W) { keyWHold = true; }
+		if (key == GLFW_KEY_A) { keyAHold = true; }
+		if (key == GLFW_KEY_S) { keySHold = true; }
+		if (key == GLFW_KEY_D) { keyDHold = true; }
+		if (key == GLFW_KEY_F) { flashlightOn = !flashlightOn; }
+		if (key == GLFW_KEY_UP) { moveExtruderUp = true; }
+		if (key == GLFW_KEY_DOWN) { moveExtruderDown = true; }
+		if (key == GLFW_KEY_LEFT) { moveExtruderLeft = true; }
+		if (key == GLFW_KEY_RIGHT) { moveExtruderRight = true; }
+		if (key == GLFW_KEY_O) { moveExtruderAhead = true; }
+		if (key == GLFW_KEY_L) { moveExtruderBack = true; }
+		if (key == GLFW_KEY_0) { deleteSpawned = true; }
+		if (key == GLFW_KEY_1) { spawnBallPressed = true; }
+		if (key == GLFW_KEY_2) { spawnConePressed = true; }
+		if (key == GLFW_KEY_3) { spawnCubePressed = true; }
+		if (key == GLFW_KEY_4) { spawnCylinderPressed = true; }
+		if (key == GLFW_KEY_5) { spawnIceCreamPressed = true; }
 	}
 
 	if (action == GLFW_RELEASE) {
-		if (key == GLFW_KEY_W) {
-			keyWHold = false;
-		}
-		if (key == GLFW_KEY_A) {
-			keyAHold = false;
-		}
-		if (key == GLFW_KEY_S) {
-			keySHold = false;
-		}
-		if (key == GLFW_KEY_D) {
-			keyDHold = false;
-		}
+		if (key == GLFW_KEY_W) { keyWHold = false; }
+		if (key == GLFW_KEY_A) { keyAHold = false; }
+		if (key == GLFW_KEY_S) { keySHold = false; } 
+		if (key == GLFW_KEY_D) { keyDHold = false; }
 	}
 
 }
@@ -395,6 +404,62 @@ void handleMovement(GLfloat deltaTime) {
 	}
 	if (keyDHold) {
 		camera.handleKeyboard(Camera::RIGHT, deltaTime);
+	}
+}
+
+void handleExtruderMovement(Printer& printer, const GLfloat deltaTime) {
+	printer.setMoveDelta(deltaTime);
+	if (moveExtruderAhead) {
+		printer.moveExtruderX(true);
+		moveExtruderAhead = false;
+	}
+	if (moveExtruderBack) {
+		printer.moveExtruderX(false);
+		moveExtruderBack = false;
+	}
+	if (moveExtruderUp) {
+		printer.moveExtruderZ(true);
+		moveExtruderUp = false;
+	}
+	if (moveExtruderDown) {
+		printer.moveExtruderZ(false);
+		moveExtruderDown = false;
+	}
+	if (moveExtruderRight) {
+		printer.moveExtruderY(true);
+		moveExtruderRight = false;
+	}
+	if (moveExtruderLeft) {
+		printer.moveExtruderY(false);
+		moveExtruderLeft = false;
+	}
+}
+
+void handleSpawningObjects(Printer& printer)
+{
+	if (deleteSpawned) {
+		printer.deleteSpawned();
+		deleteSpawned = false;
+	}
+	if (spawnBallPressed) {
+		printer.spawnBall();
+		spawnBallPressed = false;
+	}
+	if (spawnCubePressed) {
+		printer.spawnCube();
+		spawnCubePressed = false;
+	}
+	if (spawnConePressed) {
+		printer.spawnCone();
+		spawnConePressed = false;
+	}
+	if (spawnCylinderPressed) {
+		printer.spawnCylinder();
+		spawnCylinderPressed = false;
+	}
+	if (spawnIceCreamPressed) {
+		printer.spawnIceCream();
+		spawnIceCreamPressed = false;
 	}
 }
 
