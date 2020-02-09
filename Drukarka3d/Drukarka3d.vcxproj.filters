@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Pliki zasobów">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="Pliki nagłówkowe\BasicPrimitives">
       <UniqueIdentifier>{44475d7b-7f6d-472b-82e7-9d7953eeafa6}</UniqueIdentifier>
     </Filter>
@@ -30,6 +26,25 @@
     </Filter>
     <Filter Include="Pliki źródłowe\LightAndCamera">
       <UniqueIdentifier>{cfb14eec-2504-4b6b-be95-36de2a623cc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki zasobów">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Printer">
+      <UniqueIdentifier>{315c4b2e-31ea-4ffc-bce6-142bd2072431}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Printer">
+      <UniqueIdentifier>{83b4afb9-c399-46ce-831c-abd08fdf2414}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{7840c31c-f2fa-479f-b6d3-aaabedd19be8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\Surroundings">
+      <UniqueIdentifier>{54371179-b2d3-41f7-88da-a3d6e14788ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe\Surroundings">
+      <UniqueIdentifier>{d5e2370a-a63b-4ba8-a2e8-c0df4d07b828}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -60,12 +75,6 @@
     <ClCompile Include="src\Camera.cpp">
       <Filter>Pliki źródłowe\LightAndCamera</Filter>
     </ClCompile>
-    <ClCompile Include="src\Texture.cpp">
-      <Filter>Pliki źródłowe\BaseObj</Filter>
-    </ClCompile>
-    <ClCompile Include="src\BasicCone.cpp">
-      <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
-    </ClCompile>
     <ClCompile Include="src\DirectionalLight.cpp">
       <Filter>Pliki źródłowe\LightAndCamera</Filter>
     </ClCompile>
@@ -80,6 +89,57 @@
     </ClCompile>
     <ClCompile Include="src\SpotLight.cpp">
       <Filter>Pliki źródłowe\LightAndCamera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Skybox.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Texture.cpp">
+      <Filter>Pliki źródłowe\BaseObj</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Arm.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Extruder.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Base.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Tabletop.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Printer.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IceCream.cpp">
+      <Filter>Pliki źródłowe\Surroundings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ConiferTree.cpp">
+      <Filter>Pliki źródłowe\Surroundings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\DeciduousTree.cpp">
+      <Filter>Pliki źródłowe\Surroundings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Forest.cpp">
+      <Filter>Pliki źródłowe\Surroundings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BasicCone.cpp">
+      <Filter>Pliki źródłowe\BasicPrimitives</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Terrain.cpp">
+      <Filter>Pliki źródłowe\Surroundings</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Material.cpp">
+      <Filter>Pliki źródłowe\BaseObj</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Screen.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Digit.cpp">
+      <Filter>Pliki źródłowe\Printer</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lamp.cpp">
+      <Filter>Pliki źródłowe\Surroundings</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -137,11 +197,105 @@
     <ClInclude Include="include\SpotLight.h">
       <Filter>Pliki nagłówkowe\LightAndCamera</Filter>
     </ClInclude>
+    <ClInclude Include="include\Skybox.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Arm.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Extruder.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Base.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Tabletop.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Printer.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\IceCream.h">
+      <Filter>Pliki nagłówkowe\Surroundings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\DeciduousTree.h">
+      <Filter>Pliki nagłówkowe\Surroundings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\ConiferTree.h">
+      <Filter>Pliki nagłówkowe\Surroundings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Forest.h">
+      <Filter>Pliki nagłówkowe\Surroundings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Terrain.h">
+      <Filter>Pliki nagłówkowe\Surroundings</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Material.h">
+      <Filter>Pliki nagłówkowe\BaseObj</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Screen.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Digit.h">
+      <Filter>Pliki nagłówkowe\Printer</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Lamp.h">
+      <Filter>Pliki nagłówkowe\Surroundings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="shaders\fragshader.frag" />
-    <None Include="shaders\vertshader.vert" />
-    <None Include="shaders\lampshader.vert" />
-    <None Include="shaders\lampshader.frag" />
+    <None Include="shaders\fragshader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\lampshader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\lampshader.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\skyboxshader.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\skyboxshader.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\vertshader.vert">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bark.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\citrus.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\coneTex.png">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\extrude.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\grass.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\leaves.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\motor.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\neadles.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\plastic.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\table.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
+    <Image Include="res\thread.jpg">
+      <Filter>Pliki zasobów</Filter>
+    </Image>
   </ItemGroup>
 </Project>

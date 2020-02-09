@@ -10,7 +10,7 @@ public:
 	BasicCone(glm::vec3 baseColor, GLfloat height, 
 		GLfloat bottomRadius, GLfloat topRadius = 0, unsigned nbSides = 32);
 	virtual ~BasicCone() {}
-
+	static const double M_PI;
 private:
 	// Dimensions
 	GLfloat height;
@@ -27,6 +27,5 @@ private:
 		return { a, b, c, c, d, a };
 	}
 
-	static const double M_PI;
 	static const double M_2PI;
 };

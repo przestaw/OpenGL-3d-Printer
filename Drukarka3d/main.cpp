@@ -40,6 +40,7 @@
 #include <DeciduousTree.h>
 #include <Forest.h>
 #include <Terrain.h>
+#include <Lamp.h>
 
 // Window dimensions
 GLuint WIDTH = 800, HEIGHT = 600;
@@ -137,20 +138,27 @@ int main() {
 	flashlight->setCutOff(12.5f);
 	flashlight->setOuterCutOff(15.0f);
 
-	// Create two example lamps
+	// Lamps
 	auto lamp1 = lightManager.addPointLight();
-	lamp1->setAmbientStrength(glm::vec3(0.2f));
-	lamp1->setDiffuseStrength(glm::vec3(0.8f));
+	lamp1->setAmbientStrength(glm::vec3(0.1f));
+	lamp1->setDiffuseStrength(glm::vec3(0.8f)); 
 	lamp1->setSpecularStrength(glm::vec3(1.0f));
-	lamp1->setLightRange(PointLight::LightRange::RANGE_100);
-	lamp1->setPosition(glm::vec3(3.0f, 3.0f, 5.0f));
+	lamp1->setLightRange(PointLight::LightRange::RANGE_50);
+	lamp1->setPosition(glm::vec3(3.0f, 1.0f, 5.0f));
 
 	auto lamp2 = lightManager.addPointLight();
 	lamp2->setAmbientStrength(glm::vec3(0.2f));
 	lamp2->setDiffuseStrength(glm::vec3(0.8f));
 	lamp2->setSpecularStrength(glm::vec3(1.0f));
 	lamp2->setLightRange(PointLight::LightRange::RANGE_32);
-	lamp2->setPosition(glm::vec3(-5.0f, 0.0f, -2.0f));
+	lamp2->setPosition(glm::vec3(5.0f, 1.0f, -5.0f));
+
+	auto lamp3 = lightManager.addPointLight();
+	lamp3->setAmbientStrength(glm::vec3(0.1f));
+	lamp3->setDiffuseStrength(glm::vec3(1.0f));
+	lamp3->setSpecularStrength(glm::vec3(0.2f));
+	lamp3->setLightRange(PointLight::LightRange::RANGE_32);
+	lamp3->setPosition(glm::vec3(-2.2f, 1.0f, -2.0f));
 
 	try
 	{
@@ -229,33 +237,34 @@ int main() {
 
 		glm::mat4 projection = glm::mat4(1.0f);
 
-		// Lights
-		BasicCylinder lampCylinder1 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
-		BasicCylinder lampCylinder2 = BasicCylinder(glm::vec3(1.0f, 1.0f, 1.0f), .5f, .1f);
-		lampCylinder1.translate(lamp1->getPosition());
-		lampCylinder2.translate(lamp2->getPosition());
-
 		// Printer
 		Printer printer(0.7);
-
 		ObjectGroup exterior;
+
+		Material wood(10, Texture("res/table.jpg"), 0.8, Texture("res/black.jpg"), 1.0);
+
+		// Lights
+		std::vector<Lamp> lamps;
+		lamps.push_back(Lamp(lamp1->getPosition(), wood));
+		lamps.push_back(Lamp(lamp2->getPosition(), wood));
+		lamps.push_back(Lamp(lamp3->getPosition(), wood));
+
 		// Globe XD
 		BasicCuboid table(glm::vec3(0.3, 0.18, 0.1), 1.0, 0.2, 1.0);
 		table.translate(glm::vec3(0.0, -0.15, 0.0));
-		Material wood(10, Texture("res/table.jpg"), 0.8, Texture("res/black.jpg"), 1.0);
 		table.setMaterial(wood);
 		exterior.addObject(table);
 		
 		// Terrain
 		Terrain terrain(18.0f, 18.0f, 90, 0.14f, false);
 		terrain.translate(glm::vec3(0.0f, -0.23f, 0.0f));
-		Material grassy(12, Texture("res/grass.jpg"), 0.8f, Texture("res/black.jpg"), 0.1f);
+		Material grassy(12, Texture("res/grass.jpg"), 0.8f, Texture("res/black.jpg"), 0.8f);
 		terrain.setMaterial(grassy);
 
 		// Pretty random forrest
 		Material leaves = Material(16.0, Texture("res/leaves.jpg"), 0.8, Texture("res/leaves_ref.jpg"), 1.0);
 		Material neadles = Material(64.0, Texture("res/neadles.jpg"), 0.8, Texture("res/neadles_ref.jpg"), 1.0);
-		Material bark = Material(4.0, Texture("res/bark.jpg"), 0.8, Texture("res/white.jpg"), 0.2);
+		Material bark = Material(4.0, Texture("res/bark.jpg"), 0.8, Texture("res/bark_ref2.jpg"), 0.45);
 		Forrest forrest(0.6, 8.5, 0.35, 70, 70, bark, leaves, neadles, 18);
 
 		forrest.translate(glm::vec3(0.0, -0.1, 0.0));
@@ -338,9 +347,10 @@ int main() {
 			shaderLamp.setMat4Uniform("view", camera.getView());
 			shaderLamp.setVec3Uniform("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
 
-			// Draw lamp
-			lampCylinder1.Draw(shaderLamp);
-			lampCylinder2.Draw(shaderLamp);
+			for (auto lamp : lamps)
+			{
+				lamp.Draw(shaderBasic, shaderLamp);
+			}
 
 			// Draw skybox, as last object so 
 			skybox.Draw(shaderSkybox, glm::mat3(camera.getView()), projection);

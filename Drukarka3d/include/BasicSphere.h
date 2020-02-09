@@ -6,7 +6,7 @@
 class BasicSphere : public GraphicsObj
 {
 public:
-	BasicSphere(glm::vec3 baseColor, GLfloat radius, GLuint nLongitudes, GLuint nLatitudes);
+	BasicSphere(glm::vec3 baseColor, GLfloat radius, GLuint nLongitudes = 32, GLuint nLatitudes = 32);
 
 private:
 	static const double M_PI;

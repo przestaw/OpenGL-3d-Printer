@@ -102,13 +102,26 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Arm.cpp" />
+    <ClCompile Include="src\Base.cpp" />
+    <ClCompile Include="src\BasicCone.cpp" />
+    <ClCompile Include="src\ConiferTree.cpp" />
+    <ClCompile Include="src\DeciduousTree.cpp" />
+    <ClCompile Include="src\Digit.cpp" />
     <ClCompile Include="src\DirectionalLight.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\Extruder.cpp" />
+    <ClCompile Include="src\Forest.cpp" />
+    <ClCompile Include="src\IceCream.cpp" />
+    <ClCompile Include="src\Lamp.cpp" />
     <ClCompile Include="src\LightManager.cpp" />
+    <ClCompile Include="src\Material.cpp" />
     <ClCompile Include="src\PointLight.cpp" />
+    <ClCompile Include="src\Printer.cpp" />
+    <ClCompile Include="src\Screen.cpp" />
+    <ClCompile Include="src\Skybox.cpp" />
     <ClCompile Include="src\SpotLight.cpp" />
     <ClCompile Include="src\AbstractObj.cpp" />
-    <ClCompile Include="src\BasicCone.cpp" />
     <ClCompile Include="src\BasicCuboid.cpp" />
     <ClCompile Include="src\BasicSphere.cpp" />
     <ClCompile Include="src\Camera.cpp" />
@@ -117,10 +130,14 @@
     <ClCompile Include="src\LightObject.cpp" />
     <ClCompile Include="src\ObjectGroup.cpp" />
     <ClCompile Include="src\shprogram.cpp" />
+    <ClCompile Include="src\Tabletop.cpp" />
+    <ClCompile Include="src\Terrain.cpp" />
     <ClCompile Include="src\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\AbstractObj.h" />
+    <ClInclude Include="include\Arm.h" />
+    <ClInclude Include="include\Base.h" />
     <ClInclude Include="include\BasicCone.h" />
     <ClInclude Include="include\BasicCube.h" />
     <ClInclude Include="include\BasicCuboid.h" />
@@ -128,11 +145,24 @@
     <ClInclude Include="include\BasicSphere.h" />
     <ClInclude Include="include\Camera.h" />
     <ClInclude Include="include\CompositeGroup.h" />
+    <ClInclude Include="include\ConiferTree.h" />
+    <ClInclude Include="include\DeciduousTree.h" />
+    <ClInclude Include="include\Digit.h" />
+    <ClInclude Include="include\Extruder.h" />
+    <ClInclude Include="include\Forest.h" />
     <ClInclude Include="include\GraphicsObj.h" />
+    <ClInclude Include="include\IceCream.h" />
+    <ClInclude Include="include\Lamp.h" />
     <ClInclude Include="include\LightManager.h" />
     <ClInclude Include="include\LightObject.h" />
+    <ClInclude Include="include\Material.h" />
     <ClInclude Include="include\ObjectGroup.h" />
+    <ClInclude Include="include\Printer.h" />
+    <ClInclude Include="include\Screen.h" />
     <ClInclude Include="include\shprogram.h" />
+    <ClInclude Include="include\Skybox.h" />
+    <ClInclude Include="include\Tabletop.h" />
+    <ClInclude Include="include\Terrain.h" />
     <ClInclude Include="include\Texture.h" />
     <ClInclude Include="include\Vertex.h" />
     <ClInclude Include="include\PointLight.h" />
@@ -143,7 +173,22 @@
     <None Include="shaders\fragshader.frag" />
     <None Include="shaders\lampshader.frag" />
     <None Include="shaders\lampshader.vert" />
+    <None Include="shaders\skyboxshader.frag" />
+    <None Include="shaders\skyboxshader.vert" />
     <None Include="shaders\vertshader.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\bark.jpg" />
+    <Image Include="res\citrus.jpg" />
+    <Image Include="res\coneTex.png" />
+    <Image Include="res\extrude.jpg" />
+    <Image Include="res\grass.jpg" />
+    <Image Include="res\leaves.jpg" />
+    <Image Include="res\motor.jpg" />
+    <Image Include="res\neadles.jpg" />
+    <Image Include="res\plastic.jpg" />
+    <Image Include="res\table.jpg" />
+    <Image Include="res\thread.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
