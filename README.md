@@ -1,11 +1,50 @@
 # Drukarka 3D
-Projekt drukarki 3d
+Projekt drukarki 3d. Projekt do budowania w Visual Studio.
 
 # Skład
 
 * [Przemysław Stawczyk](https://github.com/przestaw)
 * [Sebastian Aksamit](https://github.com/Temebe)
 * [Kamil Zacharczuk](https://github.com/KamZet)
+
+# Sterowanie
+
+- spawnowanie obiektów :
+	- 1 : wydrukowanie kuli
+	- 2 : wydrukowanie stożka
+	- 3 : wydrukowanie kostki
+	- 4 : wydrukowanie cylindra
+	- 5 : wydrukowanie loda
+	- 0 : usunięcie wydrukowanych obiektów
+
+- sterowanie kamerą :
+	- W : przemieszczenie kamery "do przodu"
+	- A : przemieszczenie kamery "w lewo"
+	- S : przemieszczenie kamery "do tyłu"
+	- D : przemieszczenie kamery "w prawo"
+	- Ruch myszem w lewo : obrót kamery w lewą stronę
+	- Ruch myszem w prawo : obrót kamery w prawą stronę
+	- Ruch myszem w dół : obrót kamery w górę
+	- Ruch myszem w górę : obrót kamery w dół
+	- Kółko mysza w górę : przybliżenie widoku
+	- Kółko mysza w dół : oddalenie widoku
+
+- sterowanie drukarką:
+	- Strzałka w lewo : przemieszczenie dyszy w lewo
+	- Strzałka w prawo : przemieszczenie dyszy w praow
+	- Strzałka w dół : przemieszczenie ramienia w dół
+	- Strzałka w górę : przemieszczenie ramienia w górę
+	- O : przemieszczenie podstawy do przodu
+	- L : przemieszczenie podstawy do tyłu
+
+- różne:
+	- F : włączenie/wyłączenie latarki
+	- Esc : zamknięcie programu
+
+# Obrazek poglądowy projektu
+
+![](drukarka3d-serce.png)
+![](drukarka3d-zrobiona.png)
 
 # Kamienie milowe
 
@@ -65,45 +104,6 @@ Projekt drukarki 3d
 - implementacja wyświetlacza
 - zamodelowanie latarni
 - generowanie proceduralne terenu
-
-# Sterowanie
-
-- spawnowanie obiektów :
-	- 1 : wydrukowanie kuli
-	- 2 : wydrukowanie stożka
-	- 3 : wydrukowanie kostki
-	- 4 : wydrukowanie cylindra
-	- 5 : wydrukowanie loda
-	- 0 : usunięcie wydrukowanych obiektów
-
-- sterowanie kamerą :
-	- W : przemieszczenie kamery "do przodu"
-	- A : przemieszczenie kamery "w lewo"
-	- S : przemieszczenie kamery "do tyłu"
-	- D : przemieszczenie kamery "w prawo"
-	- Ruch myszem w lewo : obrót kamery w lewą stronę
-	- Ruch myszem w prawo : obrót kamery w prawą stronę
-	- Ruch myszem w dół : obrót kamery w górę
-	- Ruch myszem w górę : obrót kamery w dół
-	- Kółko mysza w górę : przybliżenie widoku
-	- Kółko mysza w dół : oddalenie widoku
-
-- sterowanie drukarką:
-	- Strzałka w lewo : przemieszczenie dyszy w lewo
-	- Strzałka w prawo : przemieszczenie dyszy w praow
-	- Strzałka w dół : przemieszczenie ramienia w dół
-	- Strzałka w górę : przemieszczenie ramienia w górę
-	- O : przemieszczenie podstawy do przodu
-	- L : przemieszczenie podstawy do tyłu
-
-- różne:
-	- F : włączenie/wyłączenie latarki
-	- Esc : zamknięcie programu
-
-# Obrazek poglądowy projektu
-
-![](drukarka3d-serce.png)
-![](drukarka3d-zrobiona.png)
 
 # Zdjęcie przykładowe inspiracji
 
