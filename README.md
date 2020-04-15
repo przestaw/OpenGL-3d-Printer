@@ -3,9 +3,9 @@ Projekt drukarki 3d
 
 # Skład
 
-* Sebastian Aksamit
-* Kamil Zacharczuk
-* Przemysław Stawczyk
+* [Przemysław Stawczyk](https://github.com/przestaw)
+* [Sebastian Aksamit](https://github.com/Temebe)
+* [Kamil Zacharczuk](https://github.com/KamZet)
 
 # Kamienie milowe
 
