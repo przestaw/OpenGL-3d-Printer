@@ -1,13 +1,24 @@
-# Drukarka 3D
-Projekt drukarki 3d. Projekt do budowania w Visual Studio.
+# 3d printer OpenGL project
 
-# Skład
+Project is build by CMake build system. You must import submodules to make this working.
+```
+git clone --recursive git@github.com:przestaw/OpenGL-3d-Printer.git
+```
+or after clone
+```
+git submodule init
+git submodule update
+```
+
+Old project developed at university is available at *UniversityProject* branch utilizing Visual Studio to build project.
+
+## Developers
 
 * [Przemysław Stawczyk](https://github.com/przestaw)
 * [Sebastian Aksamit](https://github.com/Temebe)
 * [Kamil Zacharczuk](https://github.com/KamZet)
 
-# Sterowanie
+## Instructions of navigation / Sterowanie
 
 - spawnowanie obiektów :
 	- 1 : wydrukowanie kuli
@@ -41,25 +52,12 @@ Projekt drukarki 3d. Projekt do budowania w Visual Studio.
 	- F : włączenie/wyłączenie latarki
 	- Esc : zamknięcie programu
 
-# Obrazek poglądowy projektu
+# Example pictures / Obrazek poglądowy projektu
 
-![](drukarka3d-serce.png)
-![](drukarka3d-zrobiona.png)
+![](img/drukarka3d-serce.png)
+![](img/drukarka3d-zrobiona.png)
 
-# Kamienie milowe
-
-1. Przygotowanie szkicu modelu drukarki
-2. Przygotowanie struktury projektu
-3. Przygotowanie bazowych obiektów do konstrukcji modeli i ich grupowania
-4. Bazowe modele takie jak sfera, kostka, stożek
-5. Obsługa kamery i jej przemieszczania
-6. Bazowa obsługa świateł
-7. Obsługa tekstur i materiałów
-8. Modele elementów drukarki
-9. Animacja elementów drukarki
-10. Proceduralne generowanie otoczenia : lasu i pofałdowanego terenu 
-
-# Funkcjonalności
+# Functionalities / Funkcjonalności
 
 - Konstruowanie pięciu prymitywów
     - stożek, cylinder, sfera, kostka, prostopadłościan
@@ -81,35 +79,11 @@ Projekt drukarki 3d. Projekt do budowania w Visual Studio.
     - Przemieszczanie w trzech wymiarach
     - Przybliżanie i oddalanie widoku
 
-# Podział zadań
+## Inspired by / Zdjęcie przykładowe inspiracji
 
-## Przemysław Stawczyk aka PrzeStaw
-- stworzenie bazowego projektu
-- opracowanie koncepcji i implementacji hierarchii obiektów - na przykładzie stożka
-- opracowanie obsługi tekstur
-- opracowanie modelu drukarki i jej animacji [w tym dodawnia obiektów]
-- opracowanie modeli loda, drzew oraz generowania losowego lasu
-- oteksturowanie wykonanych modeli
+![](img/prusi3.jpg)
 
-## Sebastian Aksamit aka Temebe 
-- opracowanie kamery
-- opracowanie obsługi przycisków
-- opracowanie obsługi oświetlenia
-- obsługa materiałów
-- stworzenie shaderów
-
-## Kamil Zacharczuk aka KamZet
-- implementacja prymitywów sfery i kostki
-- implementacja skyboxa
-- implementacja wyświetlacza
-- zamodelowanie latarni
-- generowanie proceduralne terenu
-
-# Zdjęcie przykładowe inspiracji
-
-![](prusi3.jpg)
-
-# Źródła
+## Sources / Źródła
 
 www.it.hiof.no/~borres/j3d/explain/light/p-materials.html
 learnopengl.com

@@ -3,6 +3,12 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+!Find*.cmake
+!cmake_modules/finders/*
+!cmake_modules/*
+
+submodules/**/*
+
 # User-specific files
 *.rsuser
 *.suo
@@ -338,3 +344,18 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+.idea/*
+[Bb]in/*
+[Dd]ebug/*
+[Dd]ebugPublic/*
+[Rr]elease/*
+[Rr]eleases/*
+[Oo]bj/*
+[Ll]og/*
+
+#CMake files
+CMakeFiles/*
+cmake-*
+CMakeCache.txt
+[Mm]akefile
