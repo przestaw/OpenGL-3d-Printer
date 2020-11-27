@@ -39,7 +39,7 @@
 ![](img/drukarka3d-serce.png)
 ![](img/drukarka3d-zrobiona.png)
 
-# Functionalities / Funkcjonalności
+# Functionalities / Funkcje
 
 - Konstruowanie pięciu prymitywów
     - stożek, cylinder, sfera, kostka, prostopadłościan
