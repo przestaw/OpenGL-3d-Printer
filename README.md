@@ -1,23 +1,5 @@
 # 3d printer OpenGL project
 
-Project is build by CMake build system. You must import submodules to make this working.
-```
-git clone --recursive git@github.com:przestaw/OpenGL-3d-Printer.git
-```
-or after clone
-```
-git submodule init
-git submodule update
-```
-
-Old project developed at university is available at *UniversityProject* branch utilizing Visual Studio to build project.
-
-## Developers
-
-* [Przemysław Stawczyk](https://github.com/przestaw)
-* [Sebastian Aksamit](https://github.com/Temebe)
-* [Kamil Zacharczuk](https://github.com/KamZet)
-
 ## Instructions of navigation / Sterowanie
 
 - spawnowanie obiektów :
@@ -78,6 +60,26 @@ Old project developed at university is available at *UniversityProject* branch u
 - Kamera
     - Przemieszczanie w trzech wymiarach
     - Przybliżanie i oddalanie widoku
+
+## Build instructions
+
+Project is build by CMake build system. You must import submodules to make this working.
+```
+git clone --recursive git@github.com:przestaw/OpenGL-3d-Printer.git
+```
+or after clone
+```
+git submodule init
+git submodule update
+```
+
+Old project developed at university is available at *UniversityProject* branch utilizing Visual Studio to build project.
+
+## Developers
+
+* [Przemysław Stawczyk](https://github.com/przestaw)
+* [Sebastian Aksamit](https://github.com/Temebe)
+* [Kamil Zacharczuk](https://github.com/KamZet)
 
 ## Inspired by / Zdjęcie przykładowe inspiracji
 
